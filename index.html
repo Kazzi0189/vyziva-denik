@@ -3,174 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Záznam o výživě (FIX 3.3)</title>
+    <title>Záznam o výživě FIX 3.3 PRO</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
         :root {
-            --bg-color: #f8f9fa;
+            --bg-color: #f0f2f5;
             --header-bg: #ffffff;
             --border-color: #dee2e6;
-            --bad-color: #ffe3e3;
-            --good-color: #e3f9e5;
-            --excellent-color: #fff9db;
+            --bad-bg: #ffe3e3;
+            --good-bg: #e3f9e5;
+            --excellent-bg: #fff9db;
             --accent-color: #4a90e2;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            padding-top: 140px; /* Space for sticky header */
+            padding-top: 150px;
         }
 
-        /* Sticky Header */
         header {
             position: fixed;
             top: 0;
             width: 100%;
             background: var(--header-bg);
             border-bottom: 2px solid var(--border-color);
-            padding: 15px 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 1000;
             box-sizing: border-box;
         }
 
         .controls {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            align-items: center;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
+            align-items: center;
         }
 
         button {
-            padding: 10px 18px;
+            padding: 10px 15px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        button:active { transform: scale(0.95); }
-
         .btn-new { background-color: #28a745; color: white; }
-        .btn-export { background-color: #6c757d; color: white; }
+        .btn-weight { background-color: #6f42c1; color: white; }
         .btn-voice { background-color: var(--accent-color); color: white; }
-        .btn-voice.listening { background-color: #dc3545; animation: pulse 1.5s infinite; }
+        .btn-voice.listening { background-color: #dc3545; animation: pulse 1s infinite; }
+        .btn-export { background-color: #6c757d; color: white; }
 
-        input[type="text"] {
+        input#searchInput {
             padding: 10px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             flex-grow: 1;
         }
 
-        /* Table Design */
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 0 10px;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         th {
-            background-color: #f1f3f5;
+            background-color: #f8f9fa;
             padding: 15px;
             text-align: left;
-            cursor: pointer;
-            user-select: none;
             border-bottom: 2px solid var(--border-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #495057;
         }
 
         td {
-            padding: 12px 15px;
+            padding: 10px;
             border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
         }
 
-        .editable {
-            min-height: 24px;
+        /* Buňka jídla */
+        .meal-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: background 0.3s;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        .meal-text {
             outline: none;
+            min-height: 20px;
+            font-weight: 500;
         }
 
-        .editable:focus { background-color: #fff; box-shadow: inset 0 0 0 2px var(--accent-color); border-radius: 4px; }
+        .meal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Row Coloring */
-        tr.rating-bad { background-color: var(--bad-color); }
-        tr.rating-good { background-color: var(--good-color); }
-        tr.rating-excellent { background-color: var(--excellent-color); }
+        .weight-input {
+            width: 60px;
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            padding: 2px 5px;
+            font-size: 0.8rem;
+            display: none; /* Skryté defaultně */
+        }
 
-        .rating-cell {
-            font-size: 1.5rem;
+        .show-weight .weight-input { display: inline-block; }
+
+        .rating-btn {
             cursor: pointer;
-            text-align: center;
+            font-size: 1.2rem;
             user-select: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
         }
+        .rating-btn:hover { opacity: 1; }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
+        /* Stavy hodnocení */
+        .state-bad { background-color: var(--bad-bg) !important; }
+        .state-good { background-color: var(--good-bg) !important; }
+        .state-excellent { background-color: var(--excellent-bg) !important; }
 
-        @media (max-width: 768px) {
-            th, td { padding: 8px; font-size: 0.9rem; }
-            body { padding-top: 180px; }
+        @keyframes pulse { 50% { opacity: 0.6; } }
+
+        @media (max-width: 900px) {
+            body { padding-top: 200px; }
+            th { font-size: 0.75rem; padding: 8px; }
         }
     </style>
 </head>
-<body>
+<body class="">
 
 <header>
     <div class="controls">
-        <h2 style="margin: 0; color: #333; margin-right: 20px;">Záznam o výživě</h2>
-        <button class="btn-new" onclick="addNewRow()">+ NOVÝ</button>
-        <button id="voiceBtn" class="btn-voice" onclick="toggleVoice()">🎤 HLASOVÝ ZÁPIS</button>
-        <button class="btn-export" onclick="exportCSV()">EXPORT CSV</button>
-        <input type="file" id="importFile" style="display:none" onchange="importCSV(event)">
-        <button class="btn-export" onclick="document.getElementById('importFile').click()">IMPORT</button>
-        <input type="text" id="searchInput" placeholder="Hledat jídlo nebo datum..." oninput="filterTable()">
+        <h3 style="margin:0; color:#333;">Výživa PRO</h3>
+        <button class="btn-new" onclick="addNewRow()">+ NOVÝ DEN</button>
+        <button class="btn-weight" onclick="toggleWeightMode()">⚖️ GRAMÁŽ</button>
+        <button id="voiceBtn" class="btn-voice" onclick="toggleVoice()">🎤 HLAS</button>
+        <input type="text" id="searchInput" placeholder="Hledat..." oninput="filterTable()">
+        <button class="btn-export" onclick="exportCSV()">CSV</button>
     </div>
 </header>
 
 <div class="container">
-    <table id="nutritionTable">
+    <table id="mainTable">
         <thead>
             <tr>
-                <th onclick="sortTable(0)">Datum ↕</th>
-                <th onclick="sortTable(1)">Snídaně ↕</th>
-                <th onclick="sortTable(2)">Oběd ↕</th>
-                <th onclick="sortTable(3)">Večeře ↕</th>
-                <th onclick="sortTable(4)">Hodnocení ↕</th>
+                <th style="width: 100px;">Datum</th>
+                <th>Snídaně</th>
+                <th>Oběd</th>
+                <th>Večeře</th>
             </tr>
         </thead>
-        <tbody id="tableBody">
-            </tbody>
+        <tbody id="tableBody"></tbody>
     </table>
 </div>
 
 <script>
     const tableBody = document.getElementById('tableBody');
-    const searchInput = document.getElementById('searchInput');
-    let recognition;
+    const states = { '☹️': 'state-bad', '🙂': 'state-good', '😍': 'state-excellent' };
+    const emojiList = ['🙂', '😍', '☹️'];
 
-    // --- Core Logic ---
+    // --- LOGIKA DAT ---
 
-    // Load data on start
     window.onload = () => {
-        const savedData = localStorage.getItem('nutritionData');
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            data.forEach(rowData => renderRow(rowData));
+        const saved = localStorage.getItem('nutritionDataV3');
+        if (saved) {
+            JSON.parse(saved).reverse().forEach(d => renderRow(d));
         }
     };
 
@@ -179,194 +202,121 @@
         const data = rows.map(row => {
             return {
                 date: row.cells[0].innerText,
-                breakfast: row.cells[1].innerText,
-                lunch: row.cells[2].innerText,
-                dinner: row.cells[3].innerText,
-                rating: row.cells[4].innerText
+                meals: [1, 2, 3].map(i => ({
+                    text: row.cells[i].querySelector('.meal-text').innerText,
+                    weight: row.cells[i].querySelector('.weight-input').value,
+                    rating: row.cells[i].querySelector('.rating-btn').innerText
+                }))
             };
         });
-        localStorage.setItem('nutritionData', JSON.stringify(data));
+        localStorage.setItem('nutritionDataV3', JSON.stringify(data));
     }
 
-    function renderRow(data = { date: '', breakfast: '', lunch: '', dinner: '', rating: '🙂' }) {
+    function renderRow(data) {
         const row = document.createElement('tr');
-        applyRowStyle(row, data.rating);
-
-        row.innerHTML = `
-            <td contenteditable="true" class="editable">${data.date}</td>
-            <td contenteditable="true" class="editable">${data.breakfast}</td>
-            <td contenteditable="true" class="editable">${data.lunch}</td>
-            <td contenteditable="true" class="editable">${data.dinner}</td>
-            <td class="rating-cell" onclick="toggleRating(this)">${data.rating}</td>
-        `;
-
-        // Save on any input
-        row.querySelectorAll('.editable').forEach(cell => {
-            cell.oninput = () => saveData();
-        });
-
+        let mealsHtml = `<td contenteditable="true">${data.date || ''}</td>`;
+        
+        for (let i = 0; i < 3; i++) {
+            const m = data.meals ? data.meals[i] : { text: '', weight: '', rating: '🙂' };
+            mealsHtml += `
+                <td>
+                    <div class="meal-cell ${states[m.rating] || ''}">
+                        <div class="meal-text" contenteditable="true" oninput="saveData()">${m.text}</div>
+                        <div class="meal-footer">
+                            <input type="number" class="weight-input" placeholder="g" value="${m.weight}" oninput="saveData()">
+                            <span class="rating-btn" onclick="cycleEmoji(this)">${m.rating}</span>
+                        </div>
+                    </div>
+                </td>`;
+        }
+        
+        row.innerHTML = mealsHtml;
         tableBody.prepend(row);
-        return row;
     }
 
     function addNewRow() {
-        const now = new Date();
-        const dateStr = now.toLocaleDateString('cs-CZ');
-        renderRow({ date: dateStr, breakfast: '', lunch: '', dinner: '', rating: '🙂' });
+        renderRow({ date: new Date().toLocaleDateString('cs-CZ'), meals: null });
         saveData();
     }
 
-    function toggleRating(cell) {
-        const states = ['☹️', '🙂', '😍'];
-        let index = states.indexOf(cell.innerText);
-        index = (index + 1) % states.length;
-        cell.innerText = states[index];
-        applyRowStyle(cell.parentElement, states[index]);
+    function cycleEmoji(el) {
+        let current = el.innerText;
+        let next = emojiList[(emojiList.indexOf(current) + 1) % emojiList.length];
+        el.innerText = next;
+        
+        const cell = el.closest('.meal-cell');
+        cell.classList.remove('state-bad', 'state-good', 'state-excellent');
+        cell.classList.add(states[next]);
         saveData();
     }
 
-    function applyRowStyle(row, rating) {
-        row.classList.remove('rating-bad', 'rating-good', 'rating-excellent');
-        if (rating === '☹️') row.classList.add('rating-bad');
-        else if (rating === '🙂') row.classList.add('rating-good');
-        else if (rating === '😍') row.classList.add('rating-excellent');
+    function toggleWeightMode() {
+        document.body.classList.toggle('show-weight');
     }
 
-    // --- Voice Control ---
+    // --- HLAS (UPGRADE PRO GRAMY) ---
 
     function toggleVoice() {
-        if (!('webkitSpeechRecognition' in window)) {
-            alert("Váš prohlížeč nepodporuje hlasové ovládání. Zkuste Chrome.");
-            return;
-        }
-
-        if (recognition && recognition.active) {
-            recognition.stop();
-            return;
-        }
-
-        recognition = new webkitSpeechRecognition();
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'cs-CZ';
-        recognition.continuous = false;
-
-        recognition.onstart = () => {
-            document.getElementById('voiceBtn').classList.add('listening');
-        };
-
+        
+        recognition.onstart = () => document.getElementById('voiceBtn').classList.add('listening');
+        recognition.onend = () => document.getElementById('voiceBtn').classList.remove('listening');
+        
         recognition.onresult = (event) => {
-            const result = event.results[0][0].transcript.toLowerCase();
-            processVoiceInput(result);
+            const speech = event.results[0][0].transcript.toLowerCase();
+            const row = tableBody.firstElementChild;
+            const map = { 'snídaně': 1, 'oběd': 2, 'večeře': 3 };
+            
+            for (let key in map) {
+                if (speech.startsWith(key)) {
+                    let clean = speech.replace(key, '').trim();
+                    // Detekce čísla pro gramy (např. "kuře dvě stě gramů" nebo "kuře 200")
+                    let weightMatch = clean.match(/(\d+)/);
+                    let weight = weightMatch ? weightMatch[0] : "";
+                    let food = clean.replace(weight, '').replace('gramů', '').replace('gramy', '').trim();
+                    
+                    const cell = row.cells[map[key]];
+                    cell.querySelector('.meal-text').innerText = food;
+                    if (weight) cell.querySelector('.weight-input').value = weight;
+                    saveData();
+                    return;
+                }
+            }
         };
-
-        recognition.onend = () => {
-            document.getElementById('voiceBtn').classList.remove('listening');
-        };
-
         recognition.start();
     }
 
-    function processVoiceInput(text) {
-        const row = tableBody.firstElementChild;
-        if (!row) { alert("Nejprve vytvořte nový řádek."); return; }
+    // --- EXPORT ---
 
-        const keywords = {
-            'snídaně': 1,
-            'oběd': 2,
-            'večeře': 3
-        };
-
-        let found = false;
-        for (let key in keywords) {
-            if (text.startsWith(key)) {
-                const content = text.replace(key, '').trim();
-                row.cells[keywords[key]].innerText = content;
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            // If no keyword, insert into the currently focused cell or Breakfast by default
-            const active = document.activeElement;
-            if (active && active.classList.contains('editable')) {
-                active.innerText = text;
-            } else {
-                row.cells[1].innerText = text;
-            }
-        }
-        saveData();
-    }
-
-    // --- Sorting & Filtering ---
-
-    function sortTable(n) {
-        const rows = Array.from(tableBody.rows);
-        const isDate = n === 0;
-        
-        rows.sort((a, b) => {
-            let t1 = a.cells[n].innerText;
-            let t2 = b.cells[n].innerText;
-            if (isDate) {
-                const d1 = t1.split('.').reverse().join('-');
-                const d2 = t2.split('.').reverse().join('-');
-                return d1.localeCompare(d2);
-            }
-            return t1.localeCompare(t2);
+    function exportCSV() {
+        let csv = "\uFEFFDatum;Snídaně;S-Gramy;Oběd;O-Gramy;Večeře;V-Gramy;Hodnocení\n";
+        Array.from(tableBody.rows).forEach(r => {
+            const d = r.cells[0].innerText;
+            const m = [1,2,3].map(i => ({
+                t: r.cells[i].querySelector('.meal-text').innerText,
+                w: r.cells[i].querySelector('.weight-input').value,
+                r: r.cells[i].querySelector('.rating-btn').innerText
+            }));
+            csv += `${d};"${m[0].t}";${m[0].w};"${m[1].t}";${m[1].w};"${m[2].t}";${m[2].w};${m[0].r}${m[1].r}${m[2].r}\n`;
         });
-
-        rows.forEach(row => tableBody.appendChild(row));
+        
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `Vyziva_Pro_${new Date().toLocaleDateString()}.csv`;
+        a.click();
     }
 
     function filterTable() {
-        const filter = searchInput.value.toLowerCase();
-        Array.from(tableBody.rows).forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(filter) ? '' : 'none';
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        Array.from(tableBody.rows).forEach(r => {
+            r.style.display = r.innerText.toLowerCase().includes(query) ? '' : 'none';
         });
     }
 
-    // --- CSV Engine ---
-
-    function exportCSV() {
-        const rows = Array.from(tableBody.querySelectorAll('tr'));
-        let csvContent = "\uFEFF"; // UTF-8 BOM for Excel
-        csvContent += "Datum;Snídaně;Oběd;Večeře;Hodnocení\n";
-
-        rows.forEach(row => {
-            const cols = Array.from(row.cells).map(c => `"${c.innerText}"`);
-            csvContent += cols.join(";") + "\n";
-        });
-
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", `Vyziva_Export_${new Date().toLocaleDateString()}.csv`);
-        link.click();
-    }
-
-    function importCSV(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const text = e.target.result;
-            const lines = text.split('\n').slice(1);
-            tableBody.innerHTML = '';
-            lines.forEach(line => {
-                if (line.trim()) {
-                    const cols = line.split(';').map(c => c.replace(/"/g, ''));
-                    renderRow({
-                        date: cols[0],
-                        breakfast: cols[1],
-                        lunch: cols[2],
-                        dinner: cols[3],
-                        rating: cols[4] || '🙂'
-                    });
-                }
-            });
-            saveData();
-        };
-        reader.readAsText(file);
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js');
     }
 </script>
 
