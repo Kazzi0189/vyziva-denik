@@ -3,114 +3,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Výživa PRO v4</title>
+    <title>Výživa PRO FIX 4.1</title>
+    
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4a90e2">
+
     <style>
-        :root { --bg: #f8f9fa; --accent: #4a90e2; --danger: #e74c3c; --border: #dee2e6; }
-        body { font-family: sans-serif; background: var(--bg); margin: 0; padding-top: 180px; }
-        header { position: fixed; top: 0; width: 100%; background: white; z-index: 2000; padding: 10px; border-bottom: 2px solid var(--border); box-sizing: border-box; }
-        .controls { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 10px; }
-        button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; display: flex; align-items: center; gap: 5px; }
-        .btn-v { background: var(--accent); }
-        .btn-v.listening { background: var(--danger); animation: p 1s infinite; }
-        #searchInput { flex-grow: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        thead th { position: sticky; top: 165px; background: #eee; padding: 10px; z-index: 1000; border-bottom: 2px solid #ccc; text-align: left; }
-        td { padding: 8px; border-bottom: 1px solid #eee; }
-        .m-input { min-height: 40px; outline: none; background: #fafafa; padding: 5px; border-radius: 4px; }
-        .w-input { width: 60px; padding: 5px; border: 1px dashed #bbb; display: none; }
-        .show-w .w-input { display: block; }
-        .r-cell { font-size: 1.5rem; cursor: pointer; text-align: center; width: 50px; user-select: none; }
-        @keyframes p { 50% { opacity: 0.5; } }
+        :root {
+            --bg: #f0f2f5;
+            --header-bg: #ffffff;
+            --accent: #4a90e2;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --border: #ced4da;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding-top: 180px; /* Místo pro fixní menu nahoře */
+        }
+
+        /* FIXNÍ MENU */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--header-bg);
+            border-bottom: 3px solid var(--accent);
+            padding: 15px;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        .btn-add { background-color: var(--success); }
+        .btn-del { background-color: var(--danger); }
+        .btn-w { background-color: #9b59b6; }
+        .btn-mic { background-color: var(--accent); }
+        .btn-mic.listening { 
+            animation: pulse 1.5s infinite; 
+            background-color: #e67e22; 
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* TABULKA */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px 50px 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        /* FIXNÍ HLAVIČKA TABULKY */
+        thead th {
+            position: sticky;
+            top: 165px; /* Zarovnání pod hlavní menu */
+            background: #e9ecef;
+            padding: 12px;
+            z-index: 1000;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+            font-size: 0.85rem;
+            color: #495057;
+        }
+
+        tbody tr {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        td {
+            padding: 12px;
+            vertical-align: top;
+        }
+
+        /* BUŇKY PRO JÍDLO */
+        .meal-box {
+            min-height: 45px;
+            padding: 8px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            outline: none;
+            margin-bottom: 5px;
+        }
+
+        .weight-input {
+            width: 70px;
+            padding: 5px;
+            border: 1px dashed #bbb;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: none; /* Skryto dokud se nezapne tlačítkem */
+        }
+
+        .show-weight .weight-input { display: block; }
+
+        /* SMAJLÍCI */
+        .rating {
+            font-size: 1.6rem;
+            cursor: pointer;
+            text-align: center;
+            width: 50px;
+            user-select: none;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 126, 34, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 230px; }
+            thead th { top: 215px; }
+        }
     </style>
 </head>
-<body>
+<body class="show-weight">
+
 <header>
-    <div class="controls">
-        <button style="background:#2ecc71" onclick="addRow()">Nový +</button>
-        <button style="background:var(--danger)" onclick="delRow()">Smazat 🗑️</button>
-        <button style="background:#9b59b6" onclick="document.body.classList.toggle('show-w')">Váha ⚖️</button>
-        <button id="mic" class="btn-v" onclick="runVoice('main')">🎤 Hlas</button>
-        <input type="text" id="searchInput" placeholder="Hledat..." oninput="search()">
-        <button style="background:#34495e" onclick="runVoice('search')">🎙️</button>
+    <div class="nav-container">
+        <div class="btn-row">
+            <button class="btn-add" onclick="addNewDay()">Nový den ➕</button>
+            <button class="btn-del" onclick="deleteTopRow()">Smazat 🗑️</button>
+            <button class="btn-w" onclick="document.body.classList.toggle('show-weight')">Váha ⚖️</button>
+            <button id="mainMic" class="btn-mic" onclick="startVoice('auto')">🎤 Hlas</button>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <input type="text" id="searchInput" placeholder="Hledat v historii..." oninput="filterRows()">
+            <button style="background:#7f8c8d; padding:10px" onclick="startVoice('search')">🎙️</button>
+        </div>
     </div>
 </header>
-<div style="max-width:1200px; margin:0 auto; padding:0 10px;">
-    <table>
-        <thead><tr><th>Datum</th><th>Snídaně</th><th>⭐</th><th>Oběd</th><th>⭐</th><th>Večeře</th><th>⭐</th></tr></thead>
-        <tbody id="b"></tbody>
+
+<div class="content">
+    <table id="mainTable">
+        <thead>
+            <tr>
+                <th style="width:120px">Datum</th>
+                <th>Snídaně</th>
+                <th>⭐</th>
+                <th>Oběd</th>
+                <th>⭐</th>
+                <th>Večeře</th>
+                <th>⭐</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
     </table>
 </div>
-<script>
-    const b = document.getElementById('b');
-    const colors = { '☹️': '#ffe3e3', '🙂': '#e3f9e5', '😍': '#fff9db' };
-    const emojis = ['🙂', '😍', '☹️'];
 
+<script>
+    const tableBody = document.getElementById('tableBody');
+    const ratingData = {
+        '🙂': { bg: '#e3f9e5' },
+        '😍': { bg: '#fff9db' },
+        '☹️': { bg: '#ffe3e3' }
+    };
+    const ratingOrder = ['🙂', '😍', '☹️'];
+
+    // NAČÍTÁNÍ
     window.onload = () => {
-        const s = localStorage.getItem('nutri_v6');
-        if(s) JSON.parse(s).reverse().forEach(d => render(d));
-        else addRow();
+        const saved = localStorage.getItem('nutriData_v4');
+        if (saved) {
+            JSON.parse(saved).reverse().forEach(entry => createRow(entry));
+        } else {
+            addNewDay();
+        }
     };
 
-    function save() {
-        const data = Array.from(b.rows).map(r => ({
-            d: r.cells[0].innerText,
-            m: [1,3,5].map(i => ({ t: r.cells[i].querySelector('.m-input').innerText, w: r.cells[i].querySelector('.w-input').value, r: r.cells[i+1].innerText }))
+    // UKLÁDÁNÍ
+    function saveAll() {
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+        const dataToSave = rows.map(tr => ({
+            date: tr.cells[0].innerText,
+            meals: [
+                { 
+                    txt: tr.cells[1].querySelector('.meal-box').innerText, 
+                    w: tr.cells[1].querySelector('.weight-input').value, 
+                    r: tr.cells[2].innerText 
+                },
+                { 
+                    txt: tr.cells[3].querySelector('.meal-box').innerText, 
+                    w: tr.cells[3].querySelector('.weight-input').value, 
+                    r: tr.cells[4].innerText 
+                },
+                { 
+                    txt: tr.cells[5].querySelector('.meal-box').innerText, 
+                    w: tr.cells[5].querySelector('.weight-input').value, 
+                    r: tr.cells[6].innerText 
+                }
+            ]
         }));
-        localStorage.setItem('nutri_v6', JSON.stringify(data));
+        localStorage.setItem('nutriData_v4', JSON.stringify(dataToSave));
     }
 
-    function render(d) {
-        const r = document.createElement('tr');
-        let h = `<td contenteditable="true" oninput="save()">${d.d || ''}</td>`;
-        for(let i=0; i<3; i++) {
-            const m = d.m ? d.m[i] : { t:'', w:'', r:'🙂' };
-            h += `<td><div class="m-input" contenteditable="true" oninput="save()">${m.t}</div>
-                  <input type="number" class="w-input" value="${m.w}" oninput="save()"></td>
-                  <td class="r-cell" onclick="cycle(this)" style="background:${colors[m.r]}">${m.r}</td>`;
+    function createRow(data) {
+        const tr = document.createElement('tr');
+        let html = `<td contenteditable="true" oninput="saveAll()">${data.date || ''}</td>`;
+        
+        for (let i = 0; i < 3; i++) {
+            const m = data.meals ? data.meals[i] : { txt: '', w: '', r: '🙂' };
+            html += `
+                <td>
+                    <div class="meal-box" contenteditable="true" oninput="saveAll()">${m.txt}</div>
+                    <input type="number" class="weight-input" placeholder="gramy" value="${m.w}" oninput="saveAll()">
+                </td>
+                <td class="rating" onclick="toggleRating(this)" style="background:${ratingData[m.r].bg}">${m.r}</td>
+            `;
         }
-        r.innerHTML = h; b.prepend(r);
+        tr.innerHTML = html;
+        tableBody.prepend(tr);
     }
 
-    function addRow() { render({ d: new Date().toLocaleDateString('cs-CZ'), m: null }); save(); }
-    function delRow() { if(b.rows.length > 0 && confirm("Smazat?")) { b.deleteRow(0); save(); } }
-    function cycle(el) { el.innerText = emojis[(emojis.indexOf(el.innerText)+1)%3]; el.style.background = colors[el.innerText]; save(); }
+    function addNewDay() {
+        const today = new Date().toLocaleDateString('cs-CZ');
+        createRow({ date: today, meals: null });
+        saveAll();
+    }
 
-    function runVoice(mode) {
-        const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if(!Rec) return;
-        const rec = new Rec(); rec.lang = 'cs-CZ';
-        if(mode==='main') document.getElementById('mic').classList.add('listening');
-        rec.onresult = (e) => {
-            const res = e.results[0][0].transcript.toLowerCase();
-            if(mode==='search') { document.getElementById('searchInput').value = res; search(); return; }
+    function deleteTopRow() {
+        if (tableBody.rows.length > 0 && confirm("Opravdu smazat poslední záznam?")) {
+            tableBody.deleteRow(0);
+            saveAll();
+        }
+    }
+
+    function toggleRating(el) {
+        let current = el.innerText;
+        let next = ratingOrder[(ratingOrder.indexOf(current) + 1) % ratingOrder.length];
+        el.innerText = next;
+        el.style.background = ratingData[next].bg;
+        saveAll();
+    }
+
+    // HLASOVÉ OVLÁDÁNÍ
+    function startVoice(target) {
+        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!Speech) return alert("Hlasové zadávání není v tomto prohlížeči podporováno.");
+
+        const recognition = new Speech();
+        recognition.lang = 'cs-CZ';
+
+        if (target === 'auto') document.getElementById('mainMic').classList.add('listening');
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript.toLowerCase();
+
+            if (target === 'search') {
+                document.getElementById('searchInput').value = transcript;
+                filterRows();
+                return;
+            }
+
+            // Pokud máš kliknuto v nějakém políčku, piš tam
             const active = document.activeElement;
-            if(active && (active.classList.contains('m-input') || active.tagName === 'TD')) {
-                active.innerText = res; save();
+            if (active && (active.classList.contains('meal-box') || active.tagName === 'TD')) {
+                active.innerText = transcript;
+                saveAll();
             } else {
-                const r = b.rows[0];
-                const map = { 'snídaně':1, 'oběd':3, 'večeře':5 };
-                for(let k in map) {
-                    if(res.startsWith(k)) {
-                        let text = res.replace(k, '').trim();
-                        let w = (text.match(/\d+/) || [""])[0];
-                        let clean = text.replace(w, '').replace(/gramů|gramy|g\b/g, '').trim();
-                        r.cells[map[k]].querySelector('.m-input').innerText = clean;
-                        if(w) r.cells[map[k]].querySelector('.w-input').value = w;
-                        save(); return;
+                // Jinak hledej klíčová slova: snídaně, oběd, večeře
+                const firstRow = tableBody.rows[0];
+                const keywords = { 'snídaně': 1, 'oběd': 3, 'večeře': 5 };
+
+                for (let key in keywords) {
+                    if (transcript.startsWith(key)) {
+                        let rawText = transcript.replace(key, '').trim();
+                        
+                        // EXTRAKCE VÁHY (najde první číslo v řetězci)
+                        let weightMatch = rawText.match(/\d+/);
+                        let weight = weightMatch ? weightMatch[0] : "";
+                        
+                        // VYČIŠTĚNÍ TEXTU (odstraní číslo a jednotky g, gramy...)
+                        let cleanMeal = rawText
+                            .replace(weight, '')
+                            .replace(/gramů|gramy|gram|g\b/g, '') // Odstraní "g" jen jako slovo
+                            .trim();
+
+                        firstRow.cells[keywords[key]].querySelector('.meal-box').innerText = cleanMeal;
+                        if (weight) firstRow.cells[keywords[key]].querySelector('.weight-input').value = weight;
+                        
+                        saveAll();
+                        return;
                     }
                 }
             }
         };
-        rec.onend = () => document.getElementById('mic').classList.remove('listening');
-        rec.start();
+
+        recognition.onend = () => document.getElementById('mainMic').classList.remove('listening');
+        recognition.start();
     }
-    function search() {
-        const v = document.getElementById('searchInput').value.toLowerCase();
-        Array.from(b.rows).forEach(r => r.style.display = r.innerText.toLowerCase().includes(v) ? '' : 'none');
+
+    function filterRows() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        Array.from(tableBody.rows).forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(query) ? '' : 'none';
+        });
     }
-    if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+
+    // Registrace Service Workeru pro offline režim
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js');
+    }
 </script>
+
 </body>
 </html>
