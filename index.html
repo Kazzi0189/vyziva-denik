@@ -3,103 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Výživa PRO 5.2</title>
+    <title>Výživa PRO 5.3</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
         :root { 
-            --h-height: 210px; /* Výška fixního menu */
             --accent: #4a90e2; --danger: #e74c3c; --success: #2ecc71; 
         }
         
         body { 
             font-family: -apple-system, sans-serif; 
-            margin: 0; padding-top: var(--h-height); 
+            margin: 0; padding: 0;
             background: #f4f7f6; 
         }
 
-        /* FIXNÍ HORNÍ PANEL - STYL 3.3 */
-        header {
-            position: fixed; top: 0; left: 0; right: 0; height: var(--h-height);
-            background: white; z-index: 2000; padding: 10px; 
+        /* FIXNÍ KONTEJNER PRO CELÉ MENU I HLAVIČKU */
+        .sticky-header {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: white; z-index: 2000;
             box-shadow: 0 2px 15px rgba(0,0,0,0.15);
-            display: flex; flex-direction: column; gap: 8px; box-sizing: border-box;
         }
 
+        .menu-content { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+
         .app-title { 
-            font-size: 0.9rem; font-weight: bold; color: #7f8c8d; 
+            font-size: 0.85rem; font-weight: bold; color: #7f8c8d; 
             text-align: center; margin-bottom: 2px;
         }
 
-        .btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-row { display: flex; gap: 6px; }
         button { 
             flex: 1; padding: 12px 2px; border: none; border-radius: 8px; 
-            color: white; font-weight: bold; cursor: pointer; font-size: 0.8rem; 
-            transition: opacity 0.2s;
+            color: white; font-weight: bold; cursor: pointer; font-size: 0.75rem; 
         }
         
         .f-btn { background: #95a5a6; }
-        .f-btn.active { background: var(--accent); border: 2px solid #2c3e50; }
+        .f-btn.active { background: var(--accent); outline: 2px solid #2c3e50; }
 
         #micMain.listening { animation: pulse 1s infinite; background: var(--danger) !important; }
         @keyframes pulse { 50% { opacity: 0.5; } }
 
-        /* TABULKA A FIXACE ZÁHLAVÍ */
-        .table-area { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 500px; background: white; }
-        
-        /* Fixace hlavičky pod menu */
-        thead th {
-            position: sticky; top: var(--h-height); 
-            background: #e9ecef; z-index: 1500; padding: 12px 5px;
-            border-bottom: 2px solid #dee2e6; font-size: 0.75rem;
+        .search-wrap { display: flex; gap: 5px; }
+        #search { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 0.9rem; }
+
+        /* FIXACE HLAVIČKY TABULKY UVNITŘ STICKY KONTEJNERU */
+        .header-table { width: 100%; border-collapse: collapse; background: #e9ecef; }
+        .header-table th { 
+            padding: 10px 5px; border-bottom: 2px solid #dee2e6; 
+            font-size: 0.7rem; text-align: center; color: #333;
         }
 
-        td { padding: 10px 5px; border-bottom: 1px solid #eee; vertical-align: top; }
+        /* OBSAH TABULKY (SKROLOVACÍ ČÁST) */
+        .content-area { margin-top: 240px; /* Bude upraveno JS dle výšky menu */ }
+        .main-table { width: 100%; border-collapse: collapse; background: white; }
+        .main-table td { padding: 10px 5px; border-bottom: 1px solid #eee; vertical-align: top; }
         
         .m-box { 
             min-height: 42px; padding: 6px; background: #fff; border: 1px solid #ddd; 
             border-radius: 6px; outline: none; font-size: 0.95rem; 
         }
         
-        /* SKRÝVÁNÍ GRAMÁŽE */
         .w-box { width: 55px; margin-top: 5px; border: 1px dashed #bbb; border-radius: 4px; padding: 3px; font-size: 0.8rem; display: none; }
         body.show-w .w-box { display: block; }
 
         .rating { font-size: 1.4rem; text-align: center; cursor: pointer; width: 40px; border-radius: 6px; }
 
-        .search-wrap { display: flex; gap: 5px; width: 100%; }
-        #search { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
-
         @media (max-width: 600px) {
-            :root { --h-height: 230px; }
-            button { font-size: 0.75rem; }
+            .content-area { margin-top: 235px; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="app-title">Záznam o výživě (PRO 5.2 - Ultimate Edition)</div>
-    <div class="btn-row">
-        <button style="background:var(--success)" onclick="addRow()">NOVÝ DEN +</button>
-        <button id="micMain" style="background:var(--accent)" onclick="runVoice('auto')">🎤 HLAS</button>
-        <button style="background:#9b59b6" onclick="document.body.classList.toggle('show-w')">⚖️ GRAMY</button>
-        <button style="background:var(--danger)" onclick="delRow()">SMAZAT</button>
+<div class="sticky-header" id="topMenu">
+    <div class="menu-content">
+        <div class="app-title">Záznam o výživě (PRO 5.3 - Fixation Edition)</div>
+        <div class="btn-row">
+            <button style="background:var(--success)" onclick="addRow()">NOVÝ DEN +</button>
+            <button id="micMain" style="background:var(--accent)" onclick="runVoice('auto')">🎤 HLAS</button>
+            <button style="background:#9b59b6" onclick="document.body.classList.toggle('show-w')">⚖️ GRAMY</button>
+            <button style="background:var(--danger)" onclick="delRow()">SMAZAT</button>
+        </div>
+        <div class="btn-row">
+            <button class="f-btn active" onclick="setF('all', this)">VŠE</button>
+            <button class="f-btn" onclick="setF('week', this)">TÝDEN</button>
+            <button class="f-btn" onclick="setF('lastMonth', this)">MINULÝ MĚSÍC</button>
+        </div>
+        <div class="search-wrap">
+            <input type="text" id="search" placeholder="Hledat v deníku..." oninput="doSearch()">
+            <button style="background:#34495e; max-width: 45px;" onclick="runVoice('search')">🎙️</button>
+        </div>
     </div>
-    <div class="btn-row">
-        <button class="f-btn active" onclick="setF('all', this)">VŠE</button>
-        <button class="f-btn" onclick="setF('week', this)">TÝDEN</button>
-        <button class="f-btn" onclick="setF('lastMonth', this)">MINULÝ MĚSÍC</button>
-    </div>
-    <div class="search-wrap">
-        <input type="text" id="search" placeholder="Hledat v deníku..." oninput="doSearch()">
-        <button style="background:#34495e; max-width: 45px;" onclick="runVoice('search')">🎙️</button>
-    </div>
-</header>
-
-<div class="table-area">
-    <table>
+    <table class="header-table">
         <thead>
             <tr>
                 <th style="width:85px">DATUM</th>
@@ -108,16 +103,28 @@
                 <th>VEČEŘE</th><th style="width:40px">⭐</th>
             </tr>
         </thead>
+    </table>
+</div>
+
+<div class="content-area" id="content">
+    <table class="main-table">
         <tbody id="tableBody"></tbody>
     </table>
 </div>
 
 <script>
     const b = document.getElementById('tableBody');
+    const content = document.getElementById('content');
+    const topMenu = document.getElementById('topMenu');
     let filter = 'all';
     const rates = {'🙂':'#e3f9e5','😍':'#fff9db','☹️':'#ffe3e3'};
 
-    window.onload = load;
+    // Automatické nastavení odsazení obsahu podle výšky menu
+    function adjustSpacing() {
+        content.style.marginTop = topMenu.offsetHeight + "px";
+    }
+    window.onload = () => { load(); adjustSpacing(); };
+    window.onresize = adjustSpacing;
 
     function save() {
         const data = Array.from(b.rows).map(r => ({
@@ -142,7 +149,6 @@
             if (filter === 'all') return true;
             const p = e.d.split('.');
             const d = new Date(p[2], p[1]-1, p[0]);
-            
             if (filter === 'week') return (now - d) / 86400000 <= 7;
             if (filter === 'lastMonth') {
                 let lm = now.getMonth() - 1; let ly = now.getFullYear();
@@ -150,13 +156,12 @@
                 return d.getMonth() === lm && d.getFullYear() === ly;
             }
         });
-
         filtered.reverse().forEach(e => render(e));
     }
 
     function render(e) {
         const r = document.createElement('tr');
-        let html = `<td contenteditable="true" oninput="save()">${e.d}</td>`;
+        let html = `<td style="width:85px" contenteditable="true" oninput="save()">${e.d}</td>`;
         for(let i=0; i<3; i++) {
             const m = e.m ? e.m[i] : {t:'', w:'', r:'🙂'};
             html += `<td><div class="m-box" contenteditable="true" oninput="save()">${m.t}</div>
