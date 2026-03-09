@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Výživa PRO 5.6</title>
+    <title>Výživa PRO 5.7</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
@@ -46,7 +46,7 @@
 
 <div class="sticky-header" id="topMenu">
     <div class="menu-content">
-        <div class="app-title">Záznam o výživě (PRO 5.6 - Date Fix)</div>
+        <div class="app-title">Záznam o výživě (PRO 5.7 - Smart Date)</div>
         <div class="btn-row">
             <button style="background:var(--success)" onclick="addRow()">NOVÝ +</button>
             <button id="micMain" class="btn-mic" onclick="runVoice('food')">🎤 JÍDLO</button>
@@ -56,8 +56,8 @@
         <div class="btn-row">
             <select id="filterSelect" onchange="setFilter(this.value)">
                 <option value="all">Zobrazit: VŠE</option>
-                <option value="currentWeek">Aktuální týden (Po-Ne)</option>
-                <option value="lastWeek">Minulý týden (Po-Ne)</option>
+                <option value="currentWeek">Aktuální týden</option>
+                <option value="lastWeek">Minulý týden</option>
                 <option value="14days">Posledních 14 dní</option>
                 <option value="lastMonth">Minulý měsíc</option>
             </select>
@@ -100,7 +100,6 @@
     window.onload = () => { load(); adjustSpacing(); };
     window.onresize = adjustSpacing;
 
-    // Sledování focusu - i po kliknutí na tlačítko budeme vědět, kde jsme byli
     document.addEventListener('click', (e) => {
         if (e.target.hasAttribute('contenteditable') || e.target.tagName === 'TD') {
             lastFocusedCell = e.target;
@@ -155,7 +154,7 @@
 
     function render(e) {
         const r = document.createElement('tr');
-        let html = `<td style="width:65px; font-size:0.7rem" contenteditable="true" oninput="save()">${e.d}</td>`;
+        let html = `<td style="width:65px; font-size:0.7rem; font-weight:bold; color:var(--accent)" contenteditable="true" oninput="save()">${e.d}</td>`;
         for(let i=0; i<4; i++) {
             const m = (e.m && e.m[i]) ? e.m[i] : {t:'', w:'', n:'', r:'🙂'};
             html += `<td>
@@ -173,13 +172,27 @@
     function cycle(el) { const em = ['🙂','😍','☹️']; el.innerText = em[(em.indexOf(el.innerText)+1)%3]; el.style.background = rates[el.innerText]; save(); }
     function setFilter(v) { currentFilter = v; load(); }
 
-    function parseCzechDate(text) {
-        const months = ["ledna","února","března","dubna","května","června","července","srpna","září","října","listopadu","prosince"];
-        let clean = text.replace(/tečka|čárka/g, '.').replace(/\s+/g, ' ');
-        months.forEach((m, i) => {
-            if (clean.includes(m)) clean = clean.replace(m, (i + 1) + ".");
-        });
-        return clean.replace(/\s/g, '').replace(/\.\./g, '.');
+    // POSÍLENÝ ČESKÝ PARSER DATA
+    function parseSmartDate(text, currentVal) {
+        const monthsMap = {
+            "led":1, "úno":2, "bře":3, "dub":4, "kvě":5, "čer":6, "čvc":7, "srp":8, "zář":9, "říj":10, "lis":11, "pro":12,
+            "prvn":1, "druh":2, "třet":3, "čtvr":4, "pát":5, "šest":6, "sedm":7, "osm":8, "devát":9, "desát":10, "jedenác":11, "dvanác":12
+        };
+        let val = text.toLowerCase();
+        for (let m in monthsMap) {
+            if (val.includes(m)) {
+                val = val.replace(new RegExp(m + "[a-z]*", 'g'), " " + monthsMap[m] + ". ");
+            }
+        }
+        const digits = val.match(/\d+/g);
+        if (!digits || digits.length < 1) return currentVal;
+        
+        let d = digits[0];
+        let m = digits[1] || (new Date().getMonth() + 1);
+        let y = digits[2] || new Date().getFullYear();
+        if (y.toString().length === 2) y = "20" + y;
+
+        return `${d}.${m}.${y}`;
     }
 
     function runVoice(mode) {
@@ -193,23 +206,33 @@
             const res = ev.results[0][0].transcript.toLowerCase();
             const targetRow = lastFocusedCell ? lastFocusedCell.closest('tr') : b.rows[0];
             
-            // OPRAVA: Pokud byla poslední kliknutá buňka DATUM
-            if (lastFocusedCell && lastFocusedCell.cellIndex === 0) {
-                lastFocusedCell.innerText = parseCzechDate(res);
+            // Pokud diktujeme do buňky s DATEM
+            if (lastFocusedCell && (lastFocusedCell.cellIndex === 0 || lastFocusedCell.closest('td')?.cellIndex === 0)) {
+                const dateCell = targetRow.cells[0];
+                dateCell.innerText = parseSmartDate(res, dateCell.innerText);
                 save(); return;
             }
 
-            const map = {'snídaně':1, 'oběd':3, 'svačina':5, 'večeře':7};
-            for (let k in map) {
-                if (res.startsWith(k)) {
-                    let raw = res.replace(k,'').trim();
+            // Rozpoznávání jídel - vylepšené hledání klíčových slov kdekoli v textu
+            const keywords = {
+                'snídaně': 1, 'snídani': 1,
+                'oběd': 3,
+                'svačina': 5, 'svačinu': 5,
+                'večeře': 7, 'večeři': 7
+            };
+
+            for (let k in keywords) {
+                if (res.includes(k)) {
+                    let cellIndex = keywords[k];
+                    let raw = res.replace(k, '').trim();
                     if (mode === 'note') {
-                        targetRow.cells[map[k]].querySelector('.n-box').innerText = raw;
+                        targetRow.cells[cellIndex].querySelector('.n-box').innerText = raw;
                     } else {
-                        let w = (raw.match(/\d+/) || [""])[0];
-                        let clean = raw.replace(w,'').replace(/gramů|gramy|g\b/g,'').trim();
-                        targetRow.cells[map[k]].querySelector('.m-box').innerText = clean;
-                        if(w) targetRow.cells[map[k]].querySelector('.w-box').value = w;
+                        let wMatch = raw.match(/\d+/);
+                        let weight = wMatch ? wMatch[0] : "";
+                        let food = raw.replace(weight, '').replace(/gramů|gramy|g\b/g, '').trim();
+                        targetRow.cells[cellIndex].querySelector('.m-box').innerText = food;
+                        if(weight) targetRow.cells[cellIndex].querySelector('.w-box').value = weight;
                     }
                     save(); return;
                 }
@@ -232,7 +255,7 @@
         const file = event.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = (e) => { localStorage.setItem('nutri_data_v12', e.target.result); load(); alert("Obnoveno!"); };
+        reader.onload = (e) => { localStorage.setItem('nutri_data_v12', e.target.result); load(); alert("Data byla úspěšně importována!"); };
         reader.readAsText(file);
     }
 </script>
