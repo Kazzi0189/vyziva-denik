@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Výživa PRO 5.7</title>
+    <title>Výživa PRO 5.8</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
@@ -46,7 +46,7 @@
 
 <div class="sticky-header" id="topMenu">
     <div class="menu-content">
-        <div class="app-title">Záznam o výživě (PRO 5.7 - Smart Date)</div>
+        <div class="app-title">Záznam o výživě (PRO 5.8 - Classic Voice)</div>
         <div class="btn-row">
             <button style="background:var(--success)" onclick="addRow()">NOVÝ +</button>
             <button id="micMain" class="btn-mic" onclick="runVoice('food')">🎤 JÍDLO</button>
@@ -172,17 +172,15 @@
     function cycle(el) { const em = ['🙂','😍','☹️']; el.innerText = em[(em.indexOf(el.innerText)+1)%3]; el.style.background = rates[el.innerText]; save(); }
     function setFilter(v) { currentFilter = v; load(); }
 
-    // POSÍLENÝ ČESKÝ PARSER DATA
     function parseSmartDate(text, currentVal) {
         const monthsMap = {
-            "led":1, "úno":2, "bře":3, "dub":4, "kvě":5, "čer":6, "čvc":7, "srp":8, "zář":9, "říj":10, "lis":11, "pro":12,
-            "prvn":1, "druh":2, "třet":3, "čtvr":4, "pát":5, "šest":6, "sedm":7, "osm":8, "devát":9, "desát":10, "jedenác":11, "dvanác":12
+            "ledna":1, "února":2, "března":3, "dubna":4, "května":5, "června":6, "července":7, "srpna":8, "září":9, "října":10, "listopadu":11, "prosince":12,
+            "první":1, "druhý":2, "třetí":3, "čtvrtý":4, "pátý":5, "šestý":6, "sedmý":7, "osmý":8, "devátý":9, "desátý":10, "jedenáctý":11, "dvanáctý":12,
+            "leden":1, "únor":2, "březen":3, "duben":4, "květen":5, "červen":6, "červenec":7, "srpen":8, "září":9, "říjen":10, "listopad":11, "prosinec":12
         };
         let val = text.toLowerCase();
         for (let m in monthsMap) {
-            if (val.includes(m)) {
-                val = val.replace(new RegExp(m + "[a-z]*", 'g'), " " + monthsMap[m] + ". ");
-            }
+            if (val.includes(m)) val = val.replace(m, monthsMap[m]);
         }
         const digits = val.match(/\d+/g);
         if (!digits || digits.length < 1) return currentVal;
@@ -203,17 +201,16 @@
         document.getElementById(btnId).classList.add('listening');
 
         rec.onresult = (ev) => {
-            const res = ev.results[0][0].transcript.toLowerCase();
+            const res = ev.results[0][0].transcript.toLowerCase().trim();
             const targetRow = lastFocusedCell ? lastFocusedCell.closest('tr') : b.rows[0];
             
-            // Pokud diktujeme do buňky s DATEM
+            // Hlasové DATUM
             if (lastFocusedCell && (lastFocusedCell.cellIndex === 0 || lastFocusedCell.closest('td')?.cellIndex === 0)) {
-                const dateCell = targetRow.cells[0];
-                dateCell.innerText = parseSmartDate(res, dateCell.innerText);
+                targetRow.cells[0].innerText = parseSmartDate(res, targetRow.cells[0].innerText);
                 save(); return;
             }
 
-            // Rozpoznávání jídel - vylepšené hledání klíčových slov kdekoli v textu
+            // Rozpoznávání jídel - KLÍČOVÉ SLOVO NA ZAČÁTKU
             const keywords = {
                 'snídaně': 1, 'snídani': 1,
                 'oběd': 3,
@@ -222,7 +219,7 @@
             };
 
             for (let k in keywords) {
-                if (res.includes(k)) {
+                if (res.startsWith(k)) {
                     let cellIndex = keywords[k];
                     let raw = res.replace(k, '').trim();
                     if (mode === 'note') {
@@ -255,7 +252,7 @@
         const file = event.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = (e) => { localStorage.setItem('nutri_data_v12', e.target.result); load(); alert("Data byla úspěšně importována!"); };
+        reader.onload = (e) => { localStorage.setItem('nutri_data_v12', e.target.result); load(); alert("Hotovo!"); };
         reader.readAsText(file);
     }
 </script>
