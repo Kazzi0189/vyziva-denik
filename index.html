@@ -2,358 +2,226 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Výživa PRO FIX 4.1</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Výživa PRO 5.0</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#4a90e2">
-
     <style>
         :root {
-            --bg: #f0f2f5;
-            --header-bg: #ffffff;
-            --accent: #4a90e2;
-            --danger: #e74c3c;
-            --success: #2ecc71;
-            --border: #ced4da;
+            --header-h: 190px; /* Výška horního menu */
+            --accent: #4a90e2; --danger: #e74c3c; --success: #2ecc71; --bg: #f4f7f6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding-top: 180px; /* Místo pro fixní menu nahoře */
+            font-family: -apple-system, system-ui, sans-serif;
+            background: var(--bg); margin: 0; padding-top: var(--header-h);
         }
 
-        /* FIXNÍ MENU */
+        /* FIXNÍ HLAVNÍ MENU */
         header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: var(--header-bg);
-            border-bottom: 3px solid var(--accent);
-            padding: 15px;
-            z-index: 2000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            box-sizing: border-box;
+            position: fixed; top: 0; width: 100%; height: var(--header-h);
+            background: white; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px; box-sizing: border-box;
         }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        .controls { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+        .row { display: flex; gap: 5px; flex-wrap: wrap; }
 
         button {
-            padding: 12px 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.1s, opacity 0.2s;
+            padding: 10px 14px; border: none; border-radius: 8px; color: white;
+            font-weight: bold; cursor: pointer; flex-grow: 1; font-size: 0.9rem;
         }
 
-        button:active { transform: scale(0.95); }
+        /* FILTRY */
+        .filter-btn { background: #6c757d; font-size: 0.8rem; }
+        .filter-btn.active { background: var(--accent); outline: 2px solid black; }
 
-        .btn-add { background-color: var(--success); }
-        .btn-del { background-color: var(--danger); }
-        .btn-w { background-color: #9b59b6; }
-        .btn-mic { background-color: var(--accent); }
-        .btn-mic.listening { 
-            animation: pulse 1.5s infinite; 
-            background-color: #e67e22; 
+        .btn-mic.listening { animation: pulse 1s infinite; background: var(--danger) !important; }
+        @keyframes pulse { 50% { opacity: 0.5; } }
+
+        input#searchInput {
+            flex-grow: 10; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
         }
 
-        #searchInput {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        /* TABULKA */
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px 50px 15px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 8px;
-        }
+        /* TABULKA A RESPONZIVITA */
+        .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        
+        table { width: 100%; border-collapse: collapse; min-width: 600px; background: white; }
 
         /* FIXNÍ HLAVIČKA TABULKY */
         thead th {
-            position: sticky;
-            top: 165px; /* Zarovnání pod hlavní menu */
-            background: #e9ecef;
-            padding: 12px;
-            z-index: 1000;
-            text-align: left;
-            border-bottom: 2px solid var(--border);
-            font-size: 0.85rem;
-            color: #495057;
+            position: sticky; top: var(--header-h); 
+            background: #eee; padding: 12px 5px; z-index: 1000;
+            border-bottom: 2px solid #ccc; font-size: 0.8rem;
         }
 
-        tbody tr {
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        td { padding: 8px 4px; border-bottom: 1px solid #eee; vertical-align: top; }
+
+        .m-input { 
+            min-height: 45px; padding: 5px; background: #fafafa; border: 1px solid #efefef;
+            border-radius: 4px; outline: none; font-size: 0.95rem;
         }
 
-        td {
-            padding: 12px;
-            vertical-align: top;
+        .w-input { 
+            width: 55px; margin-top: 4px; border: 1px dashed #ccc; padding: 3px; 
+            font-size: 0.8rem; border-radius: 4px;
         }
 
-        /* BUŇKY PRO JÍDLO */
-        .meal-box {
-            min-height: 45px;
-            padding: 8px;
-            background: #fdfdfd;
-            border: 1px solid #eee;
-            border-radius: 6px;
-            outline: none;
-            margin-bottom: 5px;
-        }
+        .r-cell { font-size: 1.4rem; cursor: pointer; text-align: center; width: 40px; border-radius: 5px; }
 
-        .weight-input {
-            width: 70px;
-            padding: 5px;
-            border: 1px dashed #bbb;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            display: none; /* Skryto dokud se nezapne tlačítkem */
-        }
-
-        .show-weight .weight-input { display: block; }
-
-        /* SMAJLÍCI */
-        .rating {
-            font-size: 1.6rem;
-            cursor: pointer;
-            text-align: center;
-            width: 50px;
-            user-select: none;
-            border-radius: 8px;
-            transition: 0.2s;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(230, 126, 34, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); }
-        }
-
-        @media (max-width: 768px) {
-            body { padding-top: 230px; }
-            thead th { top: 215px; }
+        /* MOBILNÍ ÚPRAVY */
+        @media (max-width: 600px) {
+            :root { var(--header-h): 210px; }
+            button { padding: 8px; font-size: 0.8rem; }
         }
     </style>
 </head>
-<body class="show-weight">
+<body>
 
 <header>
-    <div class="nav-container">
-        <div class="btn-row">
-            <button class="btn-add" onclick="addNewDay()">Nový den ➕</button>
-            <button class="btn-del" onclick="deleteTopRow()">Smazat 🗑️</button>
-            <button class="btn-w" onclick="document.body.classList.toggle('show-weight')">Váha ⚖️</button>
-            <button id="mainMic" class="btn-mic" onclick="startVoice('auto')">🎤 Hlas</button>
+    <div class="controls">
+        <div class="row">
+            <button style="background:var(--success)" onclick="addRow()">Nový +</button>
+            <button style="background:var(--danger)" onclick="delRow()">Smazat 🗑️</button>
+            <button id="mainMic" style="background:var(--accent)" class="btn-mic" onclick="runVoice('auto')">🎤 Hlas</button>
         </div>
-        <div style="display:flex; gap:10px; align-items:center;">
-            <input type="text" id="searchInput" placeholder="Hledat v historii..." oninput="filterRows()">
-            <button style="background:#7f8c8d; padding:10px" onclick="startVoice('search')">🎙️</button>
+        <div class="row">
+            <button class="filter-btn active" onclick="setFilter('all', this)">Vše</button>
+            <button class="filter-btn" onclick="setFilter('week', this)">Tento týden</button>
+            <button class="filter-btn" onclick="setFilter('last', this)">Minulý týden</button>
+            <button class="filter-btn" onclick="setFilter('month', this)">Měsíc</button>
+        </div>
+        <div class="row">
+            <input type="text" id="searchInput" placeholder="Hledat jídlo..." oninput="search()">
+            <button style="background:#9b59b6; max-width: 50px;" onclick="runVoice('search')">🎙️</button>
         </div>
     </div>
 </header>
 
-<div class="content">
-    <table id="mainTable">
+<div class="table-wrapper">
+    <table>
         <thead>
             <tr>
-                <th style="width:120px">Datum</th>
-                <th>Snídaně</th>
-                <th>⭐</th>
-                <th>Oběd</th>
-                <th>⭐</th>
-                <th>Večeře</th>
-                <th>⭐</th>
+                <th style="width:80px">Datum</th>
+                <th>Snídaně</th><th style="width:40px">⭐</th>
+                <th>Oběd</th><th style="width:40px">⭐</th>
+                <th>Večeře</th><th style="width:40px">⭐</th>
             </tr>
         </thead>
-        <tbody id="tableBody"></tbody>
+        <tbody id="b"></tbody>
     </table>
 </div>
 
 <script>
-    const tableBody = document.getElementById('tableBody');
-    const ratingData = {
-        '🙂': { bg: '#e3f9e5' },
-        '😍': { bg: '#fff9db' },
-        '☹️': { bg: '#ffe3e3' }
-    };
-    const ratingOrder = ['🙂', '😍', '☹️'];
+    const b = document.getElementById('b');
+    let currentFilter = 'all';
+    const colors = { '🙂': '#e3f9e5', '😍': '#fff9db', '☹️': '#ffe3e3' };
 
-    // NAČÍTÁNÍ
-    window.onload = () => {
-        const saved = localStorage.getItem('nutriData_v4');
-        if (saved) {
-            JSON.parse(saved).reverse().forEach(entry => createRow(entry));
-        } else {
-            addNewDay();
-        }
-    };
+    window.onload = () => { loadData(); };
 
-    // UKLÁDÁNÍ
-    function saveAll() {
-        const rows = Array.from(tableBody.querySelectorAll('tr'));
-        const dataToSave = rows.map(tr => ({
-            date: tr.cells[0].innerText,
-            meals: [
-                { 
-                    txt: tr.cells[1].querySelector('.meal-box').innerText, 
-                    w: tr.cells[1].querySelector('.weight-input').value, 
-                    r: tr.cells[2].innerText 
-                },
-                { 
-                    txt: tr.cells[3].querySelector('.meal-box').innerText, 
-                    w: tr.cells[3].querySelector('.weight-input').value, 
-                    r: tr.cells[4].innerText 
-                },
-                { 
-                    txt: tr.cells[5].querySelector('.meal-box').innerText, 
-                    w: tr.cells[5].querySelector('.weight-input').value, 
-                    r: tr.cells[6].innerText 
-                }
-            ]
+    function save() {
+        const data = Array.from(b.rows).map(r => ({
+            d: r.cells[0].innerText,
+            m: [1,3,5].map(i => ({ 
+                t: r.cells[i].querySelector('.m-input').innerText, 
+                w: r.cells[i].querySelector('.w-input').value, 
+                r: r.cells[i+1].innerText 
+            }))
         }));
-        localStorage.setItem('nutriData_v4', JSON.stringify(dataToSave));
+        localStorage.setItem('nutri_v7', JSON.stringify(data));
     }
 
-    function createRow(data) {
-        const tr = document.createElement('tr');
-        let html = `<td contenteditable="true" oninput="saveAll()">${data.date || ''}</td>`;
+    function loadData() {
+        b.innerHTML = '';
+        const s = localStorage.getItem('nutri_v7');
+        if(!s) { addRow(); return; }
+        let entries = JSON.parse(s);
         
-        for (let i = 0; i < 3; i++) {
-            const m = data.meals ? data.meals[i] : { txt: '', w: '', r: '🙂' };
-            html += `
-                <td>
-                    <div class="meal-box" contenteditable="true" oninput="saveAll()">${m.txt}</div>
-                    <input type="number" class="weight-input" placeholder="gramy" value="${m.w}" oninput="saveAll()">
-                </td>
-                <td class="rating" onclick="toggleRating(this)" style="background:${ratingData[m.r].bg}">${m.r}</td>
-            `;
+        // Aplikace filtrů
+        const now = new Date();
+        const filtered = entries.filter(e => {
+            if(currentFilter === 'all') return true;
+            const parts = e.d.split('.');
+            const dDate = new Date(parts[2], parts[1]-1, parts[0]);
+            
+            if(currentFilter === 'month') return dDate.getMonth() === now.getMonth() && dDate.getFullYear() === now.getFullYear();
+            
+            const diff = (now - dDate) / (1000 * 60 * 60 * 24);
+            if(currentFilter === 'week') return diff >= 0 && diff <= 7;
+            if(currentFilter === 'last') return diff > 7 && diff <= 14;
+            return true;
+        });
+
+        filtered.reverse().forEach(d => render(d));
+    }
+
+    function render(d) {
+        const r = document.createElement('tr');
+        let h = `<td contenteditable="true" oninput="save()">${d.d}</td>`;
+        for(let i=0; i<3; i++) {
+            const m = d.m ? d.m[i] : { t:'', w:'', r:'🙂' };
+            h += `<td><div class="m-input" contenteditable="true" oninput="save()">${m.t}</div>
+                  <input type="number" class="w-input" placeholder="g" value="${m.w}" oninput="save()"></td>
+                  <td class="r-cell" onclick="cycle(this)" style="background:${colors[m.r]}">${m.r}</td>`;
         }
-        tr.innerHTML = html;
-        tableBody.prepend(tr);
+        r.innerHTML = h; b.prepend(r);
     }
 
-    function addNewDay() {
-        const today = new Date().toLocaleDateString('cs-CZ');
-        createRow({ date: today, meals: null });
-        saveAll();
+    function addRow() { render({ d: new Date().toLocaleDateString('cs-CZ'), m: null }); save(); }
+    function delRow() { if(confirm("Smazat horní řádek?")) { b.deleteRow(0); save(); } }
+    
+    function cycle(el) {
+        const em = ['🙂', '😍', '☹️'];
+        el.innerText = em[(em.indexOf(el.innerText)+1)%3];
+        el.style.background = colors[el.innerText];
+        save();
     }
 
-    function deleteTopRow() {
-        if (tableBody.rows.length > 0 && confirm("Opravdu smazat poslední záznam?")) {
-            tableBody.deleteRow(0);
-            saveAll();
-        }
+    function setFilter(f, btn) {
+        currentFilter = f;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadData();
     }
 
-    function toggleRating(el) {
-        let current = el.innerText;
-        let next = ratingOrder[(ratingOrder.indexOf(current) + 1) % ratingOrder.length];
-        el.innerText = next;
-        el.style.background = ratingData[next].bg;
-        saveAll();
-    }
-
-    // HLASOVÉ OVLÁDÁNÍ
-    function startVoice(target) {
-        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!Speech) return alert("Hlasové zadávání není v tomto prohlížeči podporováno.");
-
-        const recognition = new Speech();
-        recognition.lang = 'cs-CZ';
-
-        if (target === 'auto') document.getElementById('mainMic').classList.add('listening');
-
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript.toLowerCase();
-
-            if (target === 'search') {
-                document.getElementById('searchInput').value = transcript;
-                filterRows();
-                return;
-            }
-
-            // Pokud máš kliknuto v nějakém políčku, piš tam
+    function runVoice(mode) {
+        const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if(!Rec) return;
+        const rec = new Rec(); rec.lang = 'cs-CZ';
+        if(mode==='auto') document.getElementById('mainMic').classList.add('listening');
+        
+        rec.onresult = (e) => {
+            const res = e.results[0][0].transcript.toLowerCase();
+            if(mode==='search') { document.getElementById('searchInput').value = res; search(); return; }
+            
             const active = document.activeElement;
-            if (active && (active.classList.contains('meal-box') || active.tagName === 'TD')) {
-                active.innerText = transcript;
-                saveAll();
+            if(active && active.classList.contains('m-input')) {
+                active.innerText = res; save();
             } else {
-                // Jinak hledej klíčová slova: snídaně, oběd, večeře
-                const firstRow = tableBody.rows[0];
-                const keywords = { 'snídaně': 1, 'oběd': 3, 'večeře': 5 };
-
-                for (let key in keywords) {
-                    if (transcript.startsWith(key)) {
-                        let rawText = transcript.replace(key, '').trim();
-                        
-                        // EXTRAKCE VÁHY (najde první číslo v řetězci)
-                        let weightMatch = rawText.match(/\d+/);
-                        let weight = weightMatch ? weightMatch[0] : "";
-                        
-                        // VYČIŠTĚNÍ TEXTU (odstraní číslo a jednotky g, gramy...)
-                        let cleanMeal = rawText
-                            .replace(weight, '')
-                            .replace(/gramů|gramy|gram|g\b/g, '') // Odstraní "g" jen jako slovo
-                            .trim();
-
-                        firstRow.cells[keywords[key]].querySelector('.meal-box').innerText = cleanMeal;
-                        if (weight) firstRow.cells[keywords[key]].querySelector('.weight-input').value = weight;
-                        
-                        saveAll();
-                        return;
+                const r = b.rows[0];
+                const map = { 'snídaně':1, 'oběd':3, 'večeře':5 };
+                for(let k in map) {
+                    if(res.startsWith(k)) {
+                        let text = res.replace(k, '').trim();
+                        let w = (text.match(/\d+/) || [""])[0];
+                        let clean = text.replace(w, '').replace(/gramů|gramy|g\b/g, '').trim();
+                        r.cells[map[k]].querySelector('.m-input').innerText = clean;
+                        if(w) r.cells[map[k]].querySelector('.w-input').value = w;
+                        save(); return;
                     }
                 }
             }
         };
-
-        recognition.onend = () => document.getElementById('mainMic').classList.remove('listening');
-        recognition.start();
+        rec.onend = () => document.getElementById('mainMic').classList.remove('listening');
+        rec.start();
     }
 
-    function filterRows() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        Array.from(tableBody.rows).forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(query) ? '' : 'none';
-        });
+    function search() {
+        const v = document.getElementById('searchInput').value.toLowerCase();
+        Array.from(b.rows).forEach(r => r.style.display = r.innerText.toLowerCase().includes(v) ? '' : 'none');
     }
 
-    // Registrace Service Workeru pro offline režim
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
-    }
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
 
 </body>
