@@ -3,14 +3,20 @@
   "name": "Deník výživy PRO",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2821/2821814.png",
+      "src": "./icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
     }
   ],
-  "start_url": "index.html",
-  "background_color": "#ffffff",
+  "start_url": "./index.html",
+  "background_color": "#f4f7f6",
   "display": "standalone",
   "scope": "./",
   "theme_color": "#4a90e2"
