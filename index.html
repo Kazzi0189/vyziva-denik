@@ -649,7 +649,10 @@
                     imported.forEach(item => dataMap.set(item.d, item));
                     localStorage.setItem('nutri_data_v13', JSON.stringify(Array.from(dataMap.values())));
                 }
-                saveAndReload(); alert("Operace byla úspěšně dokončena.");
+
+                // ZMĚNA: Zde nesmíme volat save(), jinak si přepíšeme nahraná data tou starou obrazovkou!
+                load();
+                alert("Operace byla úspěšně dokončena.");
             } catch (err) { alert("Chyba při zpracování souboru."); }
             pendingImportData = null;
         }
@@ -665,7 +668,6 @@
 
             const reader = new FileReader();
 
-            // Standardní čtení (export aplikace je v UTF-8)
             reader.readAsText(file);
 
             reader.onload = (e) => {
@@ -673,12 +675,11 @@
                 const rows = text.split('\n');
                 let importedData = [];
 
-                // Pomocná funkce pro bezpečné rozdělení řádku (ignoruje středníky schované v uvozovkách)
                 function parseCSVRow(str) {
                     let result = []; let cell = ''; let inQuotes = false;
                     for (let i = 0; i < str.length; i++) {
                         let char = str[i];
-                        if (char === '"' && str[i + 1] === '"') { cell += '"'; i++; } // Escapovaná uvozovka
+                        if (char === '"' && str[i + 1] === '"') { cell += '"'; i++; }
                         else if (char === '"') { inQuotes = !inQuotes; }
                         else if (char === ';' && !inQuotes) { result.push(cell.trim()); cell = ''; }
                         else { cell += char; }
@@ -687,26 +688,25 @@
                     return result;
                 }
 
-                // Začínáme od indexu 1, čímž přeskočíme první řádek (hlavičku)
                 for (let i = 1; i < rows.length; i++) {
-                    if (!rows[i].trim()) continue; // Přeskočí prázdné řádky
+                    if (!rows[i].trim()) continue;
                     let cols = parseCSVRow(rows[i]);
 
-                    // Ochrana: Pokud řádek nemá očekávaných 21 sloupců (1 datum + 5 jídel * 4 parametry), ignorujeme ho
-                    if (cols.length < 21) continue;
+                    // ZMĚNA: Zrušen striktní limit 21 sloupců. Kontrolujeme jen, jestli máme alespoň datum.
+                    if (cols.length < 1) continue;
 
-                    // Očištění data od případných uvozovek z Excelu
                     let dValue = cols[0].replace(/^"|"$/g, '').trim();
+                    if (!dValue) continue;
 
                     let meals = [];
-                    // Poskládání 5 jídel podle přesného pořadí v CSV
                     for (let j = 0; j < 5; j++) {
                         let offset = 1 + (j * 4);
                         meals.push({
+                            // Pokud políčko v Excelu chybí (undefined), dosadí se prázdný řetězec nebo smajlík
                             t: cols[offset] ? cols[offset].replace(/^"|"$/g, '').trim() : '',
                             w: cols[offset + 1] ? cols[offset + 1].replace(/^"|"$/g, '').trim() : '',
                             n: cols[offset + 2] ? cols[offset + 2].replace(/^"|"$/g, '').trim() : '',
-                            r: cols[offset + 3] ? cols[offset + 3].replace(/^"|"$/g, '').trim() : '🙂'
+                            r: cols[offset + 3] && cols[offset + 3].trim() !== '' ? cols[offset + 3].replace(/^"|"$/g, '').trim() : '🙂'
                         });
                     }
 
@@ -714,16 +714,15 @@
                 }
 
                 if (importedData.length === 0) {
-                    alert("Chyba: Soubor je prázdný, nebo má špatnou strukturu (musí mít 21 sloupců). Ujistěte se, že nahráváte CSV vygenerované touto aplikací.");
+                    alert("Chyba: Soubor neobsahuje platná data.");
                     return;
                 }
 
-                // Trik: Výsledek převedeme na JSON text a pošleme ho do tvé stávající importní funkce!
                 pendingImportData = JSON.stringify(importedData);
                 document.getElementById('importModal').style.display = 'flex';
             };
 
-            event.target.value = ''; // Reset inputu pro možnost opětovného nahrání stejného souboru
+            event.target.value = '';
         }
     </script>
 </body>
