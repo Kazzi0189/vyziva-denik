@@ -467,7 +467,7 @@
             </div>`;
             }
             card.innerHTML = html;
-            container.appendChild(card);
+            container.prepend(card); // ZMĚNA: prepend vloží kartu na úplný začátek kontejneru
         }
 
         function addCard() { render({ d: new Date().toLocaleDateString('cs-CZ'), m: null }); saveAndReload(); window.scrollTo(0, 0); }
@@ -509,8 +509,12 @@
 
             rec.onresult = (ev) => {
                 const res = ev.results[0][0].transcript.toLowerCase().trim();
-                const targetCard = lastFocusedElement ? lastFocusedElement.closest('.card') : container.firstChild;
-                if (!targetCard) return;
+                // ZMĚNA: Použití firstElementChild a přidání varování při prázdné obrazovce
+                const targetCard = lastFocusedElement ? lastFocusedElement.closest('.card') : container.firstElementChild;
+                if (!targetCard) {
+                    alert("Chyba: Nebyl nalezen žádný záznam. Nejprve vytvořte nový den tlačítkem 'NOVÝ +'.");
+                    return;
+                }
 
                 // Hlasové Datum
                 if (lastFocusedElement && lastFocusedElement.classList.contains('card-header')) {
