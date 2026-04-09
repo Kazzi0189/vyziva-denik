@@ -509,8 +509,9 @@
 
             rec.onresult = (ev) => {
                 const res = ev.results[0][0].transcript.toLowerCase().trim();
-                // ZMĚNA: Použití firstElementChild a přidání varování při prázdné obrazovce
-                const targetCard = lastFocusedElement ? lastFocusedElement.closest('.card') : container.firstElementChild;
+
+                // Zjištění, kterou kartu upravujeme (pokud nic nevybráno, vezmeme první nahoře)
+                let targetCard = lastFocusedElement ? lastFocusedElement.closest('.card') : container.firstElementChild;
                 if (!targetCard) {
                     alert("Chyba: Nebyl nalezen žádný záznam. Nejprve vytvořte nový den tlačítkem 'NOVÝ +'.");
                     return;
@@ -522,12 +523,38 @@
                     saveAndReload(); return;
                 }
 
-                // Mapování pro 5 jídel
+                // PRIORITA 1: Přímý zápis do vybrané buňky (pokud v ní zrovna bliká kurzor)
+                if (lastFocusedElement && (lastFocusedElement.classList.contains('m-box') || lastFocusedElement.classList.contains('n-box'))) {
+                    if (lastFocusedElement.classList.contains('n-box') || mode === 'note') {
+                        // Jsme v poznámce, prostě vložíme text
+                        lastFocusedElement.innerText = res;
+                    } else {
+                        // Jsme v jídle, oddělíme text a gramy
+                        let wMatch = res.match(/\d+/);
+                        let weight = wMatch ? wMatch[0] : "";
+                        let food = res.replace(weight, '').replace(/gramů|gramy|g\b/g, '').trim();
+
+                        lastFocusedElement.innerText = food;
+                        if (weight) {
+                            let parentContent = lastFocusedElement.closest('.meal-content');
+                            if (parentContent) parentContent.querySelector('.w-box').value = weight;
+                        }
+                    }
+                    save(); return;
+                }
+
+                // PRIORITA 2: Klíčová slova na dálku (pokud nemáš vybranou žádnou konkrétní buňku)
+                // Ujistíme se, že pracujeme s nejnovějším dnem nahoře
+                if (!lastFocusedElement || !lastFocusedElement.closest('.card')) {
+                    targetCard = container.firstElementChild;
+                }
+
+                // Mapování pro všech 5 jídel
                 const keywords = {
                     'snídaně': 0, 'snídani': 0,
                     'dopolední svačina': 1, 'dopolední svačinu': 1,
                     'oběd': 2,
-                    'odpolední svačina': 3, 'odpolední svačinu': 3, 'svačina': 3, 'svačinu': 3, // samotná svačina = odpolední
+                    'odpolední svačina': 3, 'odpolední svačinu': 3, 'svačina': 3, 'svačinu': 3,
                     'večeře': 4, 'večeři': 4
                 };
 
