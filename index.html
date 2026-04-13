@@ -300,6 +300,81 @@
         .btn-excel {
             background: #27ae60;
         }
+
+        /* PÍSKOVIŠTĚ (DRAFT MODAL) */
+        .draft-content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 500px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .draft-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .draft-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-draft-mic {
+            flex: 2;
+            background: var(--success);
+            font-size: 0.9rem;
+            padding: 15px 5px;
+        }
+
+        .draft-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            min-height: 200px;
+            background: #fafafa;
+        }
+
+        .draft-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .draft-item-text {
+            flex-grow: 1;
+            margin-right: 10px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .btn-del-draft {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 
@@ -325,6 +400,8 @@
                 </select>
                 <button style="background:#7f8c8d; max-width: 45px; font-size: 1.1rem;"
                     onclick="openSettings()">⚙️</button>
+                <button style="background:#2c3e50; max-width: 45px; font-size: 1.1rem;"
+                    onclick="openDraft()">📥</button>
                 <button style="background:#9b59b6; max-width: 45px; font-size: 1.1rem;"
                     onclick="document.body.classList.toggle('show-w')">⚖️</button>
                 <button style="background:#f39c12; max-width: 45px; font-size: 1.1rem;"
@@ -360,6 +437,25 @@
                 stávající)</button>
             <button class="modal-btn btn-merge" onclick="executeImport('merge')">SLOUČIT S EXISTUJÍCÍMI</button>
             <button class="modal-btn btn-cancel" onclick="cancelImport()">ZRUŠIT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="draftModal">
+        <div class="draft-content">
+            <div class="draft-header">Zpracování starých papírů</div>
+            <div class="draft-controls">
+                <select id="draftYear" style="flex: 1;">
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024" selected>2024</option>
+                    <option value="2023">2023</option>
+                </select>
+                <button id="micDraft" class="btn-mic btn-draft-mic" onclick="runDraftVoice()">🎤 NADIKTOVAT DEN</button>
+            </div>
+            <div class="draft-list" id="draftList">
+            </div>
+            <button class="modal-btn btn-merge" onclick="transferDraft()">✅ ODESLAT DO HLAVNÍHO DENÍKU</button>
+            <button class="modal-btn btn-cancel" onclick="closeDraft()">ZAVŘÍT (Uloží se jako koncept)</button>
         </div>
     </div>
 
@@ -734,6 +830,195 @@
                     .then(reg => console.log('Aplikace je připravena pro offline režim.'))
                     .catch(err => console.log('Chyba registrace SW:', err));
             });
+        }
+        // ==========================================
+        // PÍSKOVIŠTĚ (HISTORIE A DIKTOVÁNÍ)
+        // ==========================================
+
+        function openDraft() {
+            document.getElementById('draftModal').style.display = 'flex';
+            renderDraftList();
+        }
+
+        function closeDraft() {
+            document.getElementById('draftModal').style.display = 'none';
+        }
+
+        // Čtení a zápis do bezpečné, oddělené paměti
+        function getDraftData() {
+            const raw = localStorage.getItem('nutri_draft');
+            return raw ? JSON.parse(raw) : [];
+        }
+
+        function saveDraftData(data) {
+            localStorage.setItem('nutri_draft', JSON.stringify(data));
+            renderDraftList();
+        }
+
+        // Vykreslení seznamu nadiktovaných dní
+        function renderDraftList() {
+            const list = document.getElementById('draftList');
+            const data = getDraftData();
+            list.innerHTML = '';
+
+            if (data.length === 0) {
+                list.innerHTML = '<div style="text-align:center; color:#95a5a6; margin-top:30px;">Zatím zde nejsou žádné dny.<br>Zmáčkněte tlačítko s mikrofonem.</div>';
+                return;
+            }
+
+            data.forEach((day, index) => {
+                const div = document.createElement('div');
+                div.className = 'draft-item';
+
+                let preview = `<strong style="color:var(--accent);">${day.d}</strong><br>`;
+                const mealNames = ["Sn", "Svač", "Ob", "Svač", "Ve"];
+                let parts = [];
+                for (let i = 0; i < 5; i++) {
+                    if (day.m[i] && day.m[i].t) {
+                        let w = day.m[i].w ? ` (${day.m[i].w}g)` : '';
+                        parts.push(`<b>${mealNames[i]}:</b> ${day.m[i].t}${w}`);
+                    }
+                }
+                preview += parts.join(' | ');
+
+                div.innerHTML = `
+                    <div class="draft-item-text">${preview}</div>
+                    <button class="btn-del-draft" onclick="delDraftItem(${index})">❌</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function delDraftItem(index) {
+            if (confirm("Smazat tento nadiktovaný den?")) {
+                let data = getDraftData();
+                data.splice(index, 1);
+                saveDraftData(data);
+            }
+        }
+
+        // Chytrý mikrofon pro pískoviště (Analyzuje celou větu)
+        function runDraftVoice() {
+            const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!Rec) return alert("Hlas není podporován");
+            const rec = new Rec();
+            rec.lang = 'cs-CZ';
+
+            const btn = document.getElementById('micDraft');
+            btn.classList.add('listening');
+            btn.innerText = "🎤 POSLOUCHÁM...";
+
+            rec.onresult = (ev) => {
+                const res = ev.results[0][0].transcript.toLowerCase().trim();
+
+                // 1. Zjištění data (vše co bylo řečeno před slovem snídaně/oběd...)
+                // Abychom izolovali jen začátek věty
+                let rawDatePart = res.split(/snídan|oběd|večeř|svačin/)[0].trim();
+
+                // Použijeme stávající chytrou funkci z hlavní aplikace
+                let cleanDateStr = parseSmartDate(rawDatePart, "");
+                if (!cleanDateStr || !cleanDateStr.includes('.')) {
+                    alert("Nepodařilo se mi z věty poznat datum. Zkuste to prosím znovu (např. 'Pátého března').");
+                    return;
+                }
+
+                // 2. Naroubování vybraného roku z roletky
+                const selectedYear = document.getElementById('draftYear').value;
+                let dateParts = cleanDateStr.split('.');
+                // Spojíme nalezený den a měsíc s pevně daným rokem
+                cleanDateStr = `${dateParts[0]}.${dateParts[1]}.${selectedYear}`;
+
+                // 3. Příprava čisté karty
+                let newDay = {
+                    d: cleanDateStr,
+                    m: [
+                        { t: '', w: '', n: '', r: '🙂' }, // 0: Sn
+                        { t: '', w: '', n: '', r: '🙂' }, // 1: Sv
+                        { t: '', w: '', n: '', r: '🙂' }, // 2: Ob
+                        { t: '', w: '', n: '', r: '🙂' }, // 3: Sv
+                        { t: '', w: '', n: '', r: '🙂' }  // 4: Ve
+                    ]
+                };
+
+                // 4. Detektivní rozsekání věty na chody odzadu dopředu
+                const keywords = [
+                    { w: "večeř", idx: 4 },
+                    { w: "odpolední svačin", idx: 3 },
+                    { w: "oběd", idx: 2 },
+                    { w: "dopolední svačin", idx: 1 },
+                    { w: "snídan", idx: 0 }
+                ];
+
+                let remainingText = res;
+
+                keywords.forEach(k => {
+                    let splitIdx = remainingText.indexOf(k.w);
+                    if (splitIdx !== -1) {
+                        // Vezmeme text od tohoto klíčového slova až nakonec
+                        let chunk = remainingText.substring(splitIdx);
+                        // Smažeme samotné klíčové slovo, ať tam nezavazí
+                        chunk = chunk.replace(new RegExp(`^${k.w}[aeiío]?\\s*`), '');
+
+                        // Zjistíme gramy a vyčistíme text od slov jako "gramů"
+                        let wMatch = chunk.match(/\d+/);
+                        let weight = wMatch ? wMatch[0] : "";
+                        let food = chunk.replace(weight, '').replace(/gramů|gramy|g\b/g, '').trim();
+
+                        newDay.m[k.idx].t = food;
+                        if (weight) newDay.m[k.idx].w = weight;
+
+                        // Odstřihneme tuto zpracovanou část, ať se neplete předchozím chodům
+                        remainingText = remainingText.substring(0, splitIdx);
+                    }
+                });
+
+                // 5. Tvrdé uložení do bezpečné paměti
+                let data = getDraftData();
+                data.push(newDay);
+                saveDraftData(data);
+            };
+
+            rec.onend = () => {
+                btn.classList.remove('listening');
+                btn.innerText = "🎤 NADIKTOVAT DEN";
+            };
+            rec.onerror = (e) => {
+                alert("Chyba mikrofonu.");
+                btn.classList.remove('listening');
+                btn.innerText = "🎤 NADIKTOVAT DEN";
+            };
+
+            rec.start();
+        }
+
+        // Přesun dat do ostré aplikace
+        function transferDraft() {
+            let draftData = getDraftData();
+            if (draftData.length === 0) {
+                alert("Nemáte žádná data k odeslání.");
+                return;
+            }
+
+            if (!confirm(`Opravdu chcete odeslat ${draftData.length} dní do hlavního deníku? (Existující dny se stejným datem budou přepsány!)`)) {
+                return;
+            }
+
+            // Načtení hlavní databáze
+            let mainRaw = localStorage.getItem('nutri_data_v13');
+            let mainData = mainRaw ? JSON.parse(mainRaw) : [];
+
+            // Sloučení (co už v hlavní databázi je, to Excelově přemažeme novým diktátem)
+            let dataMap = new Map();
+            mainData.forEach(item => dataMap.set(item.d, item));
+            draftData.forEach(item => dataMap.set(item.d, item));
+
+            // Uložení a restart hlavní obrazovky
+            localStorage.setItem('nutri_data_v13', JSON.stringify(Array.from(dataMap.values())));
+            localStorage.removeItem('nutri_draft'); // Vyčištění pískoviště
+
+            closeDraft();
+            load();
+            alert("Skvělé! Papíry byly úspěšně zdigitalizovány a uloženy do deníku.");
         }
     </script>
 </body>
