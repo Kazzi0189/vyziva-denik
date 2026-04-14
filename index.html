@@ -996,41 +996,47 @@
 
                 if (!targetCard) return;
 
-                // OPRAVA SVAČINY: Seřazení klíčových slov od nejdelších po nejkratší
+                // OPRAVA SVAČINY A ZBÝVAJÍCÍCH PÍSMEN
                 const keywords = [
                     { k: 'dopolední svačin', i: 1 },
                     { k: 'odpolední svačin', i: 3 },
                     { k: 'snídan', i: 0 },
                     { k: 'oběd', i: 2 },
                     { k: 'večeř', i: 4 },
-                    { k: 'svačin', i: 3 } // "svačina" bez upřesnění jde do odpolední
+                    { k: 'svačin', i: 3 }
                 ];
 
                 let processedText = res;
                 keywords.forEach(item => {
                     if (processedText.includes(item.k)) {
                         let splitIdx = processedText.indexOf(item.k);
+
                         // Vezmeme text od klíčového slova dál
-                        let raw = processedText.substring(splitIdx).replace(item.k, '').trim();
+                        let chunk = processedText.substring(splitIdx);
+
+                        // ZMĚNA: Tento regulární výraz odstraní kořen slova I jeho koncovku (ě, a, u, i)
+                        let regex = new RegExp(`^${item.k}[a-zěščřžýáíéúů]*\\s*`);
+                        let raw = chunk.replace(regex, '').trim();
+
                         // Ořízneme to, pokud následuje další klíčové slovo
                         let nextIdx = raw.length;
                         keywords.forEach(nextItem => {
                             let idx2 = raw.indexOf(nextItem.k);
                             if (idx2 !== -1 && idx2 < nextIdx) nextIdx = idx2;
                         });
-                        raw = raw.substring(0, nextIdx).trim();
+
+                        let finalRaw = raw.substring(0, nextIdx).trim();
 
                         let mealItem = targetCard.querySelector(`.meal-item[data-index="${item.i}"]`);
-                        let wMatch = raw.match(/\d+/);
+                        let wMatch = finalRaw.match(/\d+/);
                         let weight = wMatch ? wMatch[0] : "";
-                        let food = raw.replace(weight, '').replace(/gramů|gramy|g\b/g, '').trim();
+                        let food = finalRaw.replace(weight, '').replace(/gramů|gramy|g\b/g, '').trim();
 
-                        // Zamezíme přepsání, pokud už v buňce něco je z tohoto konkrétního diktátu
                         mealItem.querySelector('.m-box').innerText = food;
                         if (weight) mealItem.querySelector('.w-box').value = weight;
 
-                        // Odstraníme zpracovanou část z textu, aby se na ni nechytla další (kratší) klíčová slova
-                        processedText = processedText.replace(item.k + raw, '');
+                        // Bezpečné odříznutí zpracované části z hlavní věty
+                        processedText = processedText.substring(0, splitIdx) + " " + raw.substring(nextIdx);
                     }
                 });
                 saveDraftFromUI();
