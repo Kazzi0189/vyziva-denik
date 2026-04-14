@@ -454,6 +454,10 @@
                     +</button>
                 <button id="micDraft" class="btn-mic btn-draft-mic" style="padding: 8px;" onclick="runDraftVoice()">🎤
                     JÍDLO</button>
+                <button style="background:#9b59b6; max-width: 40px; font-size: 1rem;"
+                    onclick="document.body.classList.toggle('show-w')">⚖️</button>
+                <button style="background:#f39c12; max-width: 40px; font-size: 1rem;"
+                    onclick="document.body.classList.toggle('show-n')">📝</button>
             </div>
             <div class="draft-list" id="draftList">
             </div>
@@ -948,7 +952,7 @@
             rec.onresult = (ev) => {
                 const res = ev.results[0][0].transcript.toLowerCase().trim();
 
-                // PRIORITA 1: Pokud jsi zrovna klikl do nějakého pole (m-box, n-box) na kartě v draftu
+                // PRIORITA 1: Přímý zápis do buňky (identické jako v hlavní aplikaci)
                 if (lastFocusedElement && document.getElementById('draftList').contains(lastFocusedElement)) {
                     if (lastFocusedElement.classList.contains('n-box')) {
                         lastFocusedElement.innerText = res;
@@ -968,11 +972,10 @@
                     return;
                 }
 
-                // PRIORITA 2: Nekonečný diktafon (Vytvoří novou kartu nebo vyplní tu nahoře)
+                // PRIORITA 2: Nekonečný diktafon
                 let list = document.getElementById('draftList');
                 let targetCard = list.firstElementChild;
 
-                // Pokud mikrofon slyší na začátku věty datum (např. "Sedmého dubna..."), založí novou kartu
                 let rawDatePart = res.split(/snídan|oběd|večeř|svačin/)[0].trim();
                 let hasDate = rawDatePart.match(/\d+/);
 
@@ -983,51 +986,53 @@
                         let dateParts = cleanDateStr.split('.');
                         cleanDateStr = `${dateParts[0]}.${dateParts[1]}.${selectedYear}`;
 
-                        // Založíme novou strukturu
                         let data = getDraftData();
                         data.push({ d: cleanDateStr, m: null });
                         localStorage.setItem('nutri_draft', JSON.stringify(data));
                         renderDraftList();
-
-                        // Znovu si načteme vrchní kartu, abychom do ní mohli dopsat zbytek věty
                         targetCard = document.getElementById('draftList').firstElementChild;
                     }
                 }
 
-                if (!targetCard) return; // Pokud je pískoviště úplně prázdné a neřekl datum
+                if (!targetCard) return;
 
-                // Rozdělení zbylé věty do jednotlivých jídel na vrchní kartě
-                const keywords = {
-                    'snídaně': 0, 'snídani': 0,
-                    'dopolední svačina': 1, 'dopolední svačinu': 1,
-                    'oběd': 2,
-                    'odpolední svačina': 3, 'odpolední svačinu': 3, 'svačina': 3, 'svačinu': 3,
-                    'večeře': 4, 'večeři': 4
-                };
+                // OPRAVA SVAČINY: Seřazení klíčových slov od nejdelších po nejkratší
+                const keywords = [
+                    { k: 'dopolední svačin', i: 1 },
+                    { k: 'odpolední svačin', i: 3 },
+                    { k: 'snídan', i: 0 },
+                    { k: 'oběd', i: 2 },
+                    { k: 'večeř', i: 4 },
+                    { k: 'svačin', i: 3 } // "svačina" bez upřesnění jde do odpolední
+                ];
 
-                for (let k in keywords) {
-                    if (res.includes(k)) {
-                        let splitIdx = res.indexOf(k);
-                        let raw = res.substring(splitIdx).replace(k, '').trim();
-                        // Oříznutí po další chod
+                let processedText = res;
+                keywords.forEach(item => {
+                    if (processedText.includes(item.k)) {
+                        let splitIdx = processedText.indexOf(item.k);
+                        // Vezmeme text od klíčového slova dál
+                        let raw = processedText.substring(splitIdx).replace(item.k, '').trim();
+                        // Ořízneme to, pokud následuje další klíčové slovo
                         let nextIdx = raw.length;
-                        for (let k2 in keywords) {
-                            let idx2 = raw.indexOf(k2);
+                        keywords.forEach(nextItem => {
+                            let idx2 = raw.indexOf(nextItem.k);
                             if (idx2 !== -1 && idx2 < nextIdx) nextIdx = idx2;
-                        }
+                        });
                         raw = raw.substring(0, nextIdx).trim();
 
-                        let index = keywords[k];
-                        let mealItem = targetCard.querySelector(`.meal-item[data-index="${index}"]`);
-
+                        let mealItem = targetCard.querySelector(`.meal-item[data-index="${item.i}"]`);
                         let wMatch = raw.match(/\d+/);
                         let weight = wMatch ? wMatch[0] : "";
                         let food = raw.replace(weight, '').replace(/gramů|gramy|g\b/g, '').trim();
 
+                        // Zamezíme přepsání, pokud už v buňce něco je z tohoto konkrétního diktátu
                         mealItem.querySelector('.m-box').innerText = food;
                         if (weight) mealItem.querySelector('.w-box').value = weight;
+
+                        // Odstraníme zpracovanou část z textu, aby se na ni nechytla další (kratší) klíčová slova
+                        processedText = processedText.replace(item.k + raw, '');
                     }
-                }
+                });
                 saveDraftFromUI();
             };
 
