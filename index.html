@@ -452,6 +452,8 @@
                 </select>
                 <button class="btn-mic" style="background:var(--success); padding: 8px;" onclick="addDraftCard()">NOVÝ
                     +</button>
+                <button class="btn-mic" style="background:#34495e; padding: 8px;" onclick="sortDraftData()">📅
+                    SROVNAT</button>
                 <button id="micDraft" class="btn-mic btn-draft-mic" style="padding: 8px;" onclick="runDraftVoice()">🎤
                     JÍDLO</button>
                 <button style="background:#9b59b6; max-width: 40px; font-size: 1rem;"
@@ -938,6 +940,24 @@
                 localStorage.setItem('nutri_draft', JSON.stringify(data));
                 renderDraftList();
             }
+        }
+        function sortDraftData() {
+            let data = getDraftData();
+            if (data.length === 0) return;
+
+            // Řazení od nejnovějšího po nejstarší
+            data.sort((x, y) => {
+                const parseD = (str) => {
+                    const p = str.split('.');
+                    if (p.length !== 3) return 0; // Pokud je datum špatně, spadne to dolů
+                    return new Date(p[2], p[1] - 1, p[0]).getTime();
+                };
+                return parseD(y.d) - parseD(x.d);
+            });
+
+            // Uložení seřazených dat a překreslení obrazovky
+            localStorage.setItem('nutri_draft', JSON.stringify(data));
+            renderDraftList();
         }
 
         // Chytrý mikrofon reagující uvnitř Pískoviště
