@@ -588,7 +588,7 @@
             html += `<div class="card-header" contenteditable="true" oninput="save()" onblur="saveAndReload()">${e.d}</div>`;
 
             for (let i = 0; i < 5; i++) {
-                const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '🙂' };
+                const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐' };
                 let bg = rates[m.r] || '#e3f9e5';
                 const hiddenClass = (currentMealFilter !== 'all' && currentMealFilter !== String(i)) ? ' meal-hidden' : '';
                 html += `
@@ -741,7 +741,7 @@
                 JSON.parse(saved).forEach(d => {
                     let row = `"${d.d}"`;
                     for (let i = 0; i < 5; i++) {
-                        let m = d.m[i] || { t: '', w: '', n: '', r: '🙂' };
+                        let m = d.m[i] || { t: '', w: '', n: '', r: '😐' };
                         row += `;"${m.t}";"${m.w}";"${m.n}";"${m.r}"`;
                     }
                     csv += row + "\n";
@@ -771,7 +771,7 @@
                 // Převod starých dat (v12 - 4 jídla) na nová data (v13 - 5 jídel)
                 imported = imported.map(item => {
                     if (item.m.length === 4) {
-                        return { d: item.d, m: [item.m[0], { t: '', w: '', n: '', r: '🙂' }, item.m[1], item.m[2], item.m[3]] };
+                        return { d: item.d, m: [item.m[0], { t: '', w: '', n: '', r: '😐' }, item.m[1], item.m[2], item.m[3]] };
                     }
                     return item;
                 });
@@ -843,7 +843,7 @@
                             t: cols[offset] ? cols[offset].replace(/^"|"$/g, '').trim() : '',
                             w: cols[offset + 1] ? cols[offset + 1].replace(/^"|"$/g, '').trim() : '',
                             n: cols[offset + 2] ? cols[offset + 2].replace(/^"|"$/g, '').trim() : '',
-                            r: cols[offset + 3] && cols[offset + 3].trim() !== '' ? cols[offset + 3].replace(/^"|"$/g, '').trim() : '🙂'
+                            r: cols[offset + 3] && cols[offset + 3].trim() !== '' ? cols[offset + 3].replace(/^"|"$/g, '').trim() : '😐'
                         });
                     }
 
@@ -926,7 +926,7 @@
                 html += `<div class="card-header" contenteditable="true" oninput="saveDraftFromUI()">${e.d}</div>`;
 
                 for (let i = 0; i < 5; i++) {
-                    const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '🙂' };
+                    const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐' };
                     let bg = rates[m.r] || '#e3f9e5';
                     html += `
                     <div class="meal-item" data-index="${i}">
