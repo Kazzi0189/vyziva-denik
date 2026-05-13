@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Výživa PRO</title>
+    <title>Výživa PRO - TEST</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -150,6 +150,10 @@
             padding: 8px;
             border-radius: 8px;
             border: 1px solid #f0f0f0;
+        }
+
+        .meal-item.meal-hidden {
+            display: none;
         }
 
         .meal-label {
@@ -382,7 +386,7 @@
 
     <div class="sticky-header" id="topMenu">
         <div class="menu-content">
-            <div class="app-title">Výživa PRO</div>
+            <div class="app-title">Výživa PRO - TESTOVACÍ VERZE</div>
             <div class="btn-row">
                 <button style="background:var(--success)" onclick="addCard()">NOVÝ +</button>
                 <button id="micMain" class="btn-mic" onclick="runVoice('food')">🎤 JÍDLO</button>
@@ -391,11 +395,19 @@
             </div>
             <div class="btn-row">
                 <select id="filterSelect" onchange="setFilter(this.value)">
-                    <option value="all">Zobrazit: VŠE</option>
+                    <option value="all">Období: VŠE</option>
                     <option value="currentWeek">Aktuální týden</option>
                     <option value="lastWeek">Minulý týden</option>
                     <option value="14days">Posledních 14 dní</option>
                     <option value="lastMonth">Minulý měsíc</option>
+                </select>
+                <select id="mealFilterSelect" onchange="setMealFilter(this.value)">
+                    <option value="all">Jídlo: VŠE</option>
+                    <option value="0">Pouze snídaně</option>
+                    <option value="1">Pouze dop. svačina</option>
+                    <option value="2">Pouze oběd</option>
+                    <option value="3">Pouze odp. svačina</option>
+                    <option value="4">Pouze večeře</option>
                 </select>
                 <button style="background:#7f8c8d; max-width: 45px; font-size: 1.1rem;"
                     onclick="openSettings()">⚙️</button>
@@ -475,6 +487,7 @@
         const container = document.getElementById('cardContainer');
         const topMenu = document.getElementById('topMenu');
         let currentFilter = 'all';
+        let currentMealFilter = 'all';
         let lastFocusedElement = null;
         let pendingImportData = null;
         const rates = { '🙂': '#e3f9e5', '😍': '#fff9db', '☹️': '#ffe3e3' };
@@ -558,6 +571,10 @@
             });
 
             // 3. Vykreslení
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align:center; color:#95a5a6; margin-top:30px; background:white; padding:20px; border-radius:12px;">Pro zvolený filtr nejsou žádné záznamy.</div>';
+                return;
+            }
             filtered.forEach(e => render(e));
         }
 
@@ -573,8 +590,9 @@
             for (let i = 0; i < 5; i++) {
                 const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '🙂' };
                 let bg = rates[m.r] || '#e3f9e5';
+                const hiddenClass = (currentMealFilter !== 'all' && currentMealFilter !== String(i)) ? ' meal-hidden' : '';
                 html += `
-            <div class="meal-item" data-index="${i}">
+            <div class="meal-item${hiddenClass}" data-index="${i}">
                 <div class="meal-label">${mealLabels[i]}</div>
                 <div class="meal-content">
                     <div class="m-box" contenteditable="true" oninput="save()" placeholder="Napište jídlo...">${m.t}</div>
@@ -602,6 +620,7 @@
         }
         function cycle(el) { const em = ['🙂', '😍', '☹️']; el.innerText = em[(em.indexOf(el.innerText) + 1) % 3]; el.style.background = rates[el.innerText]; save(); }
         function setFilter(v) { currentFilter = v; load(); }
+        function setMealFilter(v) { currentMealFilter = v; load(); }
 
         function parseSmartDate(text, currentVal) {
             const monthsMap = {
