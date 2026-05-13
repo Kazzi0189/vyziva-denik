@@ -490,7 +490,7 @@
         let currentMealFilter = 'all';
         let lastFocusedElement = null;
         let pendingImportData = null;
-        const rates = { '🙂': '#e3f9e5', '😍': '#fff9db', '☹️': '#ffe3e3' };
+        const rates = { '🙂': '#e3f9e5', '😍': '#fff9db', '😐': '#eef2f3', '☹️': '#ffe3e3' };
 
         // Názvy 5 jídel
         const mealLabels = ["Snídaně", "Dop. Svačina", "Oběd", "Odp. Svačina", "Večeře"];
@@ -618,7 +618,7 @@
                 alert("Záznam byl smazán.");
             }
         }
-        function cycle(el) { const em = ['🙂', '😍', '☹️']; el.innerText = em[(em.indexOf(el.innerText) + 1) % 3]; el.style.background = rates[el.innerText]; save(); }
+        function cycle(el) { const em = ['🙂', '😍', '😐', '☹️']; el.innerText = em[(em.indexOf(el.innerText) + 1) % em.length]; el.style.background = rates[el.innerText]; save(); }
         function setFilter(v) { currentFilter = v; load(); }
         function setMealFilter(v) { currentMealFilter = v; load(); }
 
@@ -945,8 +945,8 @@
         }
 
         function cycleDraft(el) {
-            const em = ['🙂', '😍', '☹️'];
-            el.innerText = em[(em.indexOf(el.innerText) + 1) % 3];
+            const em = ['🙂', '😍', '😐', '☹️'];
+            el.innerText = em[(em.indexOf(el.innerText) + 1) % em.length];
             el.style.background = rates[el.innerText];
             saveDraftFromUI();
         }
