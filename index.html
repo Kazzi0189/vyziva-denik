@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Výživa PRO</title>
+    <title>Výživa PRO - TEST</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#4a90e2">
@@ -231,6 +232,111 @@
             background: #e3f9e5;
         }
 
+
+
+        .ai-suggestion-box {
+            margin-top: 6px;
+            padding: 8px;
+            border-radius: 8px;
+            background: #f5edff;
+            border: 1px solid #d6b6ff;
+            font-size: 0.82rem;
+            color: #4a235a;
+        }
+
+        .ai-suggestion-title {
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .ai-suggestion-text {
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .ai-use-btn {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            width: auto;
+            flex: none;
+            display: inline-flex;
+        }
+
+
+        .ai-suggestion-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .ai-reject-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            width: auto;
+            flex: none;
+            display: inline-flex;
+        }
+
+        .plan-confirm-btn {
+            position: absolute;
+            top: 52px;
+            right: 15px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            width: auto;
+            flex: none;
+            z-index: 10;
+        }
+
+        .overview-box {
+            text-align: left;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 0.84rem;
+            line-height: 1.45;
+        }
+
+        .overview-box h4 {
+            margin: 0 0 6px;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .overview-box ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .avoid-list-textarea {
+            width: 100%;
+            min-height: 210px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+        }
+
         /* MODAL OKNA (NASTAVENÍ A IMPORT) */
         .modal-overlay {
             position: fixed;
@@ -253,6 +359,11 @@
             max-width: 350px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-height: calc(100vh - 28px);
+            overflow-y: auto;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
 
         .modal-title {
@@ -379,49 +490,946 @@
             cursor: pointer;
             flex-shrink: 0;
         }
+
+        /* AI MODAL: delší okno musí být na mobilu posuvné, aby šlo vždy zavřít */
+        #aiModal {
+            align-items: flex-start;
+            overflow-y: auto;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        #aiModal .modal-box {
+            position: relative;
+            max-height: calc(100vh - 20px);
+            overflow-y: auto;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        #settingsModal {
+            align-items: flex-start;
+            overflow-y: auto;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        #settingsModal .modal-box {
+            max-height: calc(100vh - 20px);
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .ai-close-x {
+            position: sticky;
+            top: 0;
+            float: right;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            margin: -10px -10px 6px 8px;
+            border-radius: 50%;
+            background: #95a5a6;
+            color: white;
+            font-size: 1.1rem;
+            z-index: 5;
+            flex: 0 0 auto;
+        }
+
+        @media (max-height: 720px) {
+            #aiPromptOutput {
+                min-height: 150px !important;
+            }
+
+            #aiPlanInput {
+                min-height: 130px !important;
+            }
+
+            #aiGeminiOutput {
+                min-height: 120px !important;
+            }
+        }
+
+        .small-help-text {
+            font-size: 0.78rem;
+            color: #7f8c8d;
+            line-height: 1.35;
+            text-align: left;
+            margin: 6px 0 10px;
+        }
+
+        .ai-status {
+            font-size: 0.82rem;
+            color: #2c3e50;
+            background: #f8f9fa;
+            border: 1px solid #e1e7ec;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin: 8px 0 10px;
+            text-align: left;
+            display: none;
+            white-space: pre-wrap;
+        }
+
+
+        .delete-check-wrap {
+            display: none;
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: #fff;
+            border: 2px solid var(--danger);
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--danger);
+            z-index: 20;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .delete-check-wrap input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--danger);
+        }
+
+        body.delete-mode .delete-check-wrap {
+            display: flex;
+        }
+
+        body.delete-mode .card.selected-delete {
+            outline: 3px solid var(--danger);
+            background: #fff7f7;
+        }
+
+        .delete-toolbar {
+            position: fixed;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            z-index: 2500;
+            background: white;
+            border: 2px solid var(--danger);
+            border-radius: 12px;
+            padding: 10px;
+            display: none;
+            gap: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        body.delete-mode .delete-toolbar {
+            display: flex;
+        }
+
+        .delete-toolbar button {
+            padding: 10px 6px;
+            font-size: 0.75rem;
+        }
+
+        .date-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .date-input-row input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 0.85rem;
+        }
+
+
+
+        .child-profile-row {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr;
+            gap: 6px;
+            align-items: stretch;
+            background: #f8f9fa;
+            border: 1px solid #e8ecef;
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        .child-profile-field {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .child-profile-field label {
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .child-profile-field input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 7px;
+            border-radius: 8px;
+            border: 1px solid #dfe6e9;
+            background: white;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #2c3e50;
+            outline: none;
+        }
+
+        .child-age-box {
+            background: white;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            padding: 8px 7px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--accent);
+            min-height: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 560px) {
+            .child-profile-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+
+        body.reorder-mode .card {
+            border: 2px solid #3498db;
+        }
+
+        .reorder-banner {
+            background: #eaf4ff;
+            border: 1px solid #85c1e9;
+            color: #1f618d;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .reorder-controls {
+            display: none;
+            gap: 8px;
+            align-items: center;
+            margin: 0 0 12px 0;
+            padding-right: 58px;
+        }
+
+        body.reorder-mode .reorder-controls {
+            display: flex;
+        }
+
+        .reorder-handle {
+            flex: 1;
+            background: #3498db;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 8px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .header-icon-btn {
+            flex: 0 0 42px;
+            max-width: 42px;
+            padding: 10px 4px;
+            font-size: 1rem;
+        }
+
+        .reorder-handle:active {
+            cursor: grabbing;
+        }
+
+        .reorder-small-btn {
+            flex: 0 0 44px;
+            background: #2c3e50;
+            padding: 10px 4px;
+            font-size: 1rem;
+        }
+
+        .card.dragging-plan {
+            opacity: 0.96;
+            transform: scale(1.01);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+            pointer-events: none;
+            z-index: 5000;
+        }
+
+        .plan-drag-placeholder {
+            border: 2px dashed #3498db;
+            background: #eaf4ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .card.plan-swap-selected {
+            border-color: #f39c12 !important;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.22);
+        }
+
+        .planned-badge {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #e8f8f5;
+            color: #16a085;
+            font-size: 0.72rem;
+            font-weight: 800;
+            vertical-align: middle;
+        }
+
+        /* KOMPAKTNÍ HLAVIČKA PRO MOBIL */
+        .menu-content.compact-menu {
+            gap: 7px;
+            padding: 8px 15px 10px;
+        }
+
+        .compact-menu .app-title {
+            font-size: 0.78rem;
+            line-height: 1.1;
+        }
+
+        .main-action-row button {
+            min-width: 0;
+            padding: 10px 4px;
+            font-size: 0.72rem;
+        }
+
+        .filter-row {
+            align-items: stretch;
+        }
+
+        .filter-open-btn {
+            flex: 0 0 130px;
+            background: #2980b9;
+            padding: 10px 8px;
+            font-size: 0.78rem;
+        }
+
+        .filter-summary {
+            flex: 1;
+            background: #f8f9fa;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.76rem;
+            color: #2c3e50;
+            line-height: 1.25;
+            display: flex;
+            align-items: center;
+            min-height: 22px;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .filter-block {
+            background: #f8f9fa;
+            border: 1px solid #e1e7ec;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .filter-block label.filter-title {
+            display: block;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 6px;
+            font-size: 0.82rem;
+        }
+
+        .filter-block input[type="text"], .filter-block select {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .filter-checks {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            font-size: 0.82rem;
+            color: #2c3e50;
+        }
+
+        .filter-checks label {
+            background: white;
+            border: 1px solid #e1e7ec;
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .filter-modal-box {
+            padding-bottom: 18px;
+        }
+
+        .filter-modal-actions {
+            position: sticky;
+            bottom: -1px;
+            background: white;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .day-note-wrap {
+            margin: 10px 0 12px;
+            background: #f7fbff;
+            border: 1px solid #d6eaff;
+            border-radius: 9px;
+            padding: 8px;
+        }
+
+        .day-note-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #2980b9;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .day-note-box {
+            min-height: 22px;
+            background: white;
+            border: 1px solid #dfe6e9;
+            border-radius: 7px;
+            padding: 6px 8px;
+            outline: none;
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+
+        .day-note-box:empty:before {
+            content: attr(data-placeholder);
+            color: #95a5a6;
+        }
+
+        .child-summary-pill {
+            flex: 1 1 100%;
+            background: #ecf0f1;
+            color: #2c3e50;
+            border-radius: 10px;
+            padding: 10px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .more-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .more-grid .modal-btn {
+            margin-bottom: 0;
+            min-height: 48px;
+            padding: 10px 7px;
+            line-height: 1.2;
+        }
+
+        .reorder-active-strip {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: #eafaf1;
+            border: 1px solid #82e0aa;
+            border-radius: 10px;
+            padding: 6px 8px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #1e8449;
+        }
+
+        body.reorder-mode .reorder-active-strip {
+            display: flex;
+        }
+
+        .reorder-active-strip span {
+            flex: 1;
+        }
+
+        .reorder-active-strip button {
+            flex: 0 0 auto;
+            padding: 7px 12px;
+            font-size: 0.75rem;
+            background: #27ae60;
+        }
+
+        @media (max-width: 420px) {
+            .main-action-row button {
+                font-size: 0.68rem;
+                padding: 9px 3px;
+            }
+            .filter-open-btn {
+                flex: 0 0 105px;
+                font-size: 0.72rem;
+                padding: 9px 5px;
+            }
+            .filter-summary {
+                font-size: 0.7rem;
+                padding: 7px 8px;
+            }
+            .filter-checks {
+                grid-template-columns: 1fr;
+            }
+            .more-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* UŽIVATELSKÝ MANUÁL */
+        #manualModal {
+            align-items: flex-start;
+            overflow-y: auto;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        #manualModal .modal-box {
+            position: relative;
+            max-width: 560px;
+            max-height: calc(100vh - 20px);
+            overflow-y: auto;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        .manual-intro {
+            background: #f0f7ff;
+            border: 1px solid #cfe6ff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.86rem;
+            line-height: 1.45;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+
+        .manual-section {
+            border: 1px solid #e1e7ec;
+            border-radius: 10px;
+            background: #fff;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .manual-section summary {
+            cursor: pointer;
+            padding: 11px 12px;
+            font-weight: 800;
+            color: #2c3e50;
+            background: #f8f9fa;
+            list-style: none;
+        }
+
+        .manual-section summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .manual-section summary::after {
+            content: '＋';
+            float: right;
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        .manual-section[open] summary::after {
+            content: '−';
+        }
+
+        .manual-section-content {
+            padding: 10px 12px 12px;
+            font-size: 0.86rem;
+            line-height: 1.45;
+            color: #34495e;
+        }
+
+        .manual-section-content ul {
+            margin: 6px 0 0 18px;
+            padding: 0;
+        }
+
+        .manual-section-content li {
+            margin-bottom: 5px;
+        }
+
+        .manual-note {
+            background: #fff9db;
+            border: 1px solid #f1c40f;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-top: 8px;
+        }
+
     </style>
 </head>
 
 <body>
 
     <div class="sticky-header" id="topMenu">
-        <div class="menu-content">
+        <div class="menu-content compact-menu">
             <div class="app-title">Výživa PRO - TESTOVACÍ VERZE</div>
-            <div class="btn-row">
+            <div class="btn-row main-action-row">
                 <button style="background:var(--success)" onclick="addCard()">NOVÝ +</button>
+                <button style="background:#1abc9c" onclick="goToToday()">DNES</button>
                 <button id="micMain" class="btn-mic" onclick="runVoice('food')">🎤 JÍDLO</button>
-                <button id="micNote" style="background:var(--note)" class="btn-mic" onclick="runVoice('note')">🎤
-                    POZNÁMKA</button>
+                <button id="micNote" style="background:var(--note)" class="btn-mic" onclick="runVoice('note')">🎤 POZNÁMKA</button>
+                <button style="background:#34495e" onclick="openMoreMenu()">⋯ DALŠÍ</button>
+                <button class="header-icon-btn" style="background:#9b59b6" title="Zobrazit/skrýt gramy" onclick="document.body.classList.toggle('show-w'); adjustSpacing();">⚖️</button>
+                <button class="header-icon-btn" style="background:#f39c12" title="Zobrazit/skrýt poznámky" onclick="document.body.classList.toggle('show-n'); adjustSpacing();">📝</button>
             </div>
-            <div class="btn-row">
-                <select id="filterSelect" onchange="setFilter(this.value)">
-                    <option value="all">Období: VŠE</option>
-                    <option value="currentWeek">Aktuální týden</option>
-                    <option value="lastWeek">Minulý týden</option>
-                    <option value="14days">Posledních 14 dní</option>
-                    <option value="lastMonth">Minulý měsíc</option>
-                </select>
-                <select id="mealFilterSelect" onchange="setMealFilter(this.value)">
-                    <option value="all">Jídlo: VŠE</option>
-                    <option value="0">Pouze snídaně</option>
-                    <option value="1">Pouze dop. svačina</option>
-                    <option value="2">Pouze oběd</option>
-                    <option value="3">Pouze odp. svačina</option>
-                    <option value="4">Pouze večeře</option>
-                </select>
-                <button style="background:#7f8c8d; max-width: 45px; font-size: 1.1rem;"
-                    onclick="openSettings()">⚙️</button>
-                <button style="background:#2c3e50; max-width: 45px; font-size: 1.1rem;"
-                    onclick="openDraft()">📥</button>
-                <button style="background:#9b59b6; max-width: 45px; font-size: 1.1rem;"
-                    onclick="document.body.classList.toggle('show-w')">⚖️</button>
-                <button style="background:#f39c12; max-width: 45px; font-size: 1.1rem;"
-                    onclick="document.body.classList.toggle('show-n')">📝</button>
+            <div class="reorder-active-strip">
+                <span>↕️ Přeskládání plánu je aktivní</span>
+                <button type="button" onclick="togglePlanReorderMode()">✅ HOTOVO</button>
+            </div>
+            <div class="btn-row filter-row">
+                <button type="button" class="filter-open-btn" onclick="openFilterModal()">🔎 FILTRY</button>
+                <div id="activeFilterSummary" class="filter-summary">Filtry: vše</div>
             </div>
         </div>
     </div>
 
     <div class="content-area" id="cardContainer">
+    </div>
+
+    <div class="modal-overlay" id="filterModal">
+        <div class="modal-box filter-modal-box" style="max-width:430px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">Filtry záznamů</div>
+            <div class="modal-text" style="text-align:left;">Vyberte, co chcete v deníku zobrazit. Filtry se dají kombinovat.</div>
+            <div class="filter-grid">
+                <div class="filter-block">
+                    <label class="filter-title" for="filterTextInput">Hledat slovo</label>
+                    <input id="filterTextInput" type="text" placeholder="např. vyrážka, banán, kaše..." oninput="applyFilterModal(false)">
+                </div>
+                <div class="filter-block">
+                    <label class="filter-title" for="filterPeriodInput">Období</label>
+                    <select id="filterPeriodInput" onchange="applyFilterModal(false)">
+                        <option value="all">Vše</option>
+                        <option value="currentWeek">Aktuální týden</option>
+                        <option value="lastWeek">Minulý týden</option>
+                        <option value="14days">Posledních 14 dní</option>
+                        <option value="lastMonth">Minulý měsíc</option>
+                    </select>
+                </div>
+                <div class="filter-block">
+                    <label class="filter-title">Druhy jídel</label>
+                    <div class="filter-checks" id="mealFilterChecks">
+                        <label><input type="checkbox" value="0" onchange="applyFilterModal(false)"> Snídaně</label>
+                        <label><input type="checkbox" value="1" onchange="applyFilterModal(false)"> Dop. svačina</label>
+                        <label><input type="checkbox" value="2" onchange="applyFilterModal(false)"> Oběd</label>
+                        <label><input type="checkbox" value="3" onchange="applyFilterModal(false)"> Odp. svačina</label>
+                        <label><input type="checkbox" value="4" onchange="applyFilterModal(false)"> Večeře</label>
+                    </div>
+                    <div style="font-size:0.75rem; color:#7f8c8d; margin-top:6px;">Když není nic zaškrtnuté, zobrazí se všechny druhy jídel.</div>
+                </div>
+                <div class="filter-block">
+                    <label class="filter-title" for="ratingFilterInput">Hodnocení</label>
+                    <select id="ratingFilterInput" onchange="applyFilterModal(false)">
+                        <option value="all">Vše</option>
+                        <option value="😍">Jen chutnalo 😍</option>
+                        <option value="🙂">Jen dobré 🙂</option>
+                        <option value="😐">Jen základ 😐</option>
+                        <option value="☹️">Jen nechutnalo ☹️</option>
+                    </select>
+                </div>
+                <div class="filter-block">
+                    <label class="filter-title" for="viewFilterInput">Zobrazení</label>
+                    <select id="viewFilterInput" onchange="applyFilterModal(false)">
+                        <option value="all">Vše</option>
+                        <option value="real">Jen deník</option>
+                        <option value="plan">Jen plán</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-modal-actions">
+                <button class="modal-btn btn-merge" onclick="applyFilterModal(true)">✅ POUŽÍT A ZAVŘÍT</button>
+                <button class="modal-btn" style="background:#3498db" onclick="resetAllFilters()">🔄 VYNULOVAT FILTRY</button>
+                <button class="modal-btn btn-cancel" onclick="closeFilterModal()">ZAVŘÍT</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="moreMenuModal">
+        <div class="modal-box">
+            <div class="modal-title">Další funkce</div>
+            <div class="modal-text">Méně časté nástroje jsou schované tady, aby deník při listování nezabíral tolik místa.</div>
+            <div class="more-grid">
+                <button class="modal-btn" style="background:#16a085" onclick="closeMoreMenu(); openPlanner();">🗓️ Plán</button>
+                <button class="modal-btn" style="background:#8e44ad" onclick="closeMoreMenu(); openAiModal();">🤖 AI</button>
+                <button id="reorderPlanBtn" class="modal-btn" style="background:#3498db" onclick="closeMoreMenu(); togglePlanReorderMode();">↕️ Přeskládat</button>
+                <button class="modal-btn" style="background:#c0392b" onclick="closeMoreMenu(); openDeleteManager();">🧹 Smazat</button>
+                <button class="modal-btn" style="background:#1abc9c" onclick="closeMoreMenu(); openChildModal();">👶 Údaje dítěte</button>
+                <button class="modal-btn" style="background:#d35400" onclick="closeMoreMenu(); openAvoidListModal();">🚫 Vyhnout se</button>
+                <button class="modal-btn" style="background:#27ae60" onclick="closeMoreMenu(); openOverviewModal();">📊 Přehled jídel</button>
+                <button class="modal-btn" style="background:#2980b9" onclick="closeMoreMenu(); openManualModal();">📘 Manuál</button>
+                <button class="modal-btn" style="background:#2c3e50" onclick="closeMoreMenu(); openDraft();">📥 Rozpracované zápisy</button>
+                <button class="modal-btn" style="background:#7f8c8d" onclick="closeMoreMenu(); openSettings();">⚙️ Správa dat</button>
+            </div>
+            <button class="modal-btn btn-cancel" onclick="closeMoreMenu()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="childProfileModal">
+        <div class="modal-box">
+            <div class="modal-title">Údaje dítěte</div>
+            <div class="modal-text">Údaje se použijí hlavně pro AI podklad. Do AI se neposílá datum narození, jen vypočtený věk.</div>
+            <div class="child-profile-row" aria-label="Údaje o dítěti">
+                <div class="child-profile-field">
+                    <label for="childBirthDate">Datum narození</label>
+                    <input id="childBirthDate" type="date" onchange="saveChildProfile()">
+                </div>
+                <div class="child-profile-field">
+                    <label for="childWeight">Váha kg</label>
+                    <input id="childWeight" type="number" inputmode="decimal" step="0.1" min="0" placeholder="např. 9,5" oninput="saveChildProfile()">
+                </div>
+                <div class="child-profile-field">
+                    <label for="childHeight">Výška cm</label>
+                    <input id="childHeight" type="number" inputmode="decimal" step="0.1" min="0" placeholder="volitelné" oninput="saveChildProfile()">
+                </div>
+                <div class="child-profile-field">
+                    <label>Věk</label>
+                    <div class="child-age-box" id="childAgeDisplay">nezadáno</div>
+                </div>
+            </div>
+            <button class="modal-btn btn-merge" style="margin-top:15px;" onclick="closeChildModal()">ULOŽIT A ZAVŘÍT</button>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="avoidListModal">
+        <div class="modal-box" style="max-width:430px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">Vyhnout se</div>
+            <div class="modal-text" style="text-align:left;">Sem napište potraviny, jídla nebo kombinace, které se nemají používat v offline plánu ani v AI promptu. Každý řádek jedna položka.</div>
+            <textarea id="avoidListText" class="avoid-list-textarea" placeholder="např. vejce\nkousky mrkve\nkonkrétní sklenička..."></textarea>
+            <button class="modal-btn btn-merge" style="margin-top:12px;" onclick="saveAvoidListFromModal()">💾 ULOŽIT</button>
+            <button class="modal-btn btn-cancel" onclick="closeAvoidListModal()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="overviewModal">
+        <div class="modal-box" style="max-width:460px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">Přehled jídel</div>
+            <div id="overviewContent"></div>
+            <button class="modal-btn btn-cancel" onclick="closeOverviewModal()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="manualModal">
+        <div class="modal-box manual-modal-box">
+            <button type="button" class="ai-close-x" onclick="closeManualModal()">×</button>
+            <div class="modal-title" style="text-align:center;">Manuál aplikace</div>
+            <div class="manual-intro">
+                Tento manuál popisuje hlavní funkce deníku výživy, plánování jídelníčku a práci s AI. Většinu méně častých nástrojů najdete přes tlačítko <b>⋯ DALŠÍ</b>.
+            </div>
+
+            <details class="manual-section" open>
+                <summary>🟢 Rychlé zapisování dne</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li><b>NOVÝ +</b> vytvoří nový den s dnešním datem.</li>
+                        <li><b>DNES</b> skočí na dnešní záznam. Pokud dnešek ještě neexistuje, aplikace ho nabídne vytvořit.</li>
+                        <li><b>🎤 JÍDLO</b> zapisuje nadiktované jídlo.</li>
+                        <li><b>🎤 POZNÁMKA</b> zapisuje poznámku k vybranému jídlu.</li>
+                        <li>Když klepnete do konkrétní buňky, diktování zapisuje přímo do ní.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>🔎 Filtry a zobrazení</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li><b>🔎 FILTRY</b> otevřou jedno přehledné okno pro všechny filtry.</li>
+                        <li><b>Hledat slovo</b> najde text v datu, denní poznámce, jídlech, poznámkách i AI návrzích.</li>
+                        <li><b>Druhy jídel</b> lze kombinovat, například snídaně + svačiny nebo oběd + večeře.</li>
+                        <li><b>Hodnocení</b> zobrazí jen vybrané smajlíky.</li>
+                        <li><b>Zobrazení</b> přepíná mezi vším, skutečným deníkem a plánem.</li>
+                        <li><b>⚖️</b> zobrazí nebo skryje gramy. <b>📝</b> zobrazí nebo skryje poznámky.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>🙂 Hodnocení jídel</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Hodnocení se přepíná klepnutím na smajlíka u jídla.</li>
+                        <li><b>😍</b> znamená velmi chutnalo.</li>
+                        <li><b>🙂</b> znamená dobré.</li>
+                        <li><b>😐</b> je základní výchozí hodnocení.</li>
+                        <li><b>☹️</b> znamená nechutnalo nebo nevhodné.</li>
+                    </ul>
+                    <div class="manual-note">AI i offline plán se snaží vycházet hlavně z lepších hodnocení a vyhýbat se negativním položkám.</div>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>🗓️ Offline plán</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Najdete ho přes <b>⋯ DALŠÍ → Plán</b>.</li>
+                        <li>Plán se skládá z minulých jídel podle zvoleného hodnocení.</li>
+                        <li>Lze vytvořit plán na 7, 14 nebo 30 dní.</li>
+                        <li>Plánované dny mají štítek <b>PLÁN</b>.</li>
+                        <li>Offline plán nepoužívá internet ani API klíč.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>🤖 AI jídelníček a Gemini</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>AI najdete přes <b>⋯ DALŠÍ → AI</b>.</li>
+                        <li>Nejdřív lze vytvořit podklad pro AI a ručně ho zkopírovat.</li>
+                        <li>Po vložení Gemini API klíče ve <b>Správě dat</b> lze vytvořit plán přímo přes Gemini.</li>
+                        <li>Gemini má vracet přesný počet dní a formát vhodný pro import.</li>
+                        <li>Odpověď se zobrazí ke kontrole a teprve potom ji lze importovat jako plán.</li>
+                    </ul>
+                    <div class="manual-note">API klíč se ukládá jen v tomto zařízení a není součástí záloh. U čisté HTML aplikace ale nejde klíč stoprocentně skrýt před uživatelem zařízení.</div>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>✨ AI návrhy u jídel</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Gemini může pod hlavní jídlo přidat <b>AI návrh na rozšíření</b>.</li>
+                        <li>Hlavní jídlo vychází hlavně z historie.</li>
+                        <li>AI návrh má být nová věkově přiměřená možnost, kterou jste ještě nezkoušeli.</li>
+                        <li><b>POUŽÍT</b> přesune návrh do hlavního jídla.</li>
+                        <li><b>ZAMÍTNOUT</b> návrh odstraní.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>↕️ Přeskládání plánu</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Spustíte přes <b>⋯ DALŠÍ → Přeskládat</b>.</li>
+                        <li>Přeskládání funguje jen pro záznamy označené jako <b>PLÁN</b>.</li>
+                        <li>Kartu lze přetáhnout prstem. Při tažení k okraji se stránka posouvá.</li>
+                        <li>Jako jistota jsou u karet také tlačítka <b>⬆️</b>, <b>⬇️</b> a <b>⇄</b>.</li>
+                        <li>Po přesunu se datumy plánovaných dnů automaticky přepočítají.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>📅 Ruční změna data a prohození dnů</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Datum lze upravit přímo v hlavičce karty.</li>
+                        <li>Když cílové datum už existuje, aplikace nabídne možnosti tlačítky.</li>
+                        <li><b>Prohodit dny/karty</b> vymění obsah dvou dnů.</li>
+                        <li><b>Přepsat cílové datum</b> nahradí cílový záznam touto kartou.</li>
+                        <li>U plánovaných záznamů se při přepsání umí vytvořit prázdná plánovaná karta na původním datu, aby v plánu nevznikla mezera.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>🧹 Mazání a zrušení plánu</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Najdete přes <b>⋯ DALŠÍ → Smazat</b>.</li>
+                        <li>Lze mazat období od data do data.</li>
+                        <li>Lze zapnout ruční označování dnů a smazat vybrané karty.</li>
+                        <li><b>Zrušit jen plán</b> smaže pouze záznamy označené jako <b>PLÁN</b>.</li>
+                        <li>Skutečné historické záznamy se při zrušení plánu nemažou.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>✅ Převod plánu na skutečný den</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>U plánované karty je tlačítko <b>✅ SKUTEČNÝ DEN</b>.</li>
+                        <li>Po potvrzení se záznam přestane brát jako plán a stane se běžným deníkem.</li>
+                        <li>Je vhodné ho použít až po skutečném proběhnutí dne a případné ruční úpravě toho, co dítě opravdu snědlo.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>👶 Údaje dítěte a 🚫 Vyhnout se</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li><b>Údaje dítěte</b> slouží hlavně pro AI plánování.</li>
+                        <li>Datum narození se do AI neposílá, posílá se jen vypočtený věk v měsících.</li>
+                        <li>Váha a výška se do AI použijí jen tehdy, když jsou vyplněné.</li>
+                        <li><b>Vyhnout se</b> je ruční seznam jídel, surovin nebo kombinací, které nemá používat offline plán ani AI.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>📊 Přehled jídel</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Zobrazí nejčastější jídla, oblíbená jídla, nechutnalo, AI nápady a ruční seznam vyhnout se.</li>
+                        <li>Přehled bere jako základ hlavně skutečný deník, ne plán.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>📥 Rozpracované zápisy</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li>Slouží pro digitalizaci starých papírů nebo průběžné zapisování bokem.</li>
+                        <li>Zápisy lze později odeslat do hlavního deníku.</li>
+                        <li>Při shodném datu se hlavní deník může přepsat rozpracovaným záznamem.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="manual-section">
+                <summary>⚙️ Správa dat a zálohy</summary>
+                <div class="manual-section-content">
+                    <ul>
+                        <li><b>Export JSON</b> vytvoří zálohu celé aplikace.</li>
+                        <li><b>Import JSON</b> obnoví nebo sloučí zálohu.</li>
+                        <li><b>CSV export/import</b> slouží pro práci s tabulkami.</li>
+                        <li>Aplikace si před rizikovými akcemi vytváří automatickou vnitřní zálohu.</li>
+                        <li><b>Obnovit poslední auto zálohu</b> vrátí poslední bezpečně uložený stav.</li>
+                    </ul>
+                    <div class="manual-note">Doporučení: před většími úpravami nebo importem si udělejte ruční JSON zálohu.</div>
+                </div>
+            </details>
+
+            <button class="modal-btn btn-cancel" onclick="closeManualModal()">ZAVŘÍT</button>
+        </div>
     </div>
 
     <div class="modal-overlay" id="settingsModal">
@@ -434,6 +1442,25 @@
             <div style="border-top: 1px solid #eee; margin-bottom: 15px;"></div>
             <button class="modal-btn btn-export" onclick="exportData()">💾 ZÁLOHA APLIKACE (.json)</button>
             <button class="modal-btn btn-import" onclick="triggerImport()">📂 OBNOVA APLIKACE (.json)</button>
+            <button class="modal-btn" style="background:#16a085" onclick="restoreLastAutoBackup()">↩️ OBNOVIT POSLEDNÍ AUTO ZÁLOHU</button>
+
+            <div style="border-top: 1px solid #eee; margin: 18px 0 15px;"></div>
+            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">Gemini AI</div>
+            <div class="small-help-text">API klíč se uloží jen v tomto zařízení a není součástí záloh. U čisté HTML aplikace ale nejde klíč stoprocentně skrýt před uživatelem zařízení.</div>
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Gemini API klíč</label>
+            <input type="password" id="geminiApiKey" placeholder="AIza..." autocomplete="off" style="width:100%; box-sizing:border-box; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px;">
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Model</label>
+            <select id="geminiModel" style="width:100%; margin-bottom:10px;">
+                <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash</option>
+                <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+                <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+            </select>
+            <div id="geminiSettingsStatus" class="ai-status"></div>
+            <button class="modal-btn btn-merge" onclick="saveGeminiSettings()">💾 ULOŽIT GEMINI</button>
+            <button class="modal-btn btn-import" onclick="testGeminiConnection()">🔌 OTESTOVAT GEMINI</button>
+            <button class="modal-btn btn-overwrite" onclick="deleteGeminiSettings()">🗑️ SMAZAT API KLÍČ</button>
+
+            <button class="modal-btn" style="background:#2980b9" onclick="closeSettings(); openManualModal();">📘 OTEVŘÍT MANUÁL</button>
             <button class="modal-btn btn-cancel" onclick="closeSettings()">ZAVŘÍT</button>
             <button class="modal-btn btn-overwrite" style="margin-top: 30px;" onclick="clearAllMainData()">🔥 SMAZAT
                 ÚPLNĚ VŠECHNA DATA</button>
@@ -453,9 +1480,132 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="plannerModal">
+        <div class="modal-box">
+            <div class="modal-title">Návrh jídelníčku</div>
+            <div class="modal-text">Offline návrh podle uložené historie. Nechutnalo ☹️ se nikdy nepoužije.</div>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Vybírat podle hodnocení</label>
+            <select id="plannerRatingMode" style="width:100%; margin-bottom:10px;">
+                <option value="love">Jen chutnalo 😍</option>
+                <option value="good" selected>Chutnalo 😍 + dobré 🙂</option>
+                <option value="base">Chutnalo 😍 + dobré 🙂 + základ 😐</option>
+            </select>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Délka návrhu</label>
+            <select id="plannerDays" style="width:100%; margin-bottom:10px;">
+                <option value="7">7 dní</option>
+                <option value="14">14 dní</option>
+                <option value="30" selected>30 dní</option>
+            </select>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Co vyplnit</label>
+            <select id="plannerMealScope" style="width:100%; margin-bottom:15px;">
+                <option value="all" selected>Všechna jídla</option>
+                <option value="0">Jen snídaně</option>
+                <option value="1">Jen dopolední svačiny</option>
+                <option value="2">Jen obědy</option>
+                <option value="3">Jen odpolední svačiny</option>
+                <option value="4">Jen večeře</option>
+            </select>
+
+            <button class="modal-btn btn-merge" onclick="generateMealPlan()">✅ VYTVOŘIT NÁVRH</button>
+            <button class="modal-btn btn-overwrite" onclick="cancelGeneratedPlan()">🗑️ ZRUŠIT PLÁN</button>
+            <button class="modal-btn btn-cancel" onclick="closePlanner()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="aiModal" onclick="if (event.target === this) closeAiModal()">
+        <div class="modal-box" style="max-width:560px;">
+            <button type="button" class="ai-close-x" onclick="closeAiModal()" aria-label="Zavřít AI okno">×</button>
+            <div class="modal-title">AI jídelníček</div>
+            <div class="modal-text">Můžete vytvořit podklad ke zkopírování, nebo zavolat Gemini přímo přes vlastní API klíč uložený v nastavení.</div>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Z čeho má AI vycházet</label>
+            <select id="aiRatingMode" style="width:100%; margin-bottom:10px;">
+                <option value="love">Jen chutnalo 😍</option>
+                <option value="good" selected>Chutnalo 😍 + dobré 🙂</option>
+                <option value="base">Chutnalo 😍 + dobré 🙂 + základ 😐</option>
+            </select>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Délka AI návrhu</label>
+            <select id="aiDays" style="width:100%; margin-bottom:10px;">
+                <option value="7">7 dní</option>
+                <option value="14">14 dní</option>
+                <option value="30" selected>30 dní</option>
+            </select>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Co má AI plánovat</label>
+            <select id="aiMealScope" style="width:100%; margin-bottom:12px;">
+                <option value="all" selected>Všechna jídla</option>
+                <option value="0">Jen snídaně</option>
+                <option value="1">Jen dopolední svačiny</option>
+                <option value="2">Jen obědy</option>
+                <option value="3">Jen odpolední svačiny</option>
+                <option value="4">Jen večeře</option>
+            </select>
+
+            <textarea id="aiPromptOutput" readonly style="width:100%; min-height:220px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
+            <button class="modal-btn btn-merge" onclick="generateAiPrompt()">🤖 VYTVOŘIT PODKLAD</button>
+            <button class="modal-btn btn-import" onclick="copyAiPrompt()">📋 KOPÍROVAT TEXT PRO AI</button>
+
+            <div style="border-top:1px solid #eee; margin:18px 0 14px;"></div>
+            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">Přímé dotazování Gemini</div>
+            <div class="small-help-text">Použije se Gemini API klíč ze Správy dat. Odpověď se nejdřív zobrazí ke kontrole a zároveň se připraví pro import.</div>
+            <div id="geminiAiStatus" class="ai-status"></div>
+            <button class="modal-btn btn-merge" style="background:#8e44ad;" onclick="generatePlanWithGemini()">🤖 VYTVOŘIT PLÁN PŘES GEMINI</button>
+            <textarea id="aiGeminiOutput" readonly placeholder="Tady se zobrazí odpověď Gemini..." style="width:100%; min-height:170px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
+            <button class="modal-btn btn-import" onclick="moveGeminiResponseToImport()">⬇️ PŘIPRAVIT ODPOVĚĎ K IMPORTU</button>
+
+            <div style="border-top:1px solid #eee; margin:18px 0 14px;"></div>
+            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">Import AI jídelníčku</div>
+            <div class="modal-text" style="margin-bottom:10px;">Sem vložte jen výsledný blok jídelníčku od AI. Aplikace ho uloží jako PLÁN.</div>
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Začít plán od data</label>
+            <input type="date" id="aiImportStartDate" style="width:100%; box-sizing:border-box; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px; font-weight:bold; color:#2c3e50;">
+            <textarea id="aiPlanInput" placeholder="Vložte například:
+
+DEN 1
+Snídaně: ...
+Dop. svačina: ...
+Oběd: ...
+Odp. svačina: ...
+Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
+            <button class="modal-btn btn-merge" onclick="importAiPlan()">📥 IMPORTOVAT AI PLÁN</button>
+            <button class="modal-btn btn-cancel" onclick="closeAiModal()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal-overlay" id="deleteManagerModal">
+        <div class="modal-box">
+            <div class="modal-title">Mazání záznamů</div>
+            <div class="modal-text">Nejdřív doporučuji udělat zálohu. Mazání je trvalé.</div>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Smazat období od–do</label>
+            <div class="date-input-row">
+                <input type="date" id="deleteDateFrom">
+                <input type="date" id="deleteDateTo">
+            </div>
+            <button class="modal-btn btn-overwrite" onclick="deleteByDateRange()">🗑️ SMAZAT OBDOBÍ</button>
+            <button class="modal-btn btn-overwrite" style="background:#d35400" onclick="cancelGeneratedPlan()">🗑️ ZRUŠIT JEN PLÁN</button>
+
+            <div style="border-top: 1px solid #eee; margin: 18px 0 15px;"></div>
+            <button class="modal-btn btn-import" onclick="startDeleteSelectionMode()">☑️ RUČNĚ OZNAČIT DNY</button>
+            <button class="modal-btn btn-cancel" onclick="closeDeleteManager()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="delete-toolbar" id="deleteToolbar">
+        <button style="background:var(--danger)" onclick="deleteSelectedDates()">🗑️ SMAZAT VYBRANÉ</button>
+        <button style="background:#7f8c8d" onclick="clearDeleteSelection()">ODZNAČIT</button>
+        <button style="background:#34495e" onclick="stopDeleteSelectionMode()">HOTOVO</button>
+    </div>
+
     <div class="modal-overlay" id="draftModal">
         <div class="draft-content">
-            <div class="draft-header">Zpracování starých papírů</div>
+            <div class="draft-header">Rozpracované zápisy</div>
             <div class="draft-controls">
                 <select id="draftYear" style="flex: 1; max-width: 80px; padding: 8px;">
                     <option value="2026">2026</option>
@@ -488,6 +1638,24 @@
         const topMenu = document.getElementById('topMenu');
         let currentFilter = 'all';
         let currentMealFilter = 'all';
+        let currentRatingFilter = 'all';
+        let currentViewFilter = 'all';
+        let currentTextFilter = '';
+        let isRendering = false;
+        let deleteSelectionMode = false;
+        let selectedDeleteDates = new Set();
+        let reorderPlanMode = false;
+        let draggedPlanCard = null;
+        let planDragPlaceholder = null;
+        let planDragAutoScrollFrame = null;
+        let planDragLastClientY = 0;
+        let planDragLastClientX = 0;
+        let planDragOffsetY = 0;
+        let planDragOffsetX = 0;
+        let planDragMoved = false;
+        let selectedPlanCardForSwap = null;
+        const PLAN_DRAG_SCROLL_EDGE = 120;
+        const PLAN_DRAG_SCROLL_MAX_SPEED = 34;
         let lastFocusedElement = null;
         let pendingImportData = null;
         const rates = { '🙂': '#e3f9e5', '😍': '#fff9db', '😐': '#eef2f3', '☹️': '#ffe3e3' };
@@ -495,8 +1663,429 @@
         // Názvy 5 jídel
         const mealLabels = ["Snídaně", "Dop. Svačina", "Oběd", "Odp. Svačina", "Večeře"];
 
+        const CHILD_PROFILE_KEY = 'nutri_child_profile_v1';
+        const GEMINI_SETTINGS_KEY = 'nutri_gemini_settings_v1';
+        const AVOID_LIST_KEY = 'nutri_avoid_list_v1';
+        const AUTO_BACKUP_KEY = 'nutri_last_auto_backup_v1';
+        const DATA_VERSION = 3;
+
+        function getChildProfile() {
+            const raw = localStorage.getItem(CHILD_PROFILE_KEY);
+            try { return raw ? JSON.parse(raw) : {}; } catch (e) { return {}; }
+        }
+
+        function loadChildProfile() {
+            const profile = getChildProfile();
+            const birthInput = document.getElementById('childBirthDate');
+            const weightInput = document.getElementById('childWeight');
+            const heightInput = document.getElementById('childHeight');
+            if (birthInput) birthInput.value = profile.birthDate || '';
+            if (weightInput) weightInput.value = profile.weight || '';
+            if (heightInput) heightInput.value = profile.height || '';
+            updateChildAgeDisplay();
+        }
+
+        function saveChildProfile() {
+            const profile = {
+                birthDate: (document.getElementById('childBirthDate')?.value || '').trim(),
+                weight: (document.getElementById('childWeight')?.value || '').trim(),
+                height: (document.getElementById('childHeight')?.value || '').trim()
+            };
+            localStorage.setItem(CHILD_PROFILE_KEY, JSON.stringify(profile));
+            updateChildAgeDisplay();
+            adjustSpacing();
+        }
+
+        function calculateAgeMonths(birthDateStr, referenceDate = new Date()) {
+            if (!birthDateStr) return null;
+            const birth = new Date(birthDateStr + 'T00:00:00');
+            if (Number.isNaN(birth.getTime()) || birth > referenceDate) return null;
+            let months = (referenceDate.getFullYear() - birth.getFullYear()) * 12 + (referenceDate.getMonth() - birth.getMonth());
+            if (referenceDate.getDate() < birth.getDate()) months--;
+            return Math.max(0, months);
+        }
+
+        function formatAgeMonths(months) {
+            if (months === null || months === undefined) return 'nezadáno';
+            if (months === 1) return '1 měsíc';
+            if (months >= 2 && months <= 4) return `${months} měsíce`;
+            return `${months} měsíců`;
+        }
+
+        function updateChildAgeDisplay() {
+            const display = document.getElementById('childAgeDisplay');
+            if (!display) return;
+            const profile = getChildProfile();
+            display.innerText = formatAgeMonths(calculateAgeMonths(profile.birthDate));
+        }
+
+        function getChildInfoForAi() {
+            const profile = getChildProfile();
+            const lines = [];
+            const ageMonths = calculateAgeMonths(profile.birthDate);
+            if (ageMonths !== null) lines.push(`- věk dítěte: ${formatAgeMonths(ageMonths)}`);
+            if (profile.weight) lines.push(`- aktuální váha: ${profile.weight} kg`);
+            if (profile.height) lines.push(`- aktuální výška: ${profile.height} cm`);
+            return lines;
+        }
+
+
+
+        function getAvoidList() {
+            const raw = localStorage.getItem(AVOID_LIST_KEY) || '';
+            return raw.split('\n').map(x => x.trim()).filter(Boolean);
+        }
+
+        function setAvoidList(items) {
+            const text = (items || []).map(x => (x || '').trim()).filter(Boolean).join('\n');
+            localStorage.setItem(AVOID_LIST_KEY, text);
+        }
+
+        function openAvoidListModal() {
+            const box = document.getElementById('avoidListText');
+            if (box) box.value = getAvoidList().join('\n');
+            document.getElementById('avoidListModal').style.display = 'flex';
+        }
+
+        function closeAvoidListModal() {
+            document.getElementById('avoidListModal').style.display = 'none';
+        }
+
+        function saveAvoidListFromModal() {
+            const box = document.getElementById('avoidListText');
+            setAvoidList((box ? box.value : '').split('\n'));
+            closeAvoidListModal();
+            alert('Seznam „Vyhnout se“ byl uložen. Použije se pro offline plán i pro AI prompt.');
+        }
+
+        function textMatchesAvoidList(text) {
+            const normalized = normalizeFoodName(text);
+            if (!normalized) return false;
+            return getAvoidList().some(item => {
+                const avoid = normalizeFoodName(item);
+                return avoid && (normalized.includes(avoid) || avoid.includes(normalized));
+            });
+        }
+
+        function createAutoBackup(reason) {
+            try {
+                const backup = {
+                    dataVersion: DATA_VERSION,
+                    createdAt: new Date().toISOString(),
+                    reason: reason || 'automatická záloha',
+                    entries: getMainData(),
+                    childProfile: getChildProfile(),
+                    avoidList: getAvoidList(),
+                    draft: getDraftData ? getDraftData() : []
+                };
+                localStorage.setItem(AUTO_BACKUP_KEY, JSON.stringify(backup));
+                return true;
+            } catch (err) {
+                console.warn('Auto záloha se nepodařila:', err);
+                return false;
+            }
+        }
+
+        function restoreLastAutoBackup() {
+            const raw = localStorage.getItem(AUTO_BACKUP_KEY);
+            if (!raw) {
+                alert('Žádná automatická záloha zatím není uložená.');
+                return;
+            }
+            let backup = null;
+            try { backup = JSON.parse(raw); } catch (err) { backup = null; }
+            if (!backup || !Array.isArray(backup.entries)) {
+                alert('Automatická záloha je poškozená nebo v neznámém formátu.');
+                return;
+            }
+            const when = backup.createdAt ? new Date(backup.createdAt).toLocaleString('cs-CZ') : 'neznámý čas';
+            if (!confirm(`Obnovit poslední automatickou zálohu?\n\nVytvořeno: ${when}\nDůvod: ${backup.reason || 'neuvedeno'}\n\nAktuální data budou nahrazena touto zálohou.`)) return;
+            localStorage.setItem('nutri_data_v13', JSON.stringify(normalizeAllEntries(backup.entries)));
+            if (backup.childProfile) localStorage.setItem(CHILD_PROFILE_KEY, JSON.stringify(backup.childProfile));
+            if (Array.isArray(backup.avoidList)) setAvoidList(backup.avoidList);
+            if (Array.isArray(backup.draft)) localStorage.setItem('nutri_draft', JSON.stringify(backup.draft));
+            closeSettings();
+            loadChildProfile();
+            load();
+            alert('Automatická záloha byla obnovena.');
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function normalizeEntry(item) {
+            const entry = item && typeof item === 'object' ? Object.assign({}, item) : {};
+            entry.d = (entry.d || '').trim();
+            entry.dn = (entry.dn || entry.dayNote || '').toString();
+            const meals = Array.isArray(entry.m) ? entry.m.slice(0, 5) : [];
+            while (meals.length < 5) meals.push({ t: '', w: '', n: '', r: '😐', a: '' });
+            entry.m = meals.map(m => ({
+                t: (m && m.t) ? String(m.t) : '',
+                w: (m && m.w) ? String(m.w) : '',
+                n: (m && m.n) ? String(m.n) : '',
+                r: (m && m.r) ? String(m.r) : '😐',
+                a: (m && m.a) ? String(m.a) : ''
+            }));
+            if (entry.planned === true) entry.planned = true;
+            else delete entry.planned;
+            return entry;
+        }
+
+        function normalizeAllEntries(data) {
+            return (Array.isArray(data) ? data : []).map(normalizeEntry).filter(item => item.d);
+        }
+
+        function openOverviewModal() {
+            const content = document.getElementById('overviewContent');
+            if (content) content.innerHTML = buildOverviewHtml();
+            document.getElementById('overviewModal').style.display = 'flex';
+        }
+
+        function closeOverviewModal() {
+            document.getElementById('overviewModal').style.display = 'none';
+        }
+
+        function openManualModal() {
+            document.getElementById('manualModal').style.display = 'flex';
+        }
+
+        function closeManualModal() {
+            document.getElementById('manualModal').style.display = 'none';
+        }
+
+        function addCount(map, key) {
+            if (!key) return;
+            map.set(key, (map.get(key) || 0) + 1);
+        }
+
+        function topListHtml(map, limit = 8) {
+            const rows = Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, limit);
+            if (rows.length === 0) return '<div style="color:#95a5a6;">Zatím žádná data.</div>';
+            return '<ul>' + rows.map(([name, count]) => `<li>${escapeHtml(name)} <b>${count}×</b></li>`).join('') + '</ul>';
+        }
+
+        function buildOverviewHtml() {
+            const data = getMainData().filter(item => item.planned !== true);
+            const loved = new Map();
+            const disliked = new Map();
+            const frequent = new Map();
+            const aiIdeas = new Map();
+            data.forEach(day => (day.m || []).forEach(meal => {
+                const text = (meal.t || '').trim();
+                if (text && !isEmptyMealText(text)) {
+                    addCount(frequent, text);
+                    if ((meal.r || '').trim() === '😍') addCount(loved, text);
+                    if ((meal.r || '').trim() === '☹️') addCount(disliked, text);
+                }
+                const idea = (meal.a || '').trim();
+                if (idea && !isEmptyMealText(idea)) addCount(aiIdeas, idea);
+            }));
+            const avoid = getAvoidList();
+            return `
+                <div class="overview-box"><h4>😍 Nejčastější oblíbená jídla</h4>${topListHtml(loved)}</div>
+                <div class="overview-box"><h4>📌 Nejčastější jídla celkově</h4>${topListHtml(frequent)}</div>
+                <div class="overview-box"><h4>☹️ Jídla, která nechutnala</h4>${topListHtml(disliked)}</div>
+                <div class="overview-box"><h4>✨ AI nápady k vyzkoušení</h4>${topListHtml(aiIdeas)}</div>
+                <div class="overview-box"><h4>🚫 Ruční seznam Vyhnout se</h4>${avoid.length ? '<ul>' + avoid.map(x => `<li>${escapeHtml(x)}</li>`).join('') + '</ul>' : '<div style="color:#95a5a6;">Seznam je prázdný.</div>'}</div>
+            `;
+        }
+
+        function buildPlanWarnings(generated) {
+            const warnings = [];
+            const data = Array.isArray(generated) ? generated : [];
+            const counts = new Map();
+            data.forEach(day => (day.m || []).forEach(meal => {
+                const text = (meal.t || '').trim();
+                if (text && !isEmptyMealText(text)) addCount(counts, normalizeFoodName(text));
+            }));
+            const frequent = Array.from(counts.entries()).filter(([, count]) => count >= 4).sort((a, b) => b[1] - a[1]);
+            if (frequent.length) warnings.push('Některá jídla se v plánu opakují častěji: ' + frequent.slice(0, 4).map(([name, count]) => `${name} ${count}×`).join(', ') + '.');
+            for (let dayIndex = 1; dayIndex < data.length; dayIndex++) {
+                for (let mealIndex = 0; mealIndex < 5; mealIndex++) {
+                    const prev = normalizeFoodName(data[dayIndex - 1]?.m?.[mealIndex]?.t || '');
+                    const current = normalizeFoodName(data[dayIndex]?.m?.[mealIndex]?.t || '');
+                    if (prev && current && prev === current) {
+                        warnings.push(`Stejné jídlo je dva dny po sobě: ${mealLabels[mealIndex]} – ${current}.`);
+                        return warnings;
+                    }
+                }
+            }
+            return warnings;
+        }
+
+        function appendPlanWarningsToMessage(baseMessage, generated) {
+            const warnings = buildPlanWarnings(generated);
+            if (!warnings.length) return baseMessage;
+            return baseMessage + '\n\nKontrola plánu:\n- ' + warnings.join('\n- ');
+        }
+
+        function getGeminiSettings() {
+            const raw = localStorage.getItem(GEMINI_SETTINGS_KEY);
+            try {
+                const parsed = raw ? JSON.parse(raw) : {};
+                return {
+                    apiKey: parsed.apiKey || '',
+                    model: parsed.model || 'gemini-2.5-flash'
+                };
+            } catch (e) {
+                return { apiKey: '', model: 'gemini-2.5-flash' };
+            }
+        }
+
+        function setStatusText(elementId, text, isError = false) {
+            const box = document.getElementById(elementId);
+            if (!box) return;
+            box.style.display = text ? 'block' : 'none';
+            box.style.color = isError ? '#c0392b' : '#2c3e50';
+            box.style.borderColor = isError ? '#e74c3c' : '#e1e7ec';
+            box.innerText = text || '';
+        }
+
+        function loadGeminiSettings() {
+            const settings = getGeminiSettings();
+            const keyInput = document.getElementById('geminiApiKey');
+            const modelSelect = document.getElementById('geminiModel');
+            if (keyInput) keyInput.value = settings.apiKey || '';
+            if (modelSelect) modelSelect.value = settings.model || 'gemini-2.5-flash';
+            setStatusText('geminiSettingsStatus', settings.apiKey ? 'Gemini API klíč je uložený jen v tomto zařízení.' : 'Gemini API klíč zatím není uložený.');
+        }
+
+        function saveGeminiSettings() {
+            const apiKey = (document.getElementById('geminiApiKey')?.value || '').trim();
+            const model = (document.getElementById('geminiModel')?.value || 'gemini-2.5-flash').trim();
+            if (!apiKey) {
+                setStatusText('geminiSettingsStatus', 'Nejdřív vložte Gemini API klíč.', true);
+                return;
+            }
+            localStorage.setItem(GEMINI_SETTINGS_KEY, JSON.stringify({ apiKey, model }));
+            setStatusText('geminiSettingsStatus', 'Gemini nastavení bylo uloženo. Klíč se neukládá do záloh aplikace.');
+        }
+
+        function deleteGeminiSettings() {
+            if (!confirm('Smazat uložený Gemini API klíč z tohoto zařízení?')) return;
+            localStorage.removeItem(GEMINI_SETTINGS_KEY);
+            loadGeminiSettings();
+            setStatusText('geminiSettingsStatus', 'Gemini API klíč byl smazán.');
+        }
+
+        function getGeminiResponseText(responseJson) {
+            const parts = responseJson?.candidates?.[0]?.content?.parts || [];
+            return parts.map(part => part.text || '').join('\n').trim();
+        }
+
+        function translateGeminiErrorMessage(message) {
+            const raw = String(message || '').trim();
+            const lower = raw.toLowerCase();
+
+            if (!raw) return 'Gemini vrátilo neznámou chybu. Zkuste to prosím znovu později.';
+            if (lower.includes('high demand') || lower.includes('spikes in demand') || lower.includes('try again later')) {
+                return 'Gemini je teď hodně vytížené. Jde většinou o dočasný stav. Zkuste to prosím za chvíli znovu.';
+            }
+            if (lower.includes('api key not valid') || lower.includes('invalid api key') || lower.includes('api_key_invalid')) {
+                return 'API klíč není platný. Zkontrolujte ho ve Správě dat → Gemini AI.';
+            }
+            if (lower.includes('permission') || lower.includes('forbidden') || lower.includes('not authorized')) {
+                return 'Gemini odmítlo požadavek kvůli oprávnění. Zkontrolujte API klíč a povolení Gemini API.';
+            }
+            if (lower.includes('quota') || lower.includes('rate limit') || lower.includes('resource exhausted')) {
+                return 'Byl překročen limit Gemini API nebo kvóta. Zkuste to později, případně zkontrolujte limity v Google AI Studiu.';
+            }
+            if (lower.includes('network') || lower.includes('failed to fetch')) {
+                return 'Nepodařilo se připojit ke Gemini. Zkontrolujte internet a zkuste to znovu.';
+            }
+            if (lower.includes('model') && (lower.includes('not found') || lower.includes('not supported'))) {
+                return 'Vybraný model Gemini není dostupný. Zkuste v nastavení vybrat jiný model.';
+            }
+            return raw;
+        }
+
+        function formatGeminiError(err) {
+            return `Chyba Gemini: ${translateGeminiErrorMessage(err && err.message ? err.message : err)}`;
+        }
+
+        async function callGeminiApi(promptText, statusElementId) {
+            const settings = getGeminiSettings();
+            if (!settings.apiKey) throw new Error('Gemini API klíč není uložený. Otevřete ⋯ DALŠÍ → Správa dat → Gemini AI.');
+            const model = settings.model || 'gemini-2.5-flash';
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-goog-api-key': settings.apiKey
+                },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            role: 'user',
+                            parts: [{ text: promptText }]
+                        }
+                    ],
+                    generationConfig: {
+                        temperature: 0.45,
+                        topP: 0.9,
+                        maxOutputTokens: 32768
+                    }
+                })
+            });
+
+            let data = null;
+            try { data = await response.json(); } catch (e) { data = null; }
+            if (!response.ok) {
+                const message = data?.error?.message || `Gemini API vrátilo chybu ${response.status}.`;
+                throw new Error(message);
+            }
+            const text = getGeminiResponseText(data);
+            if (!text) throw new Error('Gemini nevrátilo žádný textový jídelníček.');
+            return text;
+        }
+
+        async function testGeminiConnection() {
+            saveGeminiSettings();
+            setStatusText('geminiSettingsStatus', 'Testuji připojení ke Gemini...');
+            try {
+                const text = await callGeminiApi('Odpověz pouze slovem OK.', 'geminiSettingsStatus');
+                setStatusText('geminiSettingsStatus', `Připojení funguje. Odpověď: ${text.slice(0, 80)}`);
+            } catch (err) {
+                setStatusText('geminiSettingsStatus', formatGeminiError(err), true);
+            }
+        }
+
+
+        function updateChildSummary() {
+            // Údaje o dítěti jsou schované v modalu; souhrn zatím nezobrazujeme v pevné hlavičce, aby zůstala co nejnižší.
+            updateChildAgeDisplay();
+        }
+
+        function openMoreMenu() {
+            document.getElementById('moreMenuModal').style.display = 'flex';
+        }
+
+        function closeMoreMenu() {
+            document.getElementById('moreMenuModal').style.display = 'none';
+        }
+
+        function openChildModal() {
+            loadChildProfile();
+            document.getElementById('childProfileModal').style.display = 'flex';
+            adjustSpacing();
+        }
+
+        function closeChildModal() {
+            saveChildProfile();
+            document.getElementById('childProfileModal').style.display = 'none';
+            adjustSpacing();
+        }
+
+
         function adjustSpacing() { document.getElementById('cardContainer').style.marginTop = (topMenu.offsetHeight + 15) + "px"; }
-        window.onload = () => { load(); adjustSpacing(); };
+        window.onload = () => { migrateStoredDataIfNeeded(); loadChildProfile(); load(); adjustSpacing(); setInterval(updateChildAgeDisplay, 3600000); };
         window.onresize = adjustSpacing;
 
         document.addEventListener('click', (e) => {
@@ -505,18 +2094,60 @@
             }
         }, true);
 
-        function save() {
-            const cards = Array.from(document.querySelectorAll('.card'));
-            const data = cards.map(c => ({
-                d: c.querySelector('.card-header').innerText.trim(),
-                m: Array.from(c.querySelectorAll('.meal-item')).map(item => ({
+        function getMainData() {
+            const raw = localStorage.getItem('nutri_data_v13');
+            try { return normalizeAllEntries(raw ? JSON.parse(raw) : []); } catch (e) { return []; }
+        }
+
+        function setMainData(data) {
+            localStorage.setItem('nutri_data_v13', JSON.stringify(sortEntriesByDate(normalizeAllEntries(data))));
+        }
+
+        function migrateStoredDataIfNeeded() {
+            const raw = localStorage.getItem('nutri_data_v13');
+            if (!raw) return;
+            try {
+                const parsed = JSON.parse(raw);
+                const normalized = normalizeAllEntries(parsed);
+                if (JSON.stringify(parsed) !== JSON.stringify(normalized)) {
+                    localStorage.setItem('nutri_data_v13', JSON.stringify(sortEntriesByDate(normalized)));
+                }
+            } catch (err) { }
+        }
+
+        function readCardData(card) {
+            const data = {
+                d: card.querySelector('.card-header').innerText.trim(),
+                dn: card.querySelector('.day-note-box') ? card.querySelector('.day-note-box').innerText.trim() : '',
+                m: Array.from(card.querySelectorAll('.meal-item')).map(item => ({
                     t: item.querySelector('.m-box').innerText,
                     w: item.querySelector('.w-box').value,
                     n: item.querySelector('.n-box').innerText,
-                    r: item.querySelector('.rating').innerText
+                    r: item.querySelector('.rating').innerText,
+                    a: item.querySelector('.ai-suggestion-text') ? item.querySelector('.ai-suggestion-text').innerText.trim() : ''
                 }))
-            }));
-            localStorage.setItem('nutri_data_v13', JSON.stringify(data));
+            };
+            if (card.dataset.planned === 'true') data.planned = true;
+            return data;
+        }
+
+        function save() {
+            if (isRendering) return;
+            const cards = Array.from(container.querySelectorAll(':scope > .card'));
+            let fullData = getMainData();
+
+            cards.forEach(card => {
+                const originalDate = card.dataset.originalDate || '';
+                const cardData = readCardData(card);
+                let idx = fullData.findIndex(item => (item.d || '').trim() === originalDate);
+                if (idx === -1) idx = fullData.findIndex(item => (item.d || '').trim() === cardData.d);
+                if (idx === -1) fullData.unshift(cardData);
+                else fullData[idx] = cardData;
+                card.dataset.originalDate = cardData.d;
+                card.dataset.planned = cardData.planned ? 'true' : 'false';
+            });
+
+            setMainData(fullData);
         }
 
         function saveAndReload() {
@@ -524,39 +2155,212 @@
             load();
         }
 
+        function normalizeDateText(dateText) {
+            const parsed = parseDateValue(dateText);
+            return parsed ? formatDateValue(parsed) : (dateText || '').trim();
+        }
+
+        function createEmptyMealSet() {
+            return mealLabels.map(() => ({ t: '', w: '', n: '', r: '😐' }));
+        }
+
+        function createEmptyPlanCard(dateText) {
+            return { d: dateText, dn: '', m: createEmptyMealSet(), planned: true };
+        }
+
+        function closeDateConflictModal(result) {
+            const overlay = document.getElementById('dateConflictModalDynamic');
+            if (!overlay) return;
+            const resolver = overlay._resolveChoice;
+            overlay.remove();
+            if (typeof resolver === 'function') resolver(result);
+        }
+
+        function chooseDateConflictAction(oldDate, newDate, currentIsPlan, targetIsPlan) {
+            return new Promise(resolve => {
+                const previous = document.getElementById('dateConflictModalDynamic');
+                if (previous) previous.remove();
+
+                const overlay = document.createElement('div');
+                overlay.id = 'dateConflictModalDynamic';
+                overlay.className = 'modal-overlay';
+                overlay.style.display = 'flex';
+                overlay._resolveChoice = resolve;
+
+                const warningHtml = (!currentIsPlan || !targetIsPlan)
+                    ? '<div style="background:#fff3cd; border:1px solid #f1c40f; color:#7d6608; border-radius:8px; padding:10px; margin:10px 0; font-size:0.82rem; text-align:left;"><b>Pozor:</b> aspoň jeden záznam není označený jako PLÁN. U skutečné historie buďte opatrní.</div>'
+                    : '';
+
+                const emptyCardNote = currentIsPlan
+                    ? `<div style="font-size:0.78rem; color:#7f8c8d; margin-top:4px;">Na původním datu ${oldDate} se automaticky vytvoří prázdná plánovaná karta, aby v plánu nevznikla mezera.</div>`
+                    : '';
+
+                overlay.innerHTML = `
+                    <div class="modal-box" style="max-width:430px; text-align:left;">
+                        <div class="modal-title" style="text-align:center;">Datum už existuje</div>
+                        <div class="modal-text" style="text-align:left; margin-bottom:12px;">
+                            Na datu <b>${newDate}</b> už je jiný záznam. Co chcete udělat s kartou z data <b>${oldDate}</b>?
+                        </div>
+                        ${warningHtml}
+                        <button class="modal-btn btn-merge" style="text-align:center;" onclick="closeDateConflictModal('swap')">⇄ PROHODIT DNY / KARTY</button>
+                        <button class="modal-btn btn-overwrite" style="text-align:center;" onclick="closeDateConflictModal('overwrite')">PŘEPSAT CÍLOVÉ DATUM</button>
+                        ${emptyCardNote}
+                        <button class="modal-btn btn-cancel" style="text-align:center; margin-top:14px;" onclick="closeDateConflictModal('cancel')">ZRUŠIT ZMĚNU DATA</button>
+                    </div>`;
+
+                overlay.addEventListener('click', (ev) => {
+                    if (ev.target === overlay) closeDateConflictModal('cancel');
+                });
+
+                document.body.appendChild(overlay);
+            });
+        }
+
+        async function handleCardDateBlur(headerEl) {
+            const card = headerEl.closest('.card');
+            if (!card) return;
+
+            const oldDate = (card.dataset.originalDate || '').trim();
+            const typedDate = (headerEl.innerText || '').trim();
+            const newDate = normalizeDateText(typedDate);
+
+            if (!newDate) {
+                alert('Datum nesmí být prázdné.');
+                headerEl.innerText = oldDate;
+                return;
+            }
+
+            headerEl.innerText = newDate;
+
+            if (!oldDate || oldDate === newDate) {
+                saveAndReload();
+                return;
+            }
+
+            let data = getMainData();
+            const currentIdx = data.findIndex(item => (item.d || '').trim() === oldDate);
+            const targetIdx = data.findIndex(item => (item.d || '').trim() === newDate);
+            const currentCardData = readCardData(card);
+            currentCardData.d = newDate;
+            if (card.dataset.planned === 'true') currentCardData.planned = true;
+            else delete currentCardData.planned;
+
+            if (currentIdx === -1) {
+                saveAndReload();
+                return;
+            }
+
+            if (targetIdx === -1 || targetIdx === currentIdx) {
+                createAutoBackup('ruční změna data');
+                data[currentIdx] = currentCardData;
+                setMainData(data);
+                load();
+                return;
+            }
+
+            const targetItem = data[targetIdx];
+            const currentIsPlan = currentCardData.planned === true;
+            const targetIsPlan = targetItem && targetItem.planned === true;
+            const choice = await chooseDateConflictAction(oldDate, newDate, currentIsPlan, targetIsPlan);
+
+            if (choice === 'swap') {
+                createAutoBackup('prohození data karet');
+                const swappedTarget = Object.assign({}, targetItem, { d: oldDate });
+                data[currentIdx] = currentCardData;
+                data[targetIdx] = swappedTarget;
+                setMainData(data);
+                load();
+                return;
+            }
+
+            if (choice === 'overwrite') {
+                createAutoBackup('přepsání cílového data');
+                const emptyReplacement = currentIsPlan ? createEmptyPlanCard(oldDate) : null;
+                data.splice(targetIdx, 1);
+                const adjustedCurrentIdx = targetIdx < currentIdx ? currentIdx - 1 : currentIdx;
+                data[adjustedCurrentIdx] = currentCardData;
+                if (emptyReplacement) data.push(emptyReplacement);
+                setMainData(data);
+                load();
+                return;
+            }
+
+            headerEl.innerText = oldDate;
+            load();
+        }
+
         function load() {
+            isRendering = true;
             container.innerHTML = '';
             const saved = localStorage.getItem('nutri_data_v13');
-            if (!saved) { addCard(); return; }
-            let entries = JSON.parse(saved);
+            if (!saved) { isRendering = false; addCard(); return; }
+            let entries = getMainData();
             const now = new Date();
+
+            if (reorderPlanMode) {
+                const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const plannedEntries = entries
+                    .filter(e => e.planned === true)
+                    .map(e => ({ item: e, date: parseDateValue(e.d) }))
+                    .filter(x => x.date && x.date >= startOfToday)
+                    .sort((a, b) => b.date - a.date)
+                    .map(x => x.item);
+
+                container.innerHTML = '<div class="reorder-banner"><b>Režim přeskládání plánu</b><br>Plán je seřazen stejně jako běžný deník: nejnovější den nahoře. Podržte modrý pruh a přesuňte den, případně použijte šipky nebo tlačítko ⇄ pro spolehlivou výměnu dvou dnů. Po změně se datumy plánu automaticky přepočítají. Skutečná historie se nemění.</div>';
+
+                if (plannedEntries.length === 0) {
+                    container.innerHTML += '<div style="text-align:center; color:#95a5a6; margin-top:15px; background:white; padding:20px; border-radius:12px;">Není zde žádný budoucí PLÁN k přeskládání.</div>';
+                    isRendering = false;
+                    return;
+                }
+
+                plannedEntries.forEach(e => render(e));
+                isRendering = false;
+                return;
+            }
 
             // 1. Filtrace
             const filtered = entries.filter(e => {
                 const p = e.d.split('.');
-                if (p.length !== 3) return true;
-                const dDate = new Date(p[2], p[1] - 1, p[0]);
+                let dateMatches = true;
 
-                if (currentFilter === 'all') return true;
-                const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                if (currentFilter !== 'all') {
+                    if (p.length !== 3) {
+                        dateMatches = true;
+                    } else {
+                        const dDate = new Date(p[2], p[1] - 1, p[0]);
+                        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-                if (currentFilter === 'currentWeek') {
-                    const day = now.getDay() || 7;
-                    const mon = new Date(startOfToday); mon.setDate(startOfToday.getDate() - day + 1);
-                    return dDate >= mon;
+                        if (currentFilter === 'currentWeek') {
+                            const day = now.getDay() || 7;
+                            const mon = new Date(startOfToday); mon.setDate(startOfToday.getDate() - day + 1);
+                            dateMatches = dDate >= mon;
+                        } else if (currentFilter === 'lastWeek') {
+                            const day = now.getDay() || 7;
+                            const lastMon = new Date(startOfToday); lastMon.setDate(startOfToday.getDate() - day - 6);
+                            const lastSun = new Date(lastMon); lastSun.setDate(lastMon.getDate() + 6);
+                            dateMatches = dDate >= lastMon && dDate <= lastSun;
+                        } else if (currentFilter === '14days') {
+                            dateMatches = (startOfToday - dDate) / 86400000 <= 14;
+                        } else if (currentFilter === 'lastMonth') {
+                            let lm = now.getMonth() - 1, ly = now.getFullYear();
+                            if (lm < 0) { lm = 11; ly--; }
+                            dateMatches = dDate.getMonth() === lm && dDate.getFullYear() === ly;
+                        }
+                    }
                 }
-                if (currentFilter === 'lastWeek') {
-                    const day = now.getDay() || 7;
-                    const lastMon = new Date(startOfToday); lastMon.setDate(startOfToday.getDate() - day - 6);
-                    const lastSun = new Date(lastMon); lastSun.setDate(lastMon.getDate() + 6);
-                    return dDate >= lastMon && dDate <= lastSun;
+
+                if (!dateMatches) return false;
+                if (currentViewFilter === 'real' && e.planned === true) return false;
+                if (currentViewFilter === 'plan' && e.planned !== true) return false;
+                if (currentTextFilter.trim() && !entryMatchesText(e)) return false;
+
+                // Když je zapnutý filtr podle jídla, smajlíka nebo textu, zobrazíme jen dny, kde existuje odpovídající položka.
+                if (currentMealFilter !== 'all' || currentRatingFilter !== 'all' || currentTextFilter.trim()) {
+                    const dayTextMatches = dayLevelMatchesText(e);
+                    return (e.m || []).some((m, i) => mealMatchesFilters(m, i, dayTextMatches));
                 }
-                if (currentFilter === '14days') return (startOfToday - dDate) / 86400000 <= 14;
-                if (currentFilter === 'lastMonth') {
-                    let lm = now.getMonth() - 1, ly = now.getFullYear();
-                    if (lm < 0) { lm = 11; ly--; }
-                    return dDate.getMonth() === lm && dDate.getFullYear() === ly;
-                }
+
                 return true;
             });
 
@@ -573,24 +2377,44 @@
             // 3. Vykreslení
             if (filtered.length === 0) {
                 container.innerHTML = '<div style="text-align:center; color:#95a5a6; margin-top:30px; background:white; padding:20px; border-radius:12px;">Pro zvolený filtr nejsou žádné záznamy.</div>';
+                isRendering = false;
                 return;
             }
             filtered.forEach(e => render(e));
+            isRendering = false;
         }
 
         function render(e) {
             const card = document.createElement('div');
-            card.className = 'card';
+            card.className = selectedDeleteDates.has((e.d || '').trim()) ? 'card selected-delete' : 'card';
             card.style.position = 'relative'; // DŮLEŽITÉ: aby koš neutekl z karty ven
+            card.dataset.originalDate = (e.d || '').trim();
+            card.dataset.planned = e.planned ? 'true' : 'false';
 
-            // Přidáme koš do hlavičky hlavní karty
-            let html = `<button onclick="delMainCard(this)" style="position:absolute; top:15px; right:15px; background:transparent; color:var(--danger); border:1px solid var(--danger); border-radius:6px; padding:6px 10px; font-size:1.1rem; cursor:pointer; z-index:10;">🗑️</button>`;
-            html += `<div class="card-header" contenteditable="true" oninput="save()" onblur="saveAndReload()">${e.d}</div>`;
+            // Přidáme ovládání podle aktuálního režimu
+            let html = '';
+            if (reorderPlanMode && e.planned) {
+                html += `<div class="reorder-controls">
+                    <button type="button" class="reorder-small-btn" onclick="movePlanCard(this, -1)">⬆️</button>
+                    <div class="reorder-handle" title="Podržte a přesuňte den">☰ PODRŽ A PŘESUŇ</div>
+                    <button type="button" class="reorder-small-btn" onclick="selectOrSwapPlanCard(this)" title="Vybrat a vyměnit s jiným dnem">⇄</button>
+                    <button type="button" class="reorder-small-btn" onclick="movePlanCard(this, 1)">⬇️</button>
+                </div>`;
+            } else {
+                html += `<label class="delete-check-wrap"><input type="checkbox" class="delete-day-checkbox" ${selectedDeleteDates.has((e.d || '').trim()) ? 'checked' : ''} onchange="toggleDeleteSelection(this.closest('.card').dataset.originalDate, this)"> Vybrat</label>`;
+                html += `<button onclick="delMainCard(this)" style="position:absolute; top:15px; right:15px; background:transparent; color:var(--danger); border:1px solid var(--danger); border-radius:6px; padding:6px 10px; font-size:1.1rem; cursor:pointer; z-index:10;">🗑️</button>`;
+            }
+            html += `<div class="card-header" contenteditable="true" onblur="handleCardDateBlur(this)">${e.d}</div>${e.planned ? '<span class="planned-badge">PLÁN</span>' : ''}`;
+            if (!reorderPlanMode && e.planned) {
+                html += `<button type="button" class="plan-confirm-btn" onclick="confirmPlannedDay(this)">✅ SKUTEČNÝ DEN</button>`;
+            }
+            html += `<div class="day-note-wrap"><div class="day-note-label">Denní poznámka</div><div class="day-note-box" contenteditable="true" oninput="save()" data-placeholder="Poznámka k celému dni...">${escapeHtml(e.dn || '')}</div></div>`;
 
+            const dayTextMatches = currentTextFilter.trim() ? dayLevelMatchesText(e) : false;
             for (let i = 0; i < 5; i++) {
-                const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐' };
+                const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐', a: '' };
                 let bg = rates[m.r] || '#e3f9e5';
-                const hiddenClass = (currentMealFilter !== 'all' && currentMealFilter !== String(i)) ? ' meal-hidden' : '';
+                const hiddenClass = mealMatchesFilters(m, i, dayTextMatches) ? '' : ' meal-hidden';
                 html += `
             <div class="meal-item${hiddenClass}" data-index="${i}">
                 <div class="meal-label">${mealLabels[i]}</div>
@@ -598,29 +2422,1230 @@
                     <div class="m-box" contenteditable="true" oninput="save()" placeholder="Napište jídlo...">${m.t}</div>
                     <input type="number" class="w-box" placeholder="Gramy (g)" value="${m.w}" oninput="save()">
                     <div class="n-box" contenteditable="true" oninput="save()" placeholder="Poznámka...">${m.n}</div>
+                    ${m.a ? `<div class="ai-suggestion-box"><div class="ai-suggestion-title">✨ AI návrh na rozšíření</div><div class="ai-suggestion-text">${m.a}</div><div class="ai-suggestion-actions"><button type="button" class="ai-use-btn" onclick="useAiSuggestion(this)">POUŽÍT</button><button type="button" class="ai-reject-btn" onclick="rejectAiSuggestion(this)">ZAMÍTNOUT</button></div></div>` : ''}
                 </div>
                 <div class="rating" onclick="cycle(this)" style="background:${bg}">${m.r}</div>
             </div>`;
             }
             card.innerHTML = html;
             container.appendChild(card); // ZMĚNA: prepend vloží kartu na úplný začátek kontejneru
+            if (reorderPlanMode && e.planned) setupPlanDragHandle(card);
         }
 
-        function addCard() { render({ d: new Date().toLocaleDateString('cs-CZ'), m: null }); saveAndReload(); window.scrollTo(0, 0); }
+
+        function goToToday() {
+            const todayText = new Date().toLocaleDateString('cs-CZ');
+            let data = getMainData();
+            let existing = data.find(item => (item.d || '').trim() === todayText);
+            if (!existing) {
+                if (!confirm('Dnešní záznam zatím neexistuje. Vytvořit nový den?')) return;
+                createAutoBackup('vytvoření dnešního záznamu');
+                existing = { d: todayText, dn: '', m: createEmptyMealSet() };
+                data.unshift(existing);
+                setMainData(data);
+            }
+            resetFilterState();
+            syncFilterModalInputs();
+            updateFilterSummary();
+            load();
+            setTimeout(() => {
+                const card = Array.from(container.querySelectorAll(':scope > .card')).find(c => (c.dataset.originalDate || '').trim() === todayText);
+                if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+        }
+
+        function addCard() {
+            createAutoBackup('vytvoření nového dne');
+            let data = getMainData();
+            data.unshift({ d: new Date().toLocaleDateString('cs-CZ'), dn: '', m: Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐' })) });
+            setMainData(data);
+            load();
+            window.scrollTo(0, 0);
+        }
         function delMainCard(btn) {
             // Najdeme kartu, ve které je tlačítko umístěno
             const card = btn.closest('.card');
             const dateStr = card.querySelector('.card-header').innerText.trim();
 
             if (confirm(`🚨 OPRAVDU SMAZAT? \n\nChystáte se trvale odstranit celý záznam ze dne: ${dateStr}. \n\nTuto akci nelze vrátit zpět.`)) {
-                card.remove();
-                save(); // Uložíme změnu do paměti nutri_data_v13
+                let data = getMainData();
+                const originalDate = card.dataset.originalDate || dateStr;
+                createAutoBackup('smazání jednoho záznamu');
+                data = data.filter(item => (item.d || '').trim() !== originalDate);
+                setMainData(data);
+                load();
                 alert("Záznam byl smazán.");
             }
         }
         function cycle(el) { const em = ['🙂', '😍', '😐', '☹️']; el.innerText = em[(em.indexOf(el.innerText) + 1) % em.length]; el.style.background = rates[el.innerText]; save(); }
-        function setFilter(v) { currentFilter = v; load(); }
-        function setMealFilter(v) { currentMealFilter = v; load(); }
+
+        function useAiSuggestion(btn) {
+            const mealItem = btn.closest('.meal-item');
+            if (!mealItem) return;
+            const suggestion = mealItem.querySelector('.ai-suggestion-text')?.innerText.trim() || '';
+            if (!suggestion) return;
+            mealItem.querySelector('.m-box').innerText = suggestion;
+            const box = mealItem.querySelector('.ai-suggestion-box');
+            if (box) box.remove();
+            save();
+        }
+
+        function rejectAiSuggestion(btn) {
+            const box = btn.closest('.ai-suggestion-box');
+            if (!box) return;
+            box.remove();
+            save();
+        }
+
+        function confirmPlannedDay(btn) {
+            const card = btn.closest('.card');
+            if (!card) return;
+            const dateText = card.querySelector('.card-header')?.innerText.trim() || card.dataset.originalDate || '';
+            if (!confirm(`Převést plánovaný den ${dateText} na skutečný záznam?
+
+Štítek PLÁN se odstraní. AI návrhy, které nejsou použité jako hlavní jídlo, se ze skutečného dne smažou.`)) return;
+            createAutoBackup('převod plánu na skutečný den');
+            let data = getMainData();
+            const idx = data.findIndex(item => (item.d || '').trim() === (card.dataset.originalDate || dateText).trim());
+            const item = readCardData(card);
+            delete item.planned;
+            item.m = (item.m || []).map(meal => Object.assign({}, meal, { a: '' }));
+            if (idx >= 0) data[idx] = item;
+            else data.push(item);
+            setMainData(data);
+            load();
+            alert('Den byl převeden na skutečný záznam.');
+        }
+
+        function normalizeSearchText(value) {
+            return String(value || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+        }
+
+        function getSelectedMealFilterIndexes() {
+            if (!currentMealFilter || currentMealFilter === 'all') return null;
+            return currentMealFilter.split(',').map(x => parseInt(x, 10)).filter(x => !Number.isNaN(x));
+        }
+
+        function mealTextMatches(m) {
+            const needle = normalizeSearchText(currentTextFilter);
+            if (!needle) return true;
+            const haystack = normalizeSearchText([m?.t, m?.n, m?.a].join(' '));
+            return haystack.includes(needle);
+        }
+
+        function dayLevelMatchesText(e) {
+            const needle = normalizeSearchText(currentTextFilter);
+            if (!needle) return false;
+            return normalizeSearchText([e?.d, e?.dn, e?.dayNote].join(' ')).includes(needle);
+        }
+
+        function entryMatchesText(e) {
+            const needle = normalizeSearchText(currentTextFilter);
+            if (!needle) return true;
+            if (dayLevelMatchesText(e)) return true;
+            return (e.m || []).some(m => mealTextMatches(m));
+        }
+
+        function mealMatchesFilters(m, index, dayTextMatches = false) {
+            const selectedMeals = getSelectedMealFilterIndexes();
+            if (selectedMeals && !selectedMeals.includes(index)) return false;
+            if (currentRatingFilter !== 'all') {
+                const rating = (m && m.r) ? m.r.trim() : '😐';
+                if (rating !== currentRatingFilter) return false;
+            }
+            if (currentTextFilter.trim() && !dayTextMatches && !mealTextMatches(m)) return false;
+            return true;
+        }
+
+        function resetFilterState() {
+            currentFilter = 'all';
+            currentMealFilter = 'all';
+            currentRatingFilter = 'all';
+            currentViewFilter = 'all';
+            currentTextFilter = '';
+        }
+
+        function openFilterModal() {
+            syncFilterModalInputs();
+            document.getElementById('filterModal').style.display = 'flex';
+        }
+
+        function closeFilterModal() { document.getElementById('filterModal').style.display = 'none'; }
+
+        function syncFilterModalInputs() {
+            const textInput = document.getElementById('filterTextInput');
+            if (textInput) textInput.value = currentTextFilter;
+            const periodInput = document.getElementById('filterPeriodInput');
+            if (periodInput) periodInput.value = currentFilter;
+            const ratingInput = document.getElementById('ratingFilterInput');
+            if (ratingInput) ratingInput.value = currentRatingFilter;
+            const viewInput = document.getElementById('viewFilterInput');
+            if (viewInput) viewInput.value = currentViewFilter;
+            const selectedMeals = getSelectedMealFilterIndexes();
+            document.querySelectorAll('#mealFilterChecks input[type="checkbox"]').forEach(ch => {
+                ch.checked = selectedMeals ? selectedMeals.includes(parseInt(ch.value, 10)) : false;
+            });
+        }
+
+        function applyFilterModal(closeAfter = false) {
+            const textInput = document.getElementById('filterTextInput');
+            const periodInput = document.getElementById('filterPeriodInput');
+            const ratingInput = document.getElementById('ratingFilterInput');
+            const viewInput = document.getElementById('viewFilterInput');
+            currentTextFilter = textInput ? textInput.value.trim() : '';
+            currentFilter = periodInput ? periodInput.value : 'all';
+            currentRatingFilter = ratingInput ? ratingInput.value : 'all';
+            currentViewFilter = viewInput ? viewInput.value : 'all';
+            const checkedMeals = Array.from(document.querySelectorAll('#mealFilterChecks input[type="checkbox"]:checked')).map(ch => ch.value);
+            currentMealFilter = checkedMeals.length ? checkedMeals.join(',') : 'all';
+            updateFilterSummary();
+            load();
+            if (closeAfter) closeFilterModal();
+        }
+
+        function resetAllFilters() {
+            resetFilterState();
+            syncFilterModalInputs();
+            updateFilterSummary();
+            load();
+        }
+
+        function updateFilterSummary() {
+            const target = document.getElementById('activeFilterSummary');
+            if (!target) return;
+            const parts = [];
+            if (currentTextFilter.trim()) parts.push(`text „${currentTextFilter.trim()}“`);
+            const periodNames = { all: 'období vše', currentWeek: 'aktuální týden', lastWeek: 'minulý týden', '14days': '14 dní', lastMonth: 'minulý měsíc' };
+            if (currentFilter !== 'all') parts.push(periodNames[currentFilter] || currentFilter);
+            const selectedMeals = getSelectedMealFilterIndexes();
+            if (selectedMeals) parts.push(selectedMeals.map(i => mealLabels[i]).filter(Boolean).join(' + '));
+            if (currentRatingFilter !== 'all') parts.push(`hodnocení ${currentRatingFilter}`);
+            const viewNames = { real: 'jen deník', plan: 'jen plán' };
+            if (currentViewFilter !== 'all') parts.push(viewNames[currentViewFilter] || currentViewFilter);
+            target.innerText = parts.length ? `Filtry: ${parts.join(' · ')}` : 'Filtry: vše';
+        }
+
+        function setFilter(v) { currentFilter = v; updateFilterSummary(); load(); }
+        function setMealFilter(v) { currentMealFilter = v; updateFilterSummary(); load(); }
+        function setRatingFilter(v) { currentRatingFilter = v; updateFilterSummary(); load(); }
+        function setViewFilter(v) { currentViewFilter = v; updateFilterSummary(); load(); }
+
+        function openPlanner() { document.getElementById('plannerModal').style.display = 'flex'; }
+        function closePlanner() { document.getElementById('plannerModal').style.display = 'none'; }
+
+        function parseDateValue(str) {
+            const p = (str || '').split('.').map(x => parseInt(x.trim(), 10));
+            if (p.length !== 3 || !p[0] || !p[1] || !p[2]) return null;
+            return new Date(p[2], p[1] - 1, p[0]);
+        }
+
+        function formatDateValue(date) {
+            return date.toLocaleDateString('cs-CZ');
+        }
+
+        function sortEntriesByDate(data) {
+            return (data || []).slice().sort((a, b) => {
+                const da = parseDateValue(a.d);
+                const db = parseDateValue(b.d);
+                const ta = da ? da.getTime() : 0;
+                const tb = db ? db.getTime() : 0;
+                return tb - ta;
+            });
+        }
+
+        function dateToISO(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function isoToDateValue(iso) {
+            if (!iso) return null;
+            const p = iso.split('-').map(x => parseInt(x, 10));
+            if (p.length !== 3 || !p[0] || !p[1] || !p[2]) return null;
+            return new Date(p[0], p[1] - 1, p[2]);
+        }
+
+        function compactFuturePlanDates(data, preferredStartDate) {
+            const today = new Date();
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const startDate = preferredStartDate && preferredStartDate >= startOfToday ? new Date(preferredStartDate) : null;
+
+            const planned = (data || [])
+                .filter(item => item.planned === true)
+                .map(item => ({ item, date: parseDateValue(item.d) }))
+                .filter(x => x.date && x.date >= startOfToday)
+                .sort((a, b) => a.date - b.date);
+
+            if (planned.length === 0) return data;
+
+            const firstDate = startDate || new Date(planned[0].date);
+            const usedDates = new Set(
+                (data || [])
+                    .filter(item => item.planned !== true)
+                    .map(item => (item.d || '').trim())
+                    .filter(Boolean)
+            );
+
+            let cursor = new Date(firstDate.getFullYear(), firstDate.getMonth(), firstDate.getDate());
+
+            planned.forEach(x => {
+                while (usedDates.has(formatDateValue(cursor))) {
+                    cursor.setDate(cursor.getDate() + 1);
+                }
+                x.item.d = formatDateValue(cursor);
+                usedDates.add(x.item.d);
+                cursor.setDate(cursor.getDate() + 1);
+            });
+
+            return data;
+        }
+
+        function openDeleteManager() {
+            const data = getMainData();
+            const today = new Date();
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            const futurePlannedDates = data
+                .filter(item => item.planned === true)
+                .map(item => parseDateValue(item.d))
+                .filter(d => d && d >= startOfToday)
+                .sort((a, b) => a - b);
+
+            const allFutureDates = data
+                .map(item => parseDateValue(item.d))
+                .filter(d => d && d >= startOfToday)
+                .sort((a, b) => a - b);
+
+            const preferredDates = futurePlannedDates.length > 0 ? futurePlannedDates : allFutureDates;
+
+            if (preferredDates.length > 0) {
+                document.getElementById('deleteDateFrom').value = dateToISO(preferredDates[0]);
+                document.getElementById('deleteDateTo').value = dateToISO(preferredDates[preferredDates.length - 1]);
+            } else {
+                const from = new Date(startOfToday);
+                from.setDate(from.getDate() + 1);
+                const to = new Date(from);
+                to.setDate(to.getDate() + 29);
+                document.getElementById('deleteDateFrom').value = dateToISO(from);
+                document.getElementById('deleteDateTo').value = dateToISO(to);
+            }
+            document.getElementById('deleteManagerModal').style.display = 'flex';
+        }
+
+        function closeDeleteManager() { document.getElementById('deleteManagerModal').style.display = 'none'; }
+
+        function cancelGeneratedPlan() {
+            const data = getMainData();
+            const today = new Date();
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            const plannedFuture = data.filter(item => {
+                const d = parseDateValue(item.d);
+                return item.planned === true && d && d >= startOfToday;
+            });
+
+            const plannedAll = data.filter(item => item.planned === true);
+
+            if (plannedFuture.length === 0) {
+                if (plannedAll.length === 0) {
+                    alert('V aplikaci teď nejsou žádné záznamy označené jako PLÁN.');
+                    return;
+                }
+
+                if (!confirm(`Nenašel jsem žádný budoucí PLÁN od dneška dál, ale existuje ${plannedAll.length} starších záznamů označených jako PLÁN.\n\nChcete smazat všechny záznamy označené jako PLÁN?`)) return;
+
+                createAutoBackup('zrušení všech plánů');
+                setMainData(data.filter(item => item.planned !== true));
+                closePlanner();
+                closeDeleteManager();
+                if (reorderPlanMode) togglePlanReorderMode();
+                else load();
+                alert('Všechny záznamy označené jako PLÁN byly smazány.');
+                return;
+            }
+
+            if (!confirm(`Opravdu zrušit budoucí plán?\n\nBude smazáno ${plannedFuture.length} plánovaných záznamů od dneška dál. Skutečná historie bez štítku PLÁN zůstane zachovaná.`)) return;
+
+            createAutoBackup('zrušení budoucího plánu');
+            const remaining = data.filter(item => {
+                const d = parseDateValue(item.d);
+                return !(item.planned === true && d && d >= startOfToday);
+            });
+
+            setMainData(remaining);
+            closePlanner();
+            closeDeleteManager();
+            if (reorderPlanMode) togglePlanReorderMode();
+            else load();
+            alert('Budoucí PLÁN byl zrušen. Historické záznamy zůstaly zachované.');
+        }
+
+        function deleteByDateRange() {
+            const from = isoToDateValue(document.getElementById('deleteDateFrom').value);
+            const to = isoToDateValue(document.getElementById('deleteDateTo').value);
+            if (!from || !to) { alert('Vyberte datum od i datum do.'); return; }
+            if (from > to) { alert('Datum OD nesmí být později než datum DO.'); return; }
+
+            const data = getMainData();
+            const toDelete = data.filter(item => {
+                const d = parseDateValue(item.d);
+                return d && d >= from && d <= to;
+            });
+
+            if (toDelete.length === 0) { alert('V tomto období nejsou žádné záznamy.'); return; }
+            if (!confirm(`Opravdu smazat ${toDelete.length} záznamů od ${formatDateValue(from)} do ${formatDateValue(to)}?
+
+Tuto akci nelze vrátit zpět.`)) return;
+            createAutoBackup('smazání období');
+
+            const plannedDatesBeforeDelete = data
+                .filter(item => item.planned === true)
+                .map(item => parseDateValue(item.d))
+                .filter(Boolean)
+                .sort((a, b) => a - b);
+            const compactStart = plannedDatesBeforeDelete.length > 0 ? plannedDatesBeforeDelete[0] : null;
+
+            let remaining = data.filter(item => {
+                const d = parseDateValue(item.d);
+                return !(d && d >= from && d <= to);
+            });
+
+            // Pokud po mazání zůstane část budoucího PLÁNU, automaticky ji zhuštíme za sebe.
+            // Skutečné neplánované záznamy se nikdy nepředatovávají.
+            remaining = compactFuturePlanDates(remaining, compactStart);
+
+            setMainData(remaining);
+            closeDeleteManager();
+            load();
+            alert('Záznamy z vybraného období byly smazány. Zbývající budoucí PLÁN byl případně předatován za sebe.');
+        }
+
+        function startDeleteSelectionMode() {
+            selectedDeleteDates = new Set();
+            deleteSelectionMode = true;
+            document.body.classList.add('delete-mode');
+            closeDeleteManager();
+            load();
+        }
+
+        function stopDeleteSelectionMode() {
+            deleteSelectionMode = false;
+            selectedDeleteDates = new Set();
+            document.body.classList.remove('delete-mode');
+            load();
+        }
+
+        function clearDeleteSelection() {
+            selectedDeleteDates = new Set();
+            document.querySelectorAll('.card.selected-delete').forEach(card => card.classList.remove('selected-delete'));
+            document.querySelectorAll('.delete-day-checkbox').forEach(cb => cb.checked = false);
+        }
+
+        function toggleDeleteSelection(dateStr, checkbox) {
+            if (!dateStr) return;
+            if (checkbox.checked) selectedDeleteDates.add(dateStr);
+            else selectedDeleteDates.delete(dateStr);
+            const card = checkbox.closest('.card');
+            if (card) card.classList.toggle('selected-delete', checkbox.checked);
+        }
+
+        function deleteSelectedDates() {
+            if (selectedDeleteDates.size === 0) { alert('Nejdřív označte alespoň jeden den.'); return; }
+            const count = selectedDeleteDates.size;
+            if (!confirm(`Opravdu smazat ${count} ručně označených záznamů?
+
+Tuto akci nelze vrátit zpět.`)) return;
+            createAutoBackup('smazání ručně označených záznamů');
+            const originalData = getMainData();
+            const plannedDatesBeforeDelete = originalData
+                .filter(item => item.planned === true)
+                .map(item => parseDateValue(item.d))
+                .filter(Boolean)
+                .sort((a, b) => a - b);
+            const compactStart = plannedDatesBeforeDelete.length > 0 ? plannedDatesBeforeDelete[0] : null;
+
+            let data = originalData.filter(item => !selectedDeleteDates.has((item.d || '').trim()));
+
+            // Když smažete plánované dny na přeskáčku, zbylý budoucí PLÁN se posune tak,
+            // aby pokračoval bez mezer. Historie ani ručně vytvořené skutečné dny se nemění.
+            data = compactFuturePlanDates(data, compactStart);
+
+            setMainData(data);
+            deleteSelectionMode = false;
+            selectedDeleteDates = new Set();
+            document.body.classList.remove('delete-mode');
+            load();
+            alert('Označené záznamy byly smazány. Zbývající budoucí PLÁN byl případně předatován za sebe.');
+        }
+
+
+
+        function togglePlanReorderMode() {
+            if (deleteSelectionMode) stopDeleteSelectionMode();
+            reorderPlanMode = !reorderPlanMode;
+            document.body.classList.toggle('reorder-mode', reorderPlanMode);
+            if (!reorderPlanMode) { stopPlanDragAutoScroll(); clearPlanSwapSelection(); }
+            const btn = document.getElementById('reorderPlanBtn');
+            if (btn) {
+                btn.innerText = reorderPlanMode ? '✅ HOTOVO' : '↕️ PŘESKLÁDAT';
+                btn.style.background = reorderPlanMode ? '#27ae60' : '#3498db';
+            }
+            load();
+            if (reorderPlanMode) window.scrollTo(0, 0);
+        }
+
+        function setupPlanDragHandle(card) {
+            const handle = card.querySelector('.reorder-handle');
+            if (!handle) return;
+
+            let pointerActive = false;
+            let activePointerId = null;
+            let startClientY = 0;
+
+            function onPointerMove(event) {
+                if (!pointerActive || !draggedPlanCard) return;
+                if (activePointerId !== null && event.pointerId !== activePointerId) return;
+                const deltaY = Math.abs(event.clientY - startClientY);
+                if (deltaY > 8) planDragMoved = true;
+                planDragLastClientX = event.clientX;
+                planDragLastClientY = event.clientY;
+                positionDraggedPlanCard(event.clientX, event.clientY);
+                movePlanPlaceholderByPointer(event.clientX, event.clientY);
+                updatePlanDragAutoScroll(event.clientY);
+                event.preventDefault();
+            }
+
+            function finishPointerDrag(event) {
+                if (!pointerActive) return;
+                if (activePointerId !== null && event.pointerId !== activePointerId) return;
+                pointerActive = false;
+                document.removeEventListener('pointermove', onPointerMove, { passive: false });
+                document.removeEventListener('pointerup', finishPointerDrag);
+                document.removeEventListener('pointercancel', finishPointerDrag);
+
+                if (event.clientX) planDragLastClientX = event.clientX;
+                if (event.clientY) planDragLastClientY = event.clientY;
+                if (draggedPlanCard && planDragPlaceholder) {
+                    movePlanPlaceholderByPointer(planDragLastClientX, planDragLastClientY);
+                    planDragPlaceholder.parentNode.insertBefore(draggedPlanCard, planDragPlaceholder);
+                    planDragPlaceholder.remove();
+                }
+                if (draggedPlanCard) {
+                    resetDraggedPlanCardStyles(draggedPlanCard);
+                    draggedPlanCard.classList.remove('dragging-plan');
+                }
+                if (handle.releasePointerCapture && activePointerId !== null) {
+                    try { handle.releasePointerCapture(activePointerId); } catch (err) { }
+                }
+                activePointerId = null;
+                draggedPlanCard = null;
+                planDragPlaceholder = null;
+                stopPlanDragAutoScroll();
+                saveReorderedPlanFromDom(true);
+            }
+
+            handle.addEventListener('pointerdown', (event) => {
+                if (event.button !== undefined && event.button !== 0) return;
+                clearPlanSwapSelection();
+                pointerActive = true;
+                activePointerId = event.pointerId;
+                planDragMoved = false;
+                draggedPlanCard = card;
+                startClientY = event.clientY;
+                planDragLastClientX = event.clientX;
+                planDragLastClientY = event.clientY;
+
+                prepareDraggedPlanCard(card, event.clientX, event.clientY);
+
+                if (handle.setPointerCapture) {
+                    try { handle.setPointerCapture(event.pointerId); } catch (err) { }
+                }
+                document.addEventListener('pointermove', onPointerMove, { passive: false });
+                document.addEventListener('pointerup', finishPointerDrag);
+                document.addEventListener('pointercancel', finishPointerDrag);
+                event.preventDefault();
+            });
+        }
+
+        function prepareDraggedPlanCard(card, clientX, clientY) {
+            const rect = card.getBoundingClientRect();
+            planDragOffsetX = clientX - rect.left;
+            planDragOffsetY = clientY - rect.top;
+
+            planDragPlaceholder = document.createElement('div');
+            planDragPlaceholder.className = 'plan-drag-placeholder';
+            planDragPlaceholder.style.height = rect.height + 'px';
+            container.insertBefore(planDragPlaceholder, card);
+
+            card.classList.add('dragging-plan');
+            card.style.position = 'fixed';
+            card.style.left = rect.left + 'px';
+            card.style.top = rect.top + 'px';
+            card.style.width = rect.width + 'px';
+            card.style.margin = '0';
+            card.style.boxSizing = 'border-box';
+            card.style.pointerEvents = 'none';
+            card.style.touchAction = 'none';
+        }
+
+        function resetDraggedPlanCardStyles(card) {
+            card.style.position = '';
+            card.style.left = '';
+            card.style.top = '';
+            card.style.width = '';
+            card.style.margin = '';
+            card.style.boxSizing = '';
+            card.style.pointerEvents = '';
+            card.style.touchAction = '';
+        }
+
+        function positionDraggedPlanCard(clientX, clientY) {
+            if (!draggedPlanCard) return;
+            draggedPlanCard.style.left = (clientX - planDragOffsetX) + 'px';
+            draggedPlanCard.style.top = (clientY - planDragOffsetY) + 'px';
+        }
+
+        function updatePlanDragAutoScroll(clientY) {
+            planDragLastClientY = clientY;
+            if (!draggedPlanCard || planDragAutoScrollFrame) return;
+            planDragAutoScrollFrame = requestAnimationFrame(runPlanDragAutoScroll);
+        }
+
+        function runPlanDragAutoScroll() {
+            planDragAutoScrollFrame = null;
+            if (!draggedPlanCard) return;
+
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            let speed = 0;
+
+            if (planDragLastClientY < PLAN_DRAG_SCROLL_EDGE) {
+                speed = -Math.ceil(((PLAN_DRAG_SCROLL_EDGE - planDragLastClientY) / PLAN_DRAG_SCROLL_EDGE) * PLAN_DRAG_SCROLL_MAX_SPEED);
+            } else if (planDragLastClientY > viewportHeight - PLAN_DRAG_SCROLL_EDGE) {
+                speed = Math.ceil(((planDragLastClientY - (viewportHeight - PLAN_DRAG_SCROLL_EDGE)) / PLAN_DRAG_SCROLL_EDGE) * PLAN_DRAG_SCROLL_MAX_SPEED);
+            }
+
+            if (speed !== 0) {
+                window.scrollBy(0, speed);
+                positionDraggedPlanCard(planDragLastClientX, planDragLastClientY);
+                movePlanPlaceholderByPointer(planDragLastClientX, planDragLastClientY);
+                planDragAutoScrollFrame = requestAnimationFrame(runPlanDragAutoScroll);
+            }
+        }
+
+        function stopPlanDragAutoScroll() {
+            if (planDragAutoScrollFrame) cancelAnimationFrame(planDragAutoScrollFrame);
+            planDragAutoScrollFrame = null;
+        }
+
+        function movePlanPlaceholderByPointer(clientX, clientY) {
+            if (!draggedPlanCard || !planDragPlaceholder) return;
+
+            const elementUnderFinger = document.elementFromPoint(clientX, clientY);
+            const targetCard = elementUnderFinger ? elementUnderFinger.closest('.card[data-planned="true"]') : null;
+
+            if (targetCard && targetCard !== draggedPlanCard && targetCard !== planDragPlaceholder && container.contains(targetCard)) {
+                const rect = targetCard.getBoundingClientRect();
+                const insertAfterTarget = clientY > rect.top + (rect.height / 2);
+                if (insertAfterTarget) {
+                    container.insertBefore(planDragPlaceholder, targetCard.nextElementSibling);
+                } else {
+                    container.insertBefore(planDragPlaceholder, targetCard);
+                }
+                return;
+            }
+
+            movePlanPlaceholderByY(clientY);
+        }
+
+        function movePlanPlaceholderByY(clientY) {
+            if (!planDragPlaceholder) return;
+            const cards = Array.from(container.querySelectorAll(':scope > .card[data-planned="true"]'))
+                .filter(card => card !== draggedPlanCard);
+            let insertBeforeCard = null;
+
+            for (const card of cards) {
+                const rect = card.getBoundingClientRect();
+                const middle = rect.top + rect.height / 2;
+                if (clientY < middle) {
+                    insertBeforeCard = card;
+                    break;
+                }
+            }
+
+            if (insertBeforeCard) container.insertBefore(planDragPlaceholder, insertBeforeCard);
+            else container.appendChild(planDragPlaceholder);
+        }
+
+        function clearPlanSwapSelection() {
+            if (selectedPlanCardForSwap) selectedPlanCardForSwap.classList.remove('plan-swap-selected');
+            selectedPlanCardForSwap = null;
+        }
+
+        function selectOrSwapPlanCard(button) {
+            const card = button.closest('.card');
+            if (!card) return;
+            if (!selectedPlanCardForSwap) {
+                selectedPlanCardForSwap = card;
+                card.classList.add('plan-swap-selected');
+                return;
+            }
+            if (selectedPlanCardForSwap === card) {
+                clearPlanSwapSelection();
+                return;
+            }
+
+            const first = selectedPlanCardForSwap;
+            const second = card;
+            const placeholder = document.createElement('div');
+            container.insertBefore(placeholder, first);
+            container.insertBefore(first, second);
+            container.insertBefore(second, placeholder);
+            placeholder.remove();
+
+            clearPlanSwapSelection();
+            saveReorderedPlanFromDom(true);
+        }
+
+        function movePlanCard(button, direction) {
+            clearPlanSwapSelection();
+            const card = button.closest('.card');
+            if (!card) return;
+            if (direction < 0) {
+                let prev = card.previousElementSibling;
+                while (prev && !prev.classList.contains('card')) prev = prev.previousElementSibling;
+                if (prev) container.insertBefore(card, prev);
+            } else {
+                let next = card.nextElementSibling;
+                while (next && !next.classList.contains('card')) next = next.nextElementSibling;
+                if (next) container.insertBefore(next, card);
+            }
+            saveReorderedPlanFromDom(true);
+        }
+
+        function saveReorderedPlanFromDom(reloadAfterSave) {
+            if (!reorderPlanMode || isRendering) return;
+            const cards = Array.from(container.querySelectorAll(':scope > .card[data-planned="true"]'));
+            if (cards.length === 0) return;
+
+            const originalDates = new Set(cards.map(card => (card.dataset.originalDate || '').trim()).filter(Boolean));
+            const orderedPlan = cards.map(card => {
+                const item = readCardData(card);
+                item.planned = true;
+                return {
+                    originalDate: (card.dataset.originalDate || '').trim(),
+                    item,
+                    date: parseDateValue(card.dataset.originalDate || item.d)
+                };
+            });
+
+            let startDate = orderedPlan
+                .map(x => x.date)
+                .filter(Boolean)
+                .sort((a, b) => a - b)[0];
+
+            const today = new Date();
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            if (!startDate || startDate < startOfToday) startDate = startOfToday;
+
+            let fullData = getMainData().filter(item => !originalDates.has((item.d || '').trim()));
+            const usedDates = new Set(fullData.map(item => (item.d || '').trim()).filter(Boolean));
+            let cursor = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+            const dateSlots = [];
+            while (dateSlots.length < orderedPlan.length) {
+                const dateText = formatDateValue(cursor);
+                if (!usedDates.has(dateText)) dateSlots.push(dateText);
+                cursor.setDate(cursor.getDate() + 1);
+            }
+            // V režimu přeskládání zobrazujeme plán stejně jako celý deník: nejnovější nahoře.
+            // Proto horní karta dostane nejpozdější volné datum a spodní nejbližší volné datum.
+            const visibleOrderDateSlots = dateSlots.slice().reverse();
+
+            const reorderedItems = orderedPlan.map((x, index) => {
+                x.item.d = visibleOrderDateSlots[index];
+                x.item.planned = true;
+                return x.item;
+            });
+
+            createAutoBackup('přeskládání plánu');
+            setMainData(fullData.concat(reorderedItems));
+            if (reloadAfterSave) load();
+        }
+
+        function normalizeFoodName(text) {
+            return (text || '').toLowerCase().replace(/\s+/g, ' ').trim();
+        }
+
+        function isEmptyMealText(text) {
+            const normalized = normalizeFoodName(text)
+                .replace(/[.!?,;:()\[\]{}\-–—_\/\\]/g, '')
+                .trim();
+            if (!normalized) return true;
+            const emptyValues = new Set([
+                'nic', 'nic nebylo', 'nic nedal', 'nic nesnedl', 'nebylo nic',
+                'zadne', 'žádné', 'zadna', 'žádná', 'bez jidla', 'bez jídla',
+                'nejedl', 'nechtel', 'nechtěl', 'odmitl', 'odmítl', 'ponechat prazdne', 'ponechat prázdné', '0', '-'
+            ]);
+            return emptyValues.has(normalized);
+        }
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function buildMealPool(entries, ratingMode) {
+            const allowed = ratingMode === 'love' ? ['😍'] : (ratingMode === 'good' ? ['😍', '🙂'] : ['😍', '🙂', '😐']);
+            const pools = Array.from({ length: 5 }, () => []);
+            const seen = Array.from({ length: 5 }, () => new Set());
+
+            entries.forEach(day => {
+                (day.m || []).forEach((meal, index) => {
+                    if (!meal || index > 4) return;
+                    const text = (meal.t || '').trim();
+                    const rating = (meal.r || '😐').trim();
+                    if (!text || isEmptyMealText(text) || textMatchesAvoidList(text) || !allowed.includes(rating) || rating === '☹️') return;
+                    const key = normalizeFoodName(text);
+                    if (seen[index].has(key)) return;
+                    seen[index].add(key);
+                    pools[index].push({
+                        t: text,
+                        w: meal.w || '',
+                        n: meal.n || '',
+                        r: rating
+                    });
+                });
+            });
+
+            pools.forEach(pool => pool.sort((a, b) => {
+                const score = { '😍': 3, '🙂': 2, '😐': 1 };
+                return (score[b.r] || 0) - (score[a.r] || 0);
+            }));
+            return pools.map(pool => shuffleArray(pool.slice()));
+        }
+
+        function pickMeal(pool, recentNames) {
+            if (!pool || pool.length === 0) return { t: '', w: '', n: '', r: '😐' };
+            let chosen = pool.find(item => !recentNames.includes(normalizeFoodName(item.t))) || pool[0];
+            pool.push(pool.shift());
+            return { t: chosen.t, w: chosen.w || '', n: chosen.n || '', r: chosen.r || '😐' };
+        }
+
+        function generateMealPlan() {
+            const ratingMode = document.getElementById('plannerRatingMode').value;
+            const daysCount = parseInt(document.getElementById('plannerDays').value, 10);
+            const mealScope = document.getElementById('plannerMealScope').value;
+            let data = getMainData();
+
+            if (data.length === 0) {
+                alert('Nejdřív musí být v deníku nějaká uložená jídla.');
+                return;
+            }
+
+            const pools = buildMealPool(data, ratingMode);
+            const selectedIndexes = mealScope === 'all' ? [0, 1, 2, 3, 4] : [parseInt(mealScope, 10)];
+            const missing = selectedIndexes.filter(i => pools[i].length === 0);
+            if (missing.length > 0) {
+                alert('Pro tato jídla nemám z historie dost vhodných záznamů: ' + missing.map(i => mealLabels[i]).join(', ') + '. Zkuste povolit i 🙂 nebo 😐.');
+                return;
+            }
+
+            let latest = null;
+            data.forEach(item => {
+                const d = parseDateValue(item.d);
+                if (d && (!latest || d > latest)) latest = d;
+            });
+            const start = latest ? new Date(latest) : new Date();
+            start.setDate(start.getDate() + 1);
+
+            const recent = Array.from({ length: 5 }, () => []);
+            const generated = [];
+
+            for (let day = 0; day < daysCount; day++) {
+                const d = new Date(start);
+                d.setDate(start.getDate() + day);
+                const meals = Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐' }));
+
+                selectedIndexes.forEach(index => {
+                    const picked = pickMeal(pools[index], recent[index]);
+                    meals[index] = picked;
+                    const name = normalizeFoodName(picked.t);
+                    if (name) {
+                        recent[index].push(name);
+                        if (recent[index].length > 3) recent[index].shift();
+                    }
+                });
+
+                generated.push({ d: formatDateValue(d), m: meals, planned: true });
+            }
+
+            const firstDate = generated[0].d;
+            const lastDate = generated[generated.length - 1].d;
+            if (!confirm(`Vytvořit návrh jídelníčku od ${firstDate} do ${lastDate}?\n\nDny se stejným datem v deníku budou nahrazeny návrhem.`)) return;
+
+            createAutoBackup('vytvoření offline plánu');
+            const generatedMap = new Map(generated.map(item => [item.d, item]));
+            data = data.filter(item => !generatedMap.has(item.d)).concat(generated);
+            setMainData(data);
+            closePlanner();
+            load();
+            alert(appendPlanWarningsToMessage('Návrh jídelníčku byl vytvořen a označen jako PLÁN. Můžete ho ručně upravit nebo později zrušit tlačítkem ZRUŠIT PLÁN.', generated));
+        }
+
+
+        function openAiModal() {
+            document.getElementById('aiModal').style.display = 'flex';
+            setDefaultAiImportStartDate();
+            generateAiPrompt();
+        }
+
+        function closeAiModal() { document.getElementById('aiModal').style.display = 'none'; }
+
+        function getAllowedRatingsForMode(mode) {
+            if (mode === 'love') return ['😍'];
+            if (mode === 'good') return ['😍', '🙂'];
+            return ['😍', '🙂', '😐'];
+        }
+
+        function summarizeMealsForAi(data, ratingMode, mealScope) {
+            const allowed = getAllowedRatingsForMode(ratingMode);
+            const selectedIndexes = mealScope === 'all' ? [0, 1, 2, 3, 4] : [parseInt(mealScope, 10)];
+            const goodMaps = Array.from({ length: 5 }, () => new Map());
+            const avoidMaps = Array.from({ length: 5 }, () => new Map());
+            const noteItems = [];
+
+            data.forEach(day => {
+                if (day.planned === true) return; // AI podklad stavíme z reálné historie, ne z už vygenerovaného plánu
+                (day.m || []).forEach((meal, index) => {
+                    if (!selectedIndexes.includes(index)) return;
+                    const text = (meal.t || '').replace(/\s+/g, ' ').trim();
+                    if (!text || isEmptyMealText(text)) return;
+                    const key = normalizeFoodName(text);
+                    const rating = meal.r || '😐';
+                    const isManualAvoid = textMatchesAvoidList(text);
+                    const target = isManualAvoid ? avoidMaps[index] : (allowed.includes(rating) ? goodMaps[index] : (rating === '☹️' ? avoidMaps[index] : null));
+                    if (target) {
+                        const current = target.get(key) || { t: text, count: 0, ratings: {}, lastDate: day.d, notes: [] };
+                        current.count++;
+                        current.ratings[rating] = (current.ratings[rating] || 0) + 1;
+                        current.lastDate = day.d;
+                        if (meal.n && current.notes.length < 2) current.notes.push(meal.n.replace(/\s+/g, ' ').trim());
+                        target.set(key, current);
+                    }
+                    const note = (meal.n || '').trim();
+                    if (note && /alerg|vyráž|zvracen|reakc|průjem|bolest|nevol|osyp/i.test(note)) {
+                        noteItems.push(`${day.d} – ${mealLabels[index]}: ${text} | poznámka: ${note}`);
+                    }
+                });
+            });
+
+            function mapToLines(map, limit) {
+                return Array.from(map.values())
+                    .sort((a, b) => b.count - a.count)
+                    .slice(0, limit)
+                    .map(item => {
+                        const ratingText = Object.entries(item.ratings).map(([r, c]) => `${r}×${c}`).join(', ');
+                        const noteText = item.notes.length ? `; pozn.: ${item.notes.join(' | ')}` : '';
+                        return `- ${item.t} (${item.count}×; ${ratingText}${noteText})`;
+                    });
+            }
+
+            let sections = [];
+            selectedIndexes.forEach(index => {
+                const goodLines = mapToLines(goodMaps[index], 12);
+                const avoidLines = mapToLines(avoidMaps[index], 8);
+                sections.push(`\n${mealLabels[index]} – vhodné z historie:\n${goodLines.length ? goodLines.join('\n') : '- zatím nejsou vhodná data'}`);
+                if (avoidLines.length) sections.push(`${mealLabels[index]} – vyhnout se:\n${avoidLines.join('\n')}`);
+            });
+
+            return {
+                sections: sections.join('\n'),
+                warnings: noteItems.slice(0, 12)
+            };
+        }
+
+        function buildAiPlanFormatTemplate(daysCount, mealScope) {
+            const days = Math.max(1, parseInt(daysCount, 10) || 7);
+            const selectedOnly = mealScope !== 'all' ? parseInt(mealScope, 10) : null;
+            const lines = [];
+            for (let day = 1; day <= days; day++) {
+                lines.push(`DEN ${day}`);
+                for (let i = 0; i < mealLabels.length; i++) {
+                    if (selectedOnly !== null && i !== selectedOnly) {
+                        lines.push(`${mealLabels[i]}: ponechat prázdné`);
+                    } else {
+                        lines.push(`${mealLabels[i]}: ...`);
+                        lines.push(`AI návrh ${mealLabels[i]}: ...`);
+                    }
+                }
+                if (day < days) lines.push('');
+            }
+            return lines.join('\n');
+        }
+
+        function getExpectedAiDaysCount() {
+            const value = document.getElementById('aiDays')?.value || '7';
+            return Math.max(1, parseInt(value, 10) || 7);
+        }
+
+        function getAiPlanCompletenessMessage(parsedCount, expectedCount) {
+            if (parsedCount === expectedCount) return '';
+            if (parsedCount < expectedCount) return `AI vrátila jen ${parsedCount} z ${expectedCount} dní. Plán je neúplný, zkuste vytvoření spustit znovu.`;
+            return `AI vrátila ${parsedCount} dní místo požadovaných ${expectedCount}. Zkontrolujte výsledek před importem.`;
+        }
+
+        function generateAiPrompt() {
+            const ratingMode = document.getElementById('aiRatingMode').value;
+            const daysCount = getExpectedAiDaysCount();
+            const mealScope = document.getElementById('aiMealScope').value;
+            const data = getMainData();
+            const selectedText = mealScope === 'all' ? 'všechna denní jídla' : mealLabels[parseInt(mealScope, 10)];
+            const ratingText = ratingMode === 'love' ? 'jen jídla hodnocená 😍' : (ratingMode === 'good' ? 'jídla hodnocená 😍 a 🙂' : 'jídla hodnocená 😍, 🙂 a 😐');
+            const summary = summarizeMealsForAi(data, ratingMode, mealScope);
+            const childInfoLines = getChildInfoForAi();
+            const childInfoText = childInfoLines.length ? `
+
+Údaje o dítěti pro návrh:
+${childInfoLines.join('\n')}` : '';
+            const formatTemplate = buildAiPlanFormatTemplate(daysCount, mealScope);
+
+            const prompt = `Potřebuji navrhnout jídelníček pro dítě přesně na ${daysCount} dní.${childInfoText}
+
+Pracuj podle těchto pravidel:
+- vytvoř přesně ${daysCount} dní, ani méně, ani více
+- začni řádkem DEN 1 a skonči kompletně vyplněným dnem DEN ${daysCount}
+- plánuj: ${selectedText}
+- jako hlavní jídlo ber hlavně: ${ratingText}
+- ke každému vyplněnému jídlu přidej samostatný řádek „AI návrh [název jídla]: ...“
+- hlavní jídlo má vycházet z historie, ale AI návrh musí být NOVÁ varianta, kterou v historii níže nenajdeš doslova ani jako stejnou kombinaci surovin
+- AI návrh nesmí být pouze přejmenované nebo lehce přehozené historické jídlo; má rozšířit jídelníček o nové běžné a věku přiměřené jídlo
+- AI návrh má být opatrný nápad k vyzkoušení, ne tvrzení, že je zaručeně bezpečný
+- zohledni věk dítěte a dostupné údaje o váze/výšce; pokud některý údaj chybí, nevadí, pracuj s tím, co je k dispozici
+- nepoužívej jídla ani suroviny, která jsou uvedená v ručním seznamu „Vyhnout se“ nebo v části „vyhnout se“ z historie
+- nepoužívej položky typu „Nic“, „žádné“, „nejedl“ jako návrh jídla; když chybí vhodná historie, navrhni podobnou bezpečnou variantu
+- neopakuj stejné nebo velmi podobné jídlo hned po sobě
+- zachovej rozumnou pestrost
+- nenavrhuj hlavní jídlo ani AI návrh z jídel/surovin, které jsou v historii v části „vyhnout se“ nebo mají poznámku na konkrétní reakci dítěte (alergie, vyrážka, zvracení, nesedlo apod.)
+- výstup napiš česky
+
+Nejdřív napiš maximálně 3 krátké věty, jak jsi postupoval.
+Potom napiš samostatný blok přesně s názvem:
+
+JÍDELNÍČEK KE ZKOPÍROVÁNÍ
+
+V tomto bloku už nesmí být žádné vysvětlivky, komentáře, odrážky ani markdown tabulka.
+Blok musí obsahovat přesně DEN 1 až DEN ${daysCount}.
+Použij přesně tento formát pro VŠECH ${daysCount} dní:
+
+${formatTemplate}
+
+Historie jídel podle hodnocení:
+${summary.sections}
+
+Ruční seznam Vyhnout se:
+${getAvoidList().length ? getAvoidList().map(x => '- ' + x).join('\n') : '- není vyplněn'}
+
+Důležité poznámky / možné reakce:
+${summary.warnings.length ? summary.warnings.map(x => '- ' + x).join('\n') : '- žádné výrazné varovné poznámky nenalezeny'}
+`;
+
+            document.getElementById('aiPromptOutput').value = prompt;
+        }
+
+
+
+        async function generatePlanWithGemini() {
+            const output = document.getElementById('aiGeminiOutput');
+            const importInput = document.getElementById('aiPlanInput');
+            if (output) output.value = '';
+            if (!document.getElementById('aiPromptOutput')?.value.trim()) generateAiPrompt();
+            const prompt = document.getElementById('aiPromptOutput')?.value || '';
+            if (!prompt.trim()) {
+                setStatusText('geminiAiStatus', 'Nejdřív vytvořte AI podklad.', true);
+                return;
+            }
+            setStatusText('geminiAiStatus', 'Gemini vytváří jídelníček. Chvíli počkejte...');
+            try {
+                const text = await callGeminiApi(prompt, 'geminiAiStatus');
+                if (output) output.value = text;
+                const planBlock = extractAiPlanBlock(text);
+                if (importInput) importInput.value = planBlock;
+                const parsed = parseAiPlanText(planBlock);
+                const expectedDays = getExpectedAiDaysCount();
+                if (parsed.length === 0) {
+                    setStatusText('geminiAiStatus', 'Gemini odpovědělo, ale aplikace v textu nenašla platný blok DEN 1. Odpověď je níže ke kontrole.', true);
+                    return;
+                }
+                const completenessMessage = getAiPlanCompletenessMessage(parsed.length, expectedDays);
+                if (completenessMessage) {
+                    setStatusText('geminiAiStatus', completenessMessage + ' Text je zobrazený níže, ale automatický import raději nepoužívejte bez opravy.', true);
+                    return;
+                }
+                setStatusText('geminiAiStatus', `Gemini plán je připravený k importu (${parsed.length} dní). Zkontrolujte text a klikněte na IMPORTOVAT AI PLÁN.`);
+            } catch (err) {
+                setStatusText('geminiAiStatus', formatGeminiError(err), true);
+            }
+        }
+
+        function moveGeminiResponseToImport() {
+            const output = document.getElementById('aiGeminiOutput');
+            const importInput = document.getElementById('aiPlanInput');
+            const text = output ? output.value : '';
+            if (!text.trim()) {
+                setStatusText('geminiAiStatus', 'Nejdřív vytvořte nebo vložte odpověď Gemini.', true);
+                return;
+            }
+            const planBlock = extractAiPlanBlock(text);
+            if (importInput) importInput.value = planBlock;
+            const parsed = parseAiPlanText(planBlock);
+            if (parsed.length === 0) {
+                setStatusText('geminiAiStatus', 'V odpovědi se nepodařilo najít platný plán ve formátu DEN 1.', true);
+            } else {
+                const expectedDays = getExpectedAiDaysCount();
+                const completenessMessage = getAiPlanCompletenessMessage(parsed.length, expectedDays);
+                setStatusText('geminiAiStatus', completenessMessage || `Odpověď je připravená k importu (${parsed.length} dní).`, Boolean(completenessMessage));
+            }
+        }
+
+        function copyAiPrompt() {
+            const box = document.getElementById('aiPromptOutput');
+            if (!box.value.trim()) generateAiPrompt();
+            box.focus();
+            box.select();
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(box.value).then(() => alert('AI podklad byl zkopírován. Teď ho vložte do ChatGPT.')).catch(() => {
+                    document.execCommand('copy');
+                    alert('AI podklad byl označen a zkopírován, pokud to prohlížeč povolil.');
+                });
+            } else {
+                document.execCommand('copy');
+                alert('AI podklad byl označen a zkopírován, pokud to prohlížeč povolil.');
+            }
+        }
+
+        function setDefaultAiImportStartDate() {
+            const input = document.getElementById('aiImportStartDate');
+            if (!input || input.value) return;
+            const tomorrow = new Date();
+            tomorrow.setHours(0, 0, 0, 0);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            input.value = dateToISO(tomorrow);
+        }
+
+        function normalizeAiMealLabel(label) {
+            return (label || '')
+                .toLowerCase()
+                .replace(/\s+/g, ' ')
+                .replace(/\./g, '')
+                .trim();
+        }
+
+        function mealIndexFromAiLabel(label) {
+            const l = normalizeAiMealLabel(label);
+            if (l.startsWith('snídan') || l.startsWith('snidan')) return 0;
+            if (l.startsWith('dop') || l.includes('dopoled')) return 1;
+            if (l.startsWith('oběd') || l.startsWith('obed')) return 2;
+            if (l.startsWith('odp') || l.includes('odpoled')) return 3;
+            if (l.startsWith('veče') || l.startsWith('vece')) return 4;
+            return -1;
+        }
+
+        function extractAiPlanBlock(text) {
+            let value = (text || '').replace(/\r\n/g, '\n').trim();
+            const marker = value.search(/JÍDELNÍČEK\s+KE\s+ZKOPÍROVÁNÍ|JIDELNICEK\s+KE\s+ZKOPIROVANI/i);
+            if (marker >= 0) value = value.substring(marker).trim();
+            const firstDay = value.search(/(^|\n)\s*DEN\s*\d+/i);
+            if (firstDay >= 0) value = value.substring(firstDay).trim();
+            return value;
+        }
+
+        function parseAiPlanText(text) {
+            const cleaned = extractAiPlanBlock(text);
+            if (!cleaned) return [];
+            const lines = cleaned.split('\n').map(x => x.trim()).filter(Boolean);
+            const days = [];
+            let current = null;
+            let lastMealIndex = -1;
+
+            lines.forEach(line => {
+                if (/^DEN\s*\d+/i.test(line)) {
+                    if (current) days.push(current);
+                    current = { m: Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐', a: '' })) };
+                    lastMealIndex = -1;
+                    return;
+                }
+                if (!current) return;
+                const match = line.match(/^([^:：]+)[:：]\s*(.*)$/);
+                if (!match) return;
+                const rawLabel = match[1] || '';
+                let mealText = (match[2] || '').replace(/^[-–—]\s*/, '').trim();
+                const isAiSuggestion = /ai\s*n[áa]vrh|alternativa|nov[ýy]\s*n[áa]vrh/i.test(rawLabel);
+                if (isAiSuggestion) {
+                    let index = mealIndexFromAiLabel(rawLabel);
+                    if (index < 0) index = lastMealIndex;
+                    if (index >= 0 && mealText && !isEmptyMealText(mealText)) {
+                        current.m[index].a = mealText;
+                    }
+                    return;
+                }
+                const index = mealIndexFromAiLabel(rawLabel);
+                if (index < 0) return;
+                if (!mealText || isEmptyMealText(mealText)) mealText = '';
+                current.m[index] = { t: mealText, w: '', n: '', r: '😐', a: current.m[index]?.a || '' };
+                lastMealIndex = index;
+            });
+            if (current) days.push(current);
+            return days.filter(day => (day.m || []).some(meal => meal.t && !isEmptyMealText(meal.t)));
+        }
+
+        function importAiPlan() {
+            const input = document.getElementById('aiPlanInput');
+            const startInput = document.getElementById('aiImportStartDate');
+            const parsed = parseAiPlanText(input ? input.value : '');
+            if (parsed.length === 0) {
+                alert('Nepodařilo se najít žádný platný den jídelníčku. Vložte blok ve formátu DEN 1, Snídaně, Dop. svačina, Oběd, Odp. svačina, Večeře.');
+                return;
+            }
+
+            const expectedDays = getExpectedAiDaysCount();
+            const completenessMessage = getAiPlanCompletenessMessage(parsed.length, expectedDays);
+            if (completenessMessage && !confirm(`${completenessMessage}
+
+Přesto chcete tento neúplný/odlišný plán importovat?`)) {
+                return;
+            }
+
+            const startDate = isoToDateValue(startInput ? startInput.value : '');
+            if (!startDate) {
+                alert('Vyberte datum, od kdy má AI plán začít.');
+                return;
+            }
+
+            const generated = parsed.map((day, index) => {
+                const d = new Date(startDate);
+                d.setDate(startDate.getDate() + index);
+                return { d: formatDateValue(d), m: day.m, planned: true };
+            });
+
+            const firstDate = generated[0].d;
+            const lastDate = generated[generated.length - 1].d;
+            if (!confirm(`Importovat AI plán od ${firstDate} do ${lastDate}?
+
+Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná historie mimo tato data se nemění.`)) return;
+
+            createAutoBackup('import AI plánu');
+            const generatedMap = new Map(generated.map(item => [item.d, item]));
+            let data = getMainData().filter(item => !generatedMap.has((item.d || '').trim())).concat(generated);
+            setMainData(data);
+            closeAiModal();
+            load();
+            alert(appendPlanWarningsToMessage(`AI plán byl importován jako PLÁN (${generated.length} dní).`, generated));
+        }
+
 
         function parseSmartDate(text, currentVal) {
             const monthsMap = {
@@ -660,8 +3685,9 @@
 
                 // Hlasové Datum
                 if (lastFocusedElement && lastFocusedElement.classList.contains('card-header')) {
-                    targetCard.querySelector('.card-header').innerText = parseSmartDate(res, targetCard.querySelector('.card-header').innerText);
-                    saveAndReload(); return;
+                    const header = targetCard.querySelector('.card-header');
+                    header.innerText = parseSmartDate(res, header.innerText);
+                    handleCardDateBlur(header); return;
                 }
 
                 // PRIORITA 1: Přímý zápis do vybrané buňky (pokud v ní zrovna bliká kurzor)
@@ -723,23 +3749,29 @@
         }
 
         // --- SPRÁVA DAT A MODAL OKNA ---
-        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
+        function openSettings() { loadGeminiSettings(); document.getElementById('settingsModal').style.display = 'flex'; }
         function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
         function triggerImport() { document.getElementById('importFile').click(); closeSettings(); }
 
         function exportData() {
-            const data = localStorage.getItem('nutri_data_v13');
-            const blob = new Blob([data], { type: 'application/json' });
+            const exportObject = {
+                dataVersion: DATA_VERSION,
+                exportedAt: new Date().toISOString(),
+                entries: getMainData(),
+                childProfile: getChildProfile(),
+                avoidList: getAvoidList()
+            };
+            const blob = new Blob([JSON.stringify(exportObject, null, 2)], { type: 'application/json' });
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
             a.download = `vyziva_zaloha_${new Date().toISOString().slice(0, 10)}.json`; a.click(); closeSettings();
         }
 
         function exportCSV() {
-            let csv = "\uFEFFDatum;Snídaně;Gramy;Poznámka;Hodnocení;Dop.Svačina;Gramy;Poznámka;Hodnocení;Oběd;Gramy;Poznámka;Hodnocení;Odp.Svačina;Gramy;Poznámka;Hodnocení;Večeře;Gramy;Poznámka;Hodnocení\n";
+            let csv = "\uFEFFDatum;Denní poznámka;Snídaně;Gramy;Poznámka;Hodnocení;Dop.Svačina;Gramy;Poznámka;Hodnocení;Oběd;Gramy;Poznámka;Hodnocení;Odp.Svačina;Gramy;Poznámka;Hodnocení;Večeře;Gramy;Poznámka;Hodnocení\n";
             const saved = localStorage.getItem('nutri_data_v13');
             if (saved) {
                 JSON.parse(saved).forEach(d => {
-                    let row = `"${d.d}"`;
+                    let row = `"${d.d}";"${d.dn || ''}"`;
                     for (let i = 0; i < 5; i++) {
                         let m = d.m[i] || { t: '', w: '', n: '', r: '😐' };
                         row += `;"${m.t}";"${m.w}";"${m.n}";"${m.r}"`;
@@ -765,26 +3797,34 @@
             document.getElementById('importModal').style.display = 'none';
             if (!pendingImportData) return;
             try {
-                let imported = JSON.parse(pendingImportData);
+                let importedRaw = JSON.parse(pendingImportData);
+                if (importedRaw && !Array.isArray(importedRaw) && Array.isArray(importedRaw.entries)) {
+                    if (importedRaw.childProfile) localStorage.setItem(CHILD_PROFILE_KEY, JSON.stringify(importedRaw.childProfile));
+                    if (Array.isArray(importedRaw.avoidList)) setAvoidList(importedRaw.avoidList);
+                    importedRaw = importedRaw.entries;
+                }
+                let imported = importedRaw;
                 if (!Array.isArray(imported)) throw new Error("Neplatný formát");
 
                 // Převod starých dat (v12 - 4 jídla) na nová data (v13 - 5 jídel)
                 imported = imported.map(item => {
-                    if (item.m.length === 4) {
-                        return { d: item.d, m: [item.m[0], { t: '', w: '', n: '', r: '😐' }, item.m[1], item.m[2], item.m[3]] };
+                    const meals = Array.isArray(item.m) ? item.m : [];
+                    if (meals.length === 4) {
+                        return { d: item.d, m: [meals[0], { t: '', w: '', n: '', r: '😐' }, meals[1], meals[2], meals[3]], planned: item.planned === true };
                     }
                     return item;
                 });
 
+                createAutoBackup(mode === 'overwrite' ? 'import JSON přepsáním' : 'import JSON sloučením');
                 if (mode === 'overwrite') {
-                    localStorage.setItem('nutri_data_v13', JSON.stringify(imported));
+                    localStorage.setItem('nutri_data_v13', JSON.stringify(normalizeAllEntries(imported)));
                 } else if (mode === 'merge') {
                     let currentRaw = localStorage.getItem('nutri_data_v13');
                     let current = currentRaw ? JSON.parse(currentRaw) : [];
                     let dataMap = new Map();
                     current.forEach(item => dataMap.set(item.d, item));
                     imported.forEach(item => dataMap.set(item.d, item));
-                    localStorage.setItem('nutri_data_v13', JSON.stringify(Array.from(dataMap.values())));
+                    localStorage.setItem('nutri_data_v13', JSON.stringify(normalizeAllEntries(Array.from(dataMap.values()))));
                 }
 
                 // ZMĚNA: Zde nesmíme volat save(), jinak si přepíšeme nahraná data tou starou obrazovkou!
@@ -835,9 +3875,15 @@
                     let dValue = cols[0].replace(/^"|"$/g, '').trim();
                     if (!dValue) continue;
 
+                    let dailyNote = '';
+                    let firstMealOffset = 1;
+                    if (cols.length >= 22) {
+                        dailyNote = cols[1] ? cols[1].replace(/^"|"$/g, '').trim() : '';
+                        firstMealOffset = 2;
+                    }
                     let meals = [];
                     for (let j = 0; j < 5; j++) {
-                        let offset = 1 + (j * 4);
+                        let offset = firstMealOffset + (j * 4);
                         meals.push({
                             // Pokud políčko v Excelu chybí (undefined), dosadí se prázdný řetězec nebo smajlík
                             t: cols[offset] ? cols[offset].replace(/^"|"$/g, '').trim() : '',
@@ -847,7 +3893,7 @@
                         });
                     }
 
-                    importedData.push({ d: dValue, m: meals });
+                    importedData.push({ d: dValue, dn: dailyNote, m: meals });
                 }
 
                 if (importedData.length === 0) {
@@ -897,7 +3943,8 @@
                     t: item.querySelector('.m-box').innerText,
                     w: item.querySelector('.w-box').value,
                     n: item.querySelector('.n-box').innerText,
-                    r: item.querySelector('.rating').innerText
+                    r: item.querySelector('.rating').innerText,
+                    a: item.querySelector('.ai-suggestion-text') ? item.querySelector('.ai-suggestion-text').innerText.trim() : ''
                 }))
             }));
             localStorage.setItem('nutri_draft', JSON.stringify(data));
@@ -974,7 +4021,7 @@
         function clearAllDrafts() {
             let data = getDraftData();
             if (data.length === 0) {
-                alert("Pískoviště je už prázdné.");
+                alert("Rozpracované zápisy jsou už prázdné.");
                 return;
             }
 
@@ -1004,7 +4051,7 @@
             renderDraftList();
         }
 
-        // Chytrý mikrofon reagující uvnitř Pískoviště
+        // Chytrý mikrofon reagující uvnitř rozpracovaných zápisů
         function runDraftVoice() {
             const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!Rec) return alert("Hlas není podporován");
