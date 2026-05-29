@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Výživa PRO</title>
+    <title>Výživa PRO - TEST</title>
+    <!-- build: bezpecnostni-rozbor-cache-fix-2026-05-26 -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -337,6 +338,168 @@
             resize: vertical;
         }
 
+
+        .risk-action-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .risk-action-row .modal-btn {
+            flex: 1 1 150px;
+            margin: 0;
+            padding: 8px 7px;
+            font-size: 0.74rem;
+            line-height: 1.2;
+        }
+
+        .risk-choice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .risk-choice-item {
+            display: block;
+            background: #f8f9fa;
+            border: 1px solid #e1e7ec;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 0.86rem;
+            color: #2c3e50;
+        }
+
+        .risk-choice-item input {
+            margin-right: 6px;
+        }
+
+        .risk-custom-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* Výběr rizikové položky se otevírá z Přehledu jídel, proto musí být nad běžnými modaly. */
+        #riskActionModal {
+            z-index: 4500;
+        }
+
+        #riskActionModal .modal-box {
+            position: relative;
+            z-index: 4501;
+        }
+
+
+        .meal-item.meal-watch {
+            border-color: #f39c12;
+            background: #fffaf0;
+        }
+
+        .watch-mark {
+            background: #fff1b8;
+            border-bottom: 2px solid #f39c12;
+            border-radius: 4px;
+            padding: 0 2px;
+            font-weight: 800;
+        }
+
+        .watch-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: auto;
+            flex: 0 0 auto;
+            margin-top: 2px;
+            padding: 6px 8px;
+            border-radius: 999px;
+            border: 1px solid #f5c16c;
+            background: #fff4e6;
+            color: #8a5a00;
+            font-size: 0.72rem;
+            font-weight: 900;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        .watch-badge:active {
+            transform: scale(0.98);
+        }
+
+        .ai-ideas-action-panel {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin: 10px 0 12px;
+            text-align: left;
+        }
+
+        .ai-idea-card {
+            border: 1px solid #f5cba7;
+            background: #fff8f0;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.84rem;
+            line-height: 1.4;
+        }
+
+        .ai-idea-card-title {
+            font-weight: 900;
+            color: #d35400;
+            margin-bottom: 6px;
+        }
+
+        .ai-idea-card-text {
+            color: #34495e;
+            white-space: pre-wrap;
+        }
+
+        .ai-idea-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 9px;
+        }
+
+        .ai-idea-actions .modal-btn {
+            flex: 1 1 120px;
+            margin: 0;
+            padding: 8px 7px;
+            font-size: 0.74rem;
+            line-height: 1.2;
+        }
+
+        .idea-list-card {
+            border: 1px solid #e1e7ec;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 0.84rem;
+            line-height: 1.4;
+        }
+
+        .idea-list-meta {
+            color: #7f8c8d;
+            font-size: 0.76rem;
+            margin-top: 4px;
+        }
+
+        #ideaUseModal, #savedIdeasModal {
+            z-index: 4600;
+        }
+
+        #ideaUseModal .modal-box, #savedIdeasModal .modal-box {
+            position: relative;
+            z-index: 4601;
+        }
+
         /* MODAL OKNA (NASTAVENÍ A IMPORT) */
         .modal-overlay {
             position: fixed;
@@ -569,6 +732,46 @@
             text-align: left;
             display: none;
             white-space: pre-wrap;
+        }
+
+
+        .ai-plan-result-box {
+            width: 100%;
+            min-height: 220px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            resize: vertical;
+            margin: 10px 0;
+            background: #fafafa;
+        }
+
+        .ai-loading-box {
+            background: #f8f9fa;
+            border: 1px solid #e1e7ec;
+            border-radius: 12px;
+            padding: 14px;
+            margin: 10px 0;
+            text-align: center;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .ai-loading-spinner {
+            width: 28px;
+            height: 28px;
+            border: 4px solid #e1e7ec;
+            border-top-color: #8e44ad;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            animation: aiSpin 0.9s linear infinite;
+        }
+
+        @keyframes aiSpin {
+            to { transform: rotate(360deg); }
         }
 
 
@@ -939,18 +1142,83 @@
             text-align: center;
         }
 
+        .more-section {
+            text-align: left;
+            margin: 12px 0 14px;
+            padding: 10px;
+            border: 1px solid #e1e7ec;
+            border-radius: 12px;
+            background: #f8f9fa;
+            --section-btn-bg: #64748b;
+            --section-btn-bg-hover: #536174;
+        }
+
+        .more-section-planning {
+            background: #f6f4ff;
+            border-color: #ddd6fe;
+            --section-btn-bg: #6d5bd0;
+            --section-btn-bg-hover: #5b4ab8;
+        }
+
+        .more-section-safety {
+            background: #fff7ed;
+            border-color: #fed7aa;
+            --section-btn-bg: #d97706;
+            --section-btn-bg-hover: #b96305;
+        }
+
+        .more-section-records {
+            background: #f0f7ff;
+            border-color: #bfdbfe;
+            --section-btn-bg: #2563a7;
+            --section-btn-bg-hover: #1d4f86;
+        }
+
+        .more-section-settings {
+            background: #f5f7f7;
+            border-color: #d8e0e0;
+            --section-btn-bg: #66757a;
+            --section-btn-bg-hover: #556367;
+        }
+
+        .more-section-title {
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: #2c3e50;
+            margin: 0 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+        }
+
         .more-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
-            margin-bottom: 12px;
         }
 
         .more-grid .modal-btn {
             margin-bottom: 0;
-            min-height: 48px;
+            min-height: 46px;
             padding: 10px 7px;
             line-height: 1.2;
+            background: var(--section-btn-bg);
+            box-shadow: none;
+        }
+
+        .more-grid .modal-btn:active {
+            background: var(--section-btn-bg-hover);
+        }
+
+        .more-grid .modal-btn.more-danger-btn {
+            background: #c0392b;
+        }
+
+        .more-grid .modal-btn.more-danger-btn:active {
+            background: #a93226;
+        }
+
+        .more-grid .modal-btn.more-wide-btn {
+            grid-column: 1 / -1;
         }
 
         .reorder-active-strip {
@@ -1088,6 +1356,12 @@
             margin-top: 8px;
         }
 
+        /* FILTRY: zůstává jen jedno tlačítko bez duplicitního textu „Filtry: vše“ */
+        .filter-open-btn {
+            flex: 1 1 100%;
+            max-width: none;
+        }
+
     </style>
 </head>
 
@@ -1111,7 +1385,6 @@
             </div>
             <div class="btn-row filter-row">
                 <button type="button" class="filter-open-btn" onclick="openFilterModal()">🔎 FILTRY</button>
-                <div id="activeFilterSummary" class="filter-summary">Filtry: vše</div>
             </div>
         </div>
     </div>
@@ -1178,21 +1451,46 @@
 
 
     <div class="modal-overlay" id="moreMenuModal">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width:430px;">
             <div class="modal-title">Další funkce</div>
-            <div class="modal-text">Méně časté nástroje jsou schované tady, aby deník při listování nezabíral tolik místa.</div>
-            <div class="more-grid">
-                <button class="modal-btn" style="background:#16a085" onclick="closeMoreMenu(); openPlanner();">🗓️ Plán</button>
-                <button class="modal-btn" style="background:#8e44ad" onclick="closeMoreMenu(); openAiModal();">🤖 AI</button>
-                <button id="reorderPlanBtn" class="modal-btn" style="background:#3498db" onclick="closeMoreMenu(); togglePlanReorderMode();">↕️ Přeskládat</button>
-                <button class="modal-btn" style="background:#c0392b" onclick="closeMoreMenu(); openDeleteManager();">🧹 Smazat</button>
-                <button class="modal-btn" style="background:#1abc9c" onclick="closeMoreMenu(); openChildModal();">👶 Údaje dítěte</button>
-                <button class="modal-btn" style="background:#d35400" onclick="closeMoreMenu(); openAvoidListModal();">🚫 Vyhnout se</button>
-                <button class="modal-btn" style="background:#27ae60" onclick="closeMoreMenu(); openOverviewModal();">📊 Přehled jídel</button>
-                <button class="modal-btn" style="background:#2980b9" onclick="closeMoreMenu(); openManualModal();">📘 Manuál</button>
-                <button class="modal-btn" style="background:#2c3e50" onclick="closeMoreMenu(); openDraft();">📥 Rozpracované zápisy</button>
-                <button class="modal-btn" style="background:#7f8c8d" onclick="closeMoreMenu(); openSettings();">⚙️ Správa dat</button>
+            <div class="modal-text">Funkce jsou rozdělené podle účelu, aby bylo jasnější, kam sáhnout.</div>
+
+            <div class="more-section more-section-planning">
+                <div class="more-section-title">🧠 Plánování a AI</div>
+                <div class="more-grid">
+                    <button class="modal-btn" onclick="closeMoreMenu(); openPlanner();">🗓️ Plán jídel</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openAiModal();">🤖 AI návrhy</button>
+                    <button class="modal-btn more-wide-btn" onclick="closeMoreMenu(); openSavedIdeasModal();">💡 Nápady jídel</button>
+                </div>
             </div>
+
+            <div class="more-section more-section-safety">
+                <div class="more-section-title">⚠️ Bezpečnost a rozbor</div>
+                <div class="more-grid">
+                    <button class="modal-btn more-wide-btn" onclick="closeMoreMenu(); openOverviewModal();">📊 Rozbor jídelníčku</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openAvoidListModal();">🚫 Vyhnout se</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openWatchListModal();">👀 Sledovat</button>
+                </div>
+            </div>
+
+            <div class="more-section more-section-records">
+                <div class="more-section-title">🧾 Práce se záznamy</div>
+                <div class="more-grid">
+                    <button id="reorderPlanBtn" class="modal-btn" onclick="closeMoreMenu(); togglePlanReorderMode();">↕️ Přeskládat plán</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openDraft();">📥 Rozpracované</button>
+                    <button class="modal-btn more-wide-btn more-danger-btn" onclick="closeMoreMenu(); openDeleteManager();">🧹 Mazání záznamů</button>
+                </div>
+            </div>
+
+            <div class="more-section more-section-settings">
+                <div class="more-section-title">⚙️ Nastavení a pomoc</div>
+                <div class="more-grid">
+                    <button class="modal-btn" onclick="closeMoreMenu(); openChildModal();">👶 Údaje dítěte</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openSettings();">⚙️ Zálohy a data</button>
+                    <button class="modal-btn more-wide-btn" onclick="closeMoreMenu(); openManualModal();">📘 Manuál</button>
+                </div>
+            </div>
+
             <button class="modal-btn btn-cancel" onclick="closeMoreMenu()">ZAVŘÍT</button>
         </div>
     </div>
@@ -1219,7 +1517,7 @@
                     <div class="child-age-box" id="childAgeDisplay">nezadáno</div>
                 </div>
             </div>
-            <button class="modal-btn btn-merge" style="margin-top:15px;" onclick="closeChildModal()">ULOŽIT A ZAVŘÍT</button>
+            <button class="modal-btn btn-merge" style="margin-top:15px;" onclick="closeChildModal(true)">ULOŽIT A ZAVŘÍT</button>
         </div>
     </div>
 
@@ -1230,21 +1528,92 @@
             <div class="modal-text" style="text-align:left;">Sem napište potraviny, jídla nebo kombinace, které se nemají používat v offline plánu ani v AI promptu. Každý řádek jedna položka.</div>
             <textarea id="avoidListText" class="avoid-list-textarea" placeholder="např. vejce\nkousky mrkve\nkonkrétní sklenička..."></textarea>
             <button class="modal-btn btn-merge" style="margin-top:12px;" onclick="saveAvoidListFromModal()">💾 ULOŽIT</button>
-            <button class="modal-btn btn-cancel" onclick="closeAvoidListModal()">ZAVŘÍT</button>
+            <button class="modal-btn btn-cancel" onclick="closeAvoidListModal(true)">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="watchListModal">
+        <div class="modal-box" style="max-width:430px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">Sledovat</div>
+            <div class="modal-text" style="text-align:left;">Sem napište podezřelé potraviny, jídla nebo kombinace, které ještě nejsou jistě zakázané, ale mají být vidět v přehledu a v AI podkladu. Každý řádek jedna položka.</div>
+            <textarea id="watchListText" class="avoid-list-textarea" placeholder="např. cottage
+sardinky
+květák..."></textarea>
+            <button class="modal-btn btn-merge" style="margin-top:12px; background:#e67e22;" onclick="saveWatchListFromModal()">💾 ULOŽIT</button>
+            <button class="modal-btn btn-cancel" onclick="closeWatchListModal(true)">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="riskActionModal" onclick="if (event.target === this) closeRiskActionModal()">
+        <div class="modal-box" style="max-width:430px; text-align:left;">
+            <div class="modal-title" id="riskActionTitle" style="text-align:center;">Co přidat?</div>
+            <div class="modal-text" id="riskActionText" style="text-align:left; margin-bottom:12px;"></div>
+            <div id="riskActionChoices" class="risk-choice-list"></div>
+            <label style="display:block; font-size:0.8rem; font-weight:800; margin:12px 0 5px; color:#2c3e50;">Nebo vlastní text</label>
+            <input id="riskActionCustom" type="text" placeholder="např. jen sardinky" style="width:100%; box-sizing:border-box; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:12px;">
+            <button class="modal-btn btn-merge" onclick="confirmRiskActionChoice()">✅ PŘIDAT VYBRANÉ</button>
+            <button class="modal-btn btn-cancel" onclick="closeRiskActionModal()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="ideaUseModal" onclick="if (event.target === this) closeIdeaUseModal()">
+        <div class="modal-box" style="max-width:430px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">Kam vložit návrh?</div>
+            <div class="modal-text" id="ideaUseSummary" style="text-align:left; margin-bottom:12px;"></div>
+
+            <label style="display:block; font-size:0.8rem; font-weight:800; margin:10px 0 5px; color:#2c3e50;">Datum</label>
+            <input id="ideaUseDate" type="date" onchange="updateIdeaUseAutoMode()" style="width:100%; box-sizing:border-box; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px;">
+
+            <label style="display:block; font-size:0.8rem; font-weight:800; margin:10px 0 5px; color:#2c3e50;">Typ jídla</label>
+            <select id="ideaUseMealIndex" style="width:100%; margin-bottom:10px;">
+                <option value="0">Snídaně</option>
+                <option value="1">Dop. svačina</option>
+                <option value="2">Oběd</option>
+                <option value="3">Odp. svačina</option>
+                <option value="4">Večeře</option>
+            </select>
+
+            <label style="display:block; font-size:0.8rem; font-weight:800; margin:10px 0 5px; color:#2c3e50;">Režim dne</label>
+            <select id="ideaUseDayMode" style="width:100%; margin-bottom:10px;">
+                <option value="auto" selected>Automaticky podle data</option>
+                <option value="real">Skutečný den</option>
+                <option value="plan">PLÁN</option>
+            </select>
+            <div id="ideaUseAutoModeHint" class="small-help-text" style="margin-top:-4px;">Budoucí datum se uloží jako PLÁN, dnešek a minulost jako skutečný den.</div>
+
+            <label style="display:block; font-size:0.8rem; font-weight:800; margin:10px 0 5px; color:#2c3e50;">Jak vložit</label>
+            <select id="ideaUseInsertMode" style="width:100%; margin-bottom:12px;">
+                <option value="ai" selected>Jako AI návrh pod jídlo</option>
+                <option value="main">Jako hlavní jídlo</option>
+                <option value="append">Přidat za stávající text</option>
+            </select>
+
+            <div id="ideaUseWarning" class="ai-status" style="display:none; cursor:pointer;" title="Kliknutím zobrazíte detail upozornění" onclick="showIdeaUseWarningDetails()"></div>
+            <button class="modal-btn btn-merge" onclick="confirmUseIdea()">✅ VLOŽIT NÁVRH</button>
+            <button class="modal-btn btn-cancel" onclick="closeIdeaUseModal()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="savedIdeasModal">
+        <div class="modal-box" style="max-width:520px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">💡 Nápady jídel</div>
+            <div class="modal-text" style="text-align:left;">Sem se ukládají AI nápady, které ještě nechcete dát rovnou do dne nebo plánu.</div>
+            <div id="savedIdeasContent"></div>
+            <button class="modal-btn btn-cancel" onclick="closeSavedIdeasModal(true)">ZAVŘÍT</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="overviewModal">
         <div class="modal-box" style="max-width:460px; text-align:left;">
-            <div class="modal-title" style="text-align:center;">Přehled jídel</div>
+            <div class="modal-title" style="text-align:center;">Rozbor jídelníčku</div>
             <div id="overviewContent"></div>
-            <button class="modal-btn btn-cancel" onclick="closeOverviewModal()">ZAVŘÍT</button>
+            <button class="modal-btn btn-cancel" onclick="closeOverviewModal(true)">ZAVŘÍT</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="manualModal">
         <div class="modal-box manual-modal-box">
-            <button type="button" class="ai-close-x" onclick="closeManualModal()">×</button>
+            <button type="button" class="ai-close-x" onclick="closeManualModal(true)">×</button>
             <div class="modal-title" style="text-align:center;">Manuál aplikace</div>
             <div class="manual-intro">
                 Tento manuál popisuje hlavní funkce deníku výživy, plánování jídelníčku a práci s AI. Většinu méně častých nástrojů najdete přes tlačítko <b>⋯ DALŠÍ</b>.
@@ -1327,6 +1696,8 @@
                         <li>AI návrh má být nová věkově přiměřená možnost, kterou jste ještě nezkoušeli.</li>
                         <li><b>POUŽÍT</b> přesune návrh do hlavního jídla.</li>
                         <li><b>ZAMÍTNOUT</b> návrh odstraní.</li>
+                        <li>V AI okně je také režim <b>✨ 3 návrhy pro pestrost</b>, který nevytváří celý plán, ale jen tři opatrné nápady. Pestrost hodnotí podle zvoleného období, ale bezpečnost, rizika, seznam „Vyhnout se“ a seznam „Sledovat“ kontroluje z celé historie.</li>
+                        <li>U návrhů lze použít <b>➕ Použít</b> pro vložení do konkrétního dne/plánu, <b>💡 Uložit</b> pro odložení do Nápadů jídel nebo <b>🗑️ Zahodit</b>.</li>
                     </ul>
                 </div>
             </details>
@@ -1389,15 +1760,18 @@
                         <li>Datum narození se do AI neposílá, posílá se jen vypočtený věk v měsících.</li>
                         <li>Váha a výška se do AI použijí jen tehdy, když jsou vyplněné.</li>
                         <li><b>Vyhnout se</b> je ruční seznam jídel, surovin nebo kombinací, které nemá používat offline plán ani AI.</li>
+                        <li><b>Sledovat</b> je ruční seznam podezřelých položek, které ještě nejsou jistě zakázané, ale mají být vidět v přehledu, AI podkladu a přímo u jídel jako oranžové upozornění.</li>
                     </ul>
                 </div>
             </details>
 
             <details class="manual-section">
-                <summary>📊 Přehled jídel</summary>
+                <summary>📊 Rozbor jídelníčku</summary>
                 <div class="manual-section-content">
                     <ul>
-                        <li>Zobrazí nejčastější jídla, oblíbená jídla, nechutnalo, AI nápady a ruční seznam vyhnout se.</li>
+                        <li>Zobrazí nejčastější jídla, oblíbená jídla, nechutnalo/rizikové položky, AI nápady, ruční seznam Vyhnout se a ruční seznam Sledovat.</li>
+                        <li>Hlídá i riziková slova v denní poznámce a poznámkách u jídel, například vyrážka, alergie nebo zvracení.</li>
+                        <li>U rizikového jídla nabídne přidání celého jídla, jedné složky nebo vlastního textu buď do 🚫 Vyhnout se, nebo do 👀 Sledovat.</li>
                         <li>Přehled bere jako základ hlavně skutečný deník, ne plán.</li>
                     </ul>
                 </div>
@@ -1428,7 +1802,7 @@
                 </div>
             </details>
 
-            <button class="modal-btn btn-cancel" onclick="closeManualModal()">ZAVŘÍT</button>
+            <button class="modal-btn btn-cancel" onclick="closeManualModal(true)">ZAVŘÍT</button>
         </div>
     </div>
 
@@ -1436,6 +1810,7 @@
         <div class="modal-box">
             <div class="modal-title">Správa dat</div>
             <div class="modal-text">Záloha, obnova a export do PC</div>
+            <div id="appVersionText" class="small-help-text" style="text-align:center; margin-top:-8px;">Verze aplikace: načítám…</div>
             <button class="modal-btn btn-excel" onclick="exportCSV()">📊 EXPORT DO EXCELU (.csv)</button>
             <button class="modal-btn style-csv-import" style="background:#27ae60; margin-bottom: 20px;"
                 onclick="triggerCSVImport()">📂 IMPORT Z EXCELU (.csv)</button>
@@ -1461,7 +1836,7 @@
             <button class="modal-btn btn-overwrite" onclick="deleteGeminiSettings()">🗑️ SMAZAT API KLÍČ</button>
 
             <button class="modal-btn" style="background:#2980b9" onclick="closeSettings(); openManualModal();">📘 OTEVŘÍT MANUÁL</button>
-            <button class="modal-btn btn-cancel" onclick="closeSettings()">ZAVŘÍT</button>
+            <button class="modal-btn btn-cancel" onclick="closeSettings(true)">ZAVŘÍT</button>
             <button class="modal-btn btn-overwrite" style="margin-top: 30px;" onclick="clearAllMainData()">🔥 SMAZAT
                 ÚPLNĚ VŠECHNA DATA</button>
             <input type="file" id="importFile" style="display:none" accept=".json" onchange="handleFileSelect(event)">
@@ -1511,13 +1886,13 @@
 
             <button class="modal-btn btn-merge" onclick="generateMealPlan()">✅ VYTVOŘIT NÁVRH</button>
             <button class="modal-btn btn-overwrite" onclick="cancelGeneratedPlan()">🗑️ ZRUŠIT PLÁN</button>
-            <button class="modal-btn btn-cancel" onclick="closePlanner()">ZAVŘÍT</button>
+            <button class="modal-btn btn-cancel" onclick="closePlanner(true)">ZAVŘÍT</button>
         </div>
     </div>
 
-    <div class="modal-overlay" id="aiModal" onclick="if (event.target === this) closeAiModal()">
+    <div class="modal-overlay" id="aiModal" onclick="if (event.target === this) closeAiModal(true)">
         <div class="modal-box" style="max-width:560px;">
-            <button type="button" class="ai-close-x" onclick="closeAiModal()" aria-label="Zavřít AI okno">×</button>
+            <button type="button" class="ai-close-x" onclick="closeAiModal(true)" aria-label="Zavřít AI okno">×</button>
             <div class="modal-title">AI jídelníček</div>
             <div class="modal-text">Můžete vytvořit podklad ke zkopírování, nebo zavolat Gemini přímo přes vlastní API klíč uložený v nastavení.</div>
 
@@ -1528,12 +1903,7 @@
                 <option value="base">Chutnalo 😍 + dobré 🙂 + základ 😐</option>
             </select>
 
-            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Délka AI návrhu</label>
-            <select id="aiDays" style="width:100%; margin-bottom:10px;">
-                <option value="7">7 dní</option>
-                <option value="14">14 dní</option>
-                <option value="30" selected>30 dní</option>
-            </select>
+            <input type="hidden" id="aiDays" value="7">
 
             <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Co má AI plánovat</label>
             <select id="aiMealScope" style="width:100%; margin-bottom:12px;">
@@ -1545,38 +1915,92 @@
                 <option value="4">Jen večeře</option>
             </select>
 
-            <textarea id="aiPromptOutput" readonly style="width:100%; min-height:220px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
-            <button class="modal-btn btn-merge" onclick="generateAiPrompt()">🤖 VYTVOŘIT PODKLAD</button>
-            <button class="modal-btn btn-import" onclick="copyAiPrompt()">📋 KOPÍROVAT TEXT PRO AI</button>
+            <div style="border-top:1px solid #eee; margin:16px 0 14px;"></div>
+            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">✨ 3 návrhy pro pestrost</div>
+            <div class="small-help-text">Rychlá inspirace místo celého jídelníčku. Návrhy respektují „Vyhnout se“, „Sledovat“ a rizikové poznámky. Nejde o lékařské doporučení, vždy rozhoduje rodič.</div>
 
-            <div style="border-top:1px solid #eee; margin:18px 0 14px;"></div>
-            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">Přímé dotazování Gemini</div>
-            <div class="small-help-text">Použije se Gemini API klíč ze Správy dat. Odpověď se nejdřív zobrazí ke kontrole a zároveň se připraví pro import.</div>
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Typ návrhů</label>
+            <select id="aiIdeasStyle" style="width:100%; margin-bottom:10px;">
+                <option value="safe" selected>Bezpečné kombinace ze známých surovin</option>
+                <option value="variety">Rozšířit pestrost jídelníčku</option>
+                <option value="oneNew">Opatrně jedna nová / méně používaná surovina</option>
+            </select>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Pro jaké jídlo</label>
+            <select id="aiIdeasMealScope" style="width:100%; margin-bottom:10px;">
+                <option value="all" selected>Libovolné denní jídlo</option>
+                <option value="0">Snídaně</option>
+                <option value="1">Dop. svačina</option>
+                <option value="2">Oběd</option>
+                <option value="3">Odp. svačina</option>
+                <option value="4">Večeře</option>
+            </select>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Období pro pestrost</label>
+            <select id="aiIdeasPeriod" style="width:100%; margin-bottom:6px;">
+                <option value="14" selected>Posledních 14 dní</option>
+                <option value="7">Posledních 7 dní</option>
+                <option value="30">Posledních 30 dní</option>
+                <option value="all">Celá historie</option>
+            </select>
+            <div class="small-help-text" style="margin-top:0;">Bezpečnost, „Vyhnout se“, „Sledovat“ a rizikové poznámky se kontrolují vždy z celé historie. Toto období ovlivňuje jen pestrost a časté opakování jídel.</div>
+
+            <button class="modal-btn" style="background:#d35400" onclick="generateIdeasWithGemini()">🤖 3 NÁVRHY PŘES GEMINI</button>
             <div id="geminiAiStatus" class="ai-status"></div>
-            <button class="modal-btn btn-merge" style="background:#8e44ad;" onclick="generatePlanWithGemini()">🤖 VYTVOŘIT PLÁN PŘES GEMINI</button>
-            <textarea id="aiGeminiOutput" readonly placeholder="Tady se zobrazí odpověď Gemini..." style="width:100%; min-height:170px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
-            <button class="modal-btn btn-import" onclick="moveGeminiResponseToImport()">⬇️ PŘIPRAVIT ODPOVĚĎ K IMPORTU</button>
+            <div id="aiIdeasActionPanel" class="ai-ideas-action-panel"></div>
+
+            <details class="manual-section" style="margin-top:10px;">
+                <summary>⚙️ Pokročilé / ruční práce s AI textem</summary>
+                <div class="manual-section-content">
+                    <div class="small-help-text">
+                        Tato část je hlavně záloha pro ruční práci: když nechcete nebo nemůžete použít přímé Gemini, můžete si tady vytvořit podklad, zkopírovat ho do jiné AI a odpověď vložit zpět. V běžném používání ji není potřeba otevírat.
+                    </div>
+                    <button class="modal-btn" style="background:#e67e22" onclick="generateAiIdeasPrompt()">✨ VYTVOŘIT PODKLAD PRO 3 NÁVRHY</button>
+                    <textarea id="aiPromptOutput" readonly style="width:100%; min-height:170px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
+                    <button class="modal-btn btn-import" onclick="copyAiPrompt()">📋 KOPÍROVAT AKTUÁLNÍ PODKLAD PRO AI</button>
+
+                    <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:12px 0 5px; color:#2c3e50;">Ruční odpověď AI / Gemini</label>
+                    <textarea id="aiGeminiOutput" placeholder="Sem lze ručně vložit odpověď AI. U 3 návrhů očekávám formát NÁVRH 1, NÁVRH 2, NÁVRH 3. U plánu očekávám DEN 1, DEN 2..." style="width:100%; min-height:150px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
+                    <button class="modal-btn" style="background:#e67e22" onclick="renderAiIdeasActionsFromOutput()">✨ NAČÍST 3 NÁVRHY Z RUČNÍHO TEXTU</button>
+                    <button class="modal-btn btn-import" onclick="moveGeminiResponseToImport()">⬇️ PŘIPRAVIT RUČNÍ TEXT K IMPORTU PLÁNU</button>
+                </div>
+            </details>
 
             <div style="border-top:1px solid #eee; margin:18px 0 14px;"></div>
-            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">Import AI jídelníčku</div>
-            <div class="modal-text" style="margin-bottom:10px;">Sem vložte jen výsledný blok jídelníčku od AI. Aplikace ho uloží jako PLÁN.</div>
-            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Začít plán od data</label>
-            <input type="date" id="aiImportStartDate" style="width:100%; box-sizing:border-box; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px; font-weight:bold; color:#2c3e50;">
-            <textarea id="aiPlanInput" placeholder="Vložte například:
-
-DEN 1
-Snídaně: ...
-Dop. svačina: ...
-Oběd: ...
-Odp. svačina: ...
-Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; border:1px solid #ddd; border-radius:8px; padding:10px; font-size:0.82rem; line-height:1.4; resize:vertical; margin-bottom:10px;"></textarea>
-            <button class="modal-btn btn-merge" onclick="importAiPlan()">📥 IMPORTOVAT AI PLÁN</button>
-            <button class="modal-btn btn-cancel" onclick="closeAiModal()">ZAVŘÍT</button>
+            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">🗓️ AI plán jídelníčku</div>
+            <div class="small-help-text">Po kliknutí nejdřív vyberete počet dní. Výchozí volba je 7 dní, aby se omylem nevytvářel zbytečně dlouhý plán.</div>
+            <button class="modal-btn btn-merge" style="background:#8e44ad;" onclick="openAiPlanDaysModal()">🤖 VYTVOŘIT PLÁN PŘES GEMINI</button>
+            <input type="date" id="aiImportStartDate" aria-hidden="true" style="display:none;">
+            <textarea id="aiPlanInput" aria-hidden="true" style="display:none;"></textarea>
+            <button class="modal-btn btn-cancel" onclick="closeAiModal(true)">ZAVŘÍT</button>
         </div>
     </div>
 
 
 
+
+    <div class="modal-overlay" id="aiPlanDaysModal" onclick="if (event.target === this) closeAiPlanDaysModal()">
+        <div class="modal-box" style="max-width:430px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">Kolik dní má mít AI plán?</div>
+            <div class="modal-text" style="text-align:left;">Vyberte délku plánu. Výchozí je 7 dní, aby se při nechtěném kliknutí neposílal zbytečně dlouhý požadavek na Gemini.</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px;">
+                <button type="button" class="modal-btn" style="background:#8e44ad; margin:0;" onclick="selectAiPlanDays(7)">7 dní</button>
+                <button type="button" class="modal-btn" style="background:#8e44ad; margin:0;" onclick="selectAiPlanDays(14)">14 dní</button>
+                <button type="button" class="modal-btn" style="background:#8e44ad; margin:0;" onclick="selectAiPlanDays(30)">30 dní</button>
+            </div>
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Nebo vlastní počet dní</label>
+            <input id="aiPlanCustomDays" type="number" min="1" max="60" inputmode="numeric" placeholder="např. 10" style="width:100%; box-sizing:border-box; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px; font-weight:bold; color:#2c3e50;">
+            <button class="modal-btn btn-merge" onclick="startAiPlanWithCustomDays()">✅ POKRAČOVAT S VLASTNÍM POČTEM</button>
+            <button class="modal-btn btn-cancel" onclick="closeAiPlanDaysModal()">ZAVŘÍT</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="aiPlanResultModal" onclick="if (event.target === this && !window.aiPlanModalBusy) closeAiPlanResultModal()">
+        <div class="modal-box" style="max-width:560px; text-align:left;">
+            <div class="modal-title" style="text-align:center;">🗓️ AI plán jídelníčku</div>
+            <div id="aiPlanModalContent"></div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="deleteManagerModal">
         <div class="modal-box">
@@ -1593,7 +2017,7 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
 
             <div style="border-top: 1px solid #eee; margin: 18px 0 15px;"></div>
             <button class="modal-btn btn-import" onclick="startDeleteSelectionMode()">☑️ RUČNĚ OZNAČIT DNY</button>
-            <button class="modal-btn btn-cancel" onclick="closeDeleteManager()">ZAVŘÍT</button>
+            <button class="modal-btn btn-cancel" onclick="closeDeleteManager(true)">ZAVŘÍT</button>
         </div>
     </div>
 
@@ -1627,7 +2051,7 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             <div class="draft-list" id="draftList">
             </div>
             <button class="modal-btn btn-merge" onclick="transferDraft()">✅ ODESLAT DO HLAVNÍHO DENÍKU</button>
-            <button class="modal-btn btn-cancel" onclick="closeDraft()">ZAVŘÍT (Uloží se jako koncept)</button>
+            <button class="modal-btn btn-cancel" onclick="closeDraft(true)">ZAVŘÍT (Uloží se jako koncept)</button>
             <button class="modal-btn btn-overwrite" style="margin-top: 25px;" onclick="clearAllDrafts()">🗑️ SMAZAT
                 VŠECHNY KONCEPTY</button>
         </div>
@@ -1641,6 +2065,7 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
         let currentRatingFilter = 'all';
         let currentViewFilter = 'all';
         let currentTextFilter = '';
+        let currentAiPlanAbortController = null;
         let isRendering = false;
         let deleteSelectionMode = false;
         let selectedDeleteDates = new Set();
@@ -1666,8 +2091,14 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
         const CHILD_PROFILE_KEY = 'nutri_child_profile_v1';
         const GEMINI_SETTINGS_KEY = 'nutri_gemini_settings_v1';
         const AVOID_LIST_KEY = 'nutri_avoid_list_v1';
+        const WATCH_LIST_KEY = 'nutri_watch_list_v1';
+        const RESOLVED_RISKS_KEY = 'nutri_resolved_risks_v1';
+        const SAVED_IDEAS_KEY = 'nutri_saved_ideas_v1';
         const AUTO_BACKUP_KEY = 'nutri_last_auto_backup_v1';
+        let currentAiIdeaSuggestions = [];
+        let pendingIdeaUse = null;
         const DATA_VERSION = 3;
+        const APP_VERSION = '2026-05-28-watch-highlight-v1';
 
         function getChildProfile() {
             const raw = localStorage.getItem(CHILD_PROFILE_KEY);
@@ -1747,8 +2178,9 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             document.getElementById('avoidListModal').style.display = 'flex';
         }
 
-        function closeAvoidListModal() {
+        function closeAvoidListModal(backToMore = false) {
             document.getElementById('avoidListModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
         }
 
         function saveAvoidListFromModal() {
@@ -1756,6 +2188,81 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             setAvoidList((box ? box.value : '').split('\n'));
             closeAvoidListModal();
             alert('Seznam „Vyhnout se“ byl uložen. Použije se pro offline plán i pro AI prompt.');
+        }
+
+
+        function getWatchList() {
+            const raw = localStorage.getItem(WATCH_LIST_KEY) || '';
+            return raw.split('\n').map(x => x.trim()).filter(Boolean);
+        }
+
+        function setWatchList(items) {
+            const text = (items || []).map(x => (x || '').trim()).filter(Boolean).join('\n');
+            localStorage.setItem(WATCH_LIST_KEY, text);
+        }
+
+        function openWatchListModal() {
+            const box = document.getElementById('watchListText');
+            if (box) box.value = getWatchList().join('\n');
+            document.getElementById('watchListModal').style.display = 'flex';
+        }
+
+        function closeWatchListModal(backToMore = false) {
+            document.getElementById('watchListModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
+        }
+
+        function saveWatchListFromModal() {
+            const box = document.getElementById('watchListText');
+            setWatchList((box ? box.value : '').split('\n'));
+            closeWatchListModal();
+            alert('Seznam „Sledovat“ byl uložen. Použije se jako upozornění v přehledu a v AI podkladu.');
+        }
+
+
+        function getResolvedRisks() {
+            const raw = localStorage.getItem(RESOLVED_RISKS_KEY) || '[]';
+            try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed.map(String).filter(Boolean) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function setResolvedRisks(items) {
+            const unique = Array.from(new Set((items || []).map(String).filter(Boolean)));
+            localStorage.setItem(RESOLVED_RISKS_KEY, JSON.stringify(unique));
+        }
+
+        function makeRiskId(item) {
+            return normalizeSearchText([
+                item?.date || '',
+                item?.mealLabel || '',
+                item?.food || '',
+                item?.note || ''
+            ].join('|'));
+        }
+
+        function isRiskResolved(item) {
+            const id = typeof item === 'string' ? item : makeRiskId(item);
+            if (!id) return false;
+            return getResolvedRisks().includes(id);
+        }
+
+        function markRiskResolved(encodedRiskId) {
+            const id = decodeURIComponent(encodedRiskId || '').trim();
+            if (!id) return;
+            const current = getResolvedRisks();
+            if (!current.includes(id)) setResolvedRisks([...current, id]);
+            openOverviewModal();
+        }
+
+        function restoreRiskToNew(encodedRiskId) {
+            const id = decodeURIComponent(encodedRiskId || '').trim();
+            if (!id) return;
+            setResolvedRisks(getResolvedRisks().filter(x => x !== id));
+            openOverviewModal();
         }
 
         function textMatchesAvoidList(text) {
@@ -1767,6 +2274,108 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             });
         }
 
+
+        function getSavedIdeas() {
+            const raw = localStorage.getItem(SAVED_IDEAS_KEY) || '[]';
+            try { return Array.isArray(JSON.parse(raw)) ? JSON.parse(raw) : []; } catch (e) { return []; }
+        }
+
+        function setSavedIdeas(items) {
+            localStorage.setItem(SAVED_IDEAS_KEY, JSON.stringify(Array.isArray(items) ? items : []));
+        }
+
+        function makeIdeaId() {
+            return 'idea_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        }
+
+        function openSavedIdeasModal() {
+            renderSavedIdeas();
+            document.getElementById('savedIdeasModal').style.display = 'flex';
+        }
+
+        function closeSavedIdeasModal(backToMore = false) {
+            document.getElementById('savedIdeasModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
+        }
+
+        function textMatchesWatchList(text) {
+            const normalized = normalizeFoodName(text);
+            if (!normalized) return false;
+            return getWatchList().some(item => {
+                const watch = normalizeFoodName(item);
+                return watch && (normalized.includes(watch) || watch.includes(normalized));
+            });
+        }
+
+
+        function getMatchedListItems(text, items) {
+            const normalized = normalizeFoodName(text);
+            if (!normalized) return [];
+            return (items || []).filter(item => {
+                const value = normalizeFoodName(item);
+                return value && (normalized.includes(value) || value.includes(normalized));
+            });
+        }
+
+        function getWatchHits(text) {
+            return getMatchedListItems(text, getWatchList());
+        }
+
+        function renderTextWithWatchMarks(text, hits) {
+            const value = String(text || '');
+            const list = (hits || [])
+                .map(x => String(x || '').trim())
+                .filter(Boolean)
+                .sort((a, b) => b.length - a.length);
+            if (!value || !list.length) return escapeHtml(value);
+
+            const lower = value.toLowerCase();
+            const ranges = [];
+            list.forEach(hit => {
+                const target = hit.toLowerCase();
+                if (!target) return;
+                let start = 0;
+                while (start < lower.length) {
+                    const idx = lower.indexOf(target, start);
+                    if (idx === -1) break;
+                    const end = idx + target.length;
+                    const overlaps = ranges.some(r => idx < r.end && end > r.start);
+                    if (!overlaps) ranges.push({ start: idx, end });
+                    start = end;
+                }
+            });
+
+            if (!ranges.length) return escapeHtml(value);
+            ranges.sort((a, b) => a.start - b.start);
+            let html = '';
+            let pos = 0;
+            ranges.forEach(range => {
+                html += escapeHtml(value.slice(pos, range.start));
+                html += `<span class="watch-mark">${escapeHtml(value.slice(range.start, range.end))}</span>`;
+                pos = range.end;
+            });
+            html += escapeHtml(value.slice(pos));
+            return html;
+        }
+
+        function watchBadgeHtml(hits) {
+            const list = Array.from(new Set((hits || []).map(x => String(x || '').trim()).filter(Boolean)));
+            if (!list.length) return '';
+            const label = list.length === 1 ? list[0] : list.slice(0, 3).join(', ') + (list.length > 3 ? '…' : '');
+            return `<button type="button" class="watch-badge" onclick="showWatchDetail('${encodeURIComponent(JSON.stringify(list))}')">👀 SLEDOVAT: ${escapeHtml(label)}</button>`;
+        }
+
+        function showWatchDetail(encodedItems) {
+            let items = [];
+            try { items = JSON.parse(decodeURIComponent(encodedItems || '[]')); } catch (err) { items = []; }
+            items = Array.isArray(items) ? items.map(x => String(x || '').trim()).filter(Boolean) : [];
+            if (!items.length) {
+                alert('Toto jídlo obsahuje položku ze seznamu „Sledovat“.');
+                return;
+            }
+            alert('Toto jídlo obsahuje položku ze seznamu „Sledovat":\n\n- ' + items.join('\n- ') + '\n\nPokud jídlo podáte, sledujte případnou reakci dítěte. Nejde o zákaz jako u „Vyhnout se“, ale o upozornění.');
+        }
+
         function createAutoBackup(reason) {
             try {
                 const backup = {
@@ -1776,6 +2385,9 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
                     entries: getMainData(),
                     childProfile: getChildProfile(),
                     avoidList: getAvoidList(),
+                    watchList: getWatchList(),
+                    resolvedRisks: getResolvedRisks(),
+                    savedIdeas: getSavedIdeas(),
                     draft: getDraftData ? getDraftData() : []
                 };
                 localStorage.setItem(AUTO_BACKUP_KEY, JSON.stringify(backup));
@@ -1803,6 +2415,9 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             localStorage.setItem('nutri_data_v13', JSON.stringify(normalizeAllEntries(backup.entries)));
             if (backup.childProfile) localStorage.setItem(CHILD_PROFILE_KEY, JSON.stringify(backup.childProfile));
             if (Array.isArray(backup.avoidList)) setAvoidList(backup.avoidList);
+            if (Array.isArray(backup.watchList)) setWatchList(backup.watchList);
+            if (Array.isArray(backup.resolvedRisks)) setResolvedRisks(backup.resolvedRisks);
+            if (Array.isArray(backup.savedIdeas)) setSavedIdeas(backup.savedIdeas);
             if (Array.isArray(backup.draft)) localStorage.setItem('nutri_draft', JSON.stringify(backup.draft));
             closeSettings();
             loadChildProfile();
@@ -1847,16 +2462,18 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             document.getElementById('overviewModal').style.display = 'flex';
         }
 
-        function closeOverviewModal() {
+        function closeOverviewModal(backToMore = false) {
             document.getElementById('overviewModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
         }
 
         function openManualModal() {
             document.getElementById('manualModal').style.display = 'flex';
         }
 
-        function closeManualModal() {
+        function closeManualModal(backToMore = false) {
             document.getElementById('manualModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
         }
 
         function addCount(map, key) {
@@ -1870,29 +2487,253 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             return '<ul>' + rows.map(([name, count]) => `<li>${escapeHtml(name)} <b>${count}×</b></li>`).join('') + '</ul>';
         }
 
+        function hasRiskWords(value) {
+            return /alerg|vyráž|vyraz|zvracen|zvracení|reakc|průjem|prujem|bolest|nevol|osyp|dušen|dusil|kašel|kasel/i.test(value || '');
+        }
+
+        function getRiskReason(value) {
+            const text = String(value || '').toLowerCase();
+            const hits = [];
+            if (/alerg/.test(text)) hits.push('alergie');
+            if (/vyráž|vyraz|osyp/.test(text)) hits.push('vyrážka/osypání');
+            if (/zvracen|zvracení/.test(text)) hits.push('zvracení');
+            if (/průjem|prujem/.test(text)) hits.push('průjem');
+            if (/bolest|nevol/.test(text)) hits.push('bolest/nevolnost');
+            if (/dušen|dusil|kašel|kasel/.test(text)) hits.push('kašel/dušení');
+            if (/reakc/.test(text)) hits.push('reakce');
+            return hits.length ? hits.join(', ') : 'riziková poznámka';
+        }
+
+        function normalizeAvoidCandidate(value) {
+            return String(value || '').replace(/\s+/g, ' ').trim();
+        }
+
+        let pendingRiskAction = null;
+
+        function splitFoodCandidates(foodText) {
+            const food = normalizeAvoidCandidate(foodText);
+            if (!food) return [];
+            const candidates = [];
+            const add = (value) => {
+                const cleaned = normalizeAvoidCandidate(value)
+                    .replace(/^[,;:\-–—]+|[,;:\-–—]+$/g, '')
+                    .trim();
+                if (!cleaned || cleaned.length < 2) return;
+                if (/^(a|s|se|plus|nebo)$/i.test(cleaned)) return;
+                if (!candidates.some(x => normalizeFoodName(x) === normalizeFoodName(cleaned))) candidates.push(cleaned);
+            };
+
+            add(food);
+            food.split(/\s*(?:,|;|\+|\ba\b|\bs\b|\bse\b|\bplus\b|\bnebo\b|\(|\))\s*/i).forEach(add);
+
+            return candidates.slice(0, 10);
+        }
+
+        function openRiskActionModal(encodedValue, listType, encodedRiskId = '') {
+            const food = normalizeAvoidCandidate(decodeURIComponent(encodedValue || ''));
+            if (!food) return;
+            const type = listType === 'watch' ? 'watch' : 'avoid';
+            pendingRiskAction = { food, listType: type, riskId: decodeURIComponent(encodedRiskId || '') };
+
+            const title = document.getElementById('riskActionTitle');
+            const text = document.getElementById('riskActionText');
+            const choices = document.getElementById('riskActionChoices');
+            const custom = document.getElementById('riskActionCustom');
+            if (!title || !text || !choices || !custom) return;
+
+            title.innerText = type === 'avoid' ? 'Co přidat do „Vyhnout se“?' : 'Co přidat do „Sledovat“?';
+            text.innerHTML = type === 'avoid'
+                ? 'Vyberte celé jídlo, konkrétní složku nebo napište vlastní text. „Vyhnout se“ znamená opravdu nepoužívat v plánu ani AI podkladu.'
+                : 'Vyberte celé jídlo, konkrétní složku nebo napište vlastní text. „Sledovat“ znamená podezřelé, ale ještě ne jistě zakázané.';
+
+            const candidates = splitFoodCandidates(food);
+            choices.innerHTML = candidates.map((candidate, index) => `
+                <label class="risk-choice-item">
+                    <input type="radio" name="riskChoice" value="${escapeHtml(candidate)}" ${index === 0 ? 'checked' : ''}>
+                    ${index === 0 ? '<b>Celé jídlo:</b> ' : '<b>Složka / část:</b> '}${escapeHtml(candidate)}
+                </label>
+            `).join('');
+            custom.value = '';
+            document.getElementById('riskActionModal').style.display = 'flex';
+        }
+
+        function closeRiskActionModal() {
+            document.getElementById('riskActionModal').style.display = 'none';
+            pendingRiskAction = null;
+        }
+
+        function addToNamedList(value, listType) {
+            const item = normalizeAvoidCandidate(value);
+            if (!item) return false;
+            const getter = listType === 'watch' ? getWatchList : getAvoidList;
+            const setter = listType === 'watch' ? setWatchList : setAvoidList;
+            const current = getter();
+            const exists = current.some(x => normalizeFoodName(x) === normalizeFoodName(item));
+            if (exists) return 'exists';
+            setter([...current, item]);
+            return true;
+        }
+
+        function confirmRiskActionChoice() {
+            if (!pendingRiskAction) return;
+            const custom = normalizeAvoidCandidate(document.getElementById('riskActionCustom')?.value || '');
+            const selected = document.querySelector('input[name="riskChoice"]:checked')?.value || '';
+            const value = custom || selected;
+            if (!value) {
+                alert('Vyberte položku nebo napište vlastní text.');
+                return;
+            }
+            const result = addToNamedList(value, pendingRiskAction.listType);
+            const listName = pendingRiskAction.listType === 'watch' ? 'Sledovat' : 'Vyhnout se';
+            if (result === 'exists') {
+                alert(`Položka už v seznamu „${listName}“ je.`);
+                return;
+            }
+            const resolvedId = pendingRiskAction.riskId;
+            if (resolvedId) {
+                const currentResolved = getResolvedRisks();
+                if (!currentResolved.includes(resolvedId)) setResolvedRisks([...currentResolved, resolvedId]);
+            }
+            closeRiskActionModal();
+            alert(`Přidáno do seznamu „${listName}“: ${value}`);
+            openOverviewModal();
+        }
+
+        function riskItemsHtml(items) {
+            if (!items.length) {
+                return '<div style="color:#27ae60; font-weight:bold;">Žádné nové rizikové poznámky u konkrétních jídel.</div>';
+            }
+            return '<div style="display:flex; flex-direction:column; gap:10px;">' + items.map(item => {
+                const riskId = item.riskId || makeRiskId(item);
+                const actionButtons = item.food
+                    ? `<div class="risk-action-row">
+                        <button type="button" class="modal-btn" style="background:#d35400;" onclick="openRiskActionModal('${encodeURIComponent(item.food)}', 'avoid', '${encodeURIComponent(riskId)}')">🚫 Vyhnout se</button>
+                        <button type="button" class="modal-btn" style="background:#e67e22;" onclick="openRiskActionModal('${encodeURIComponent(item.food)}', 'watch', '${encodeURIComponent(riskId)}')">👀 Sledovat</button>
+                        <button type="button" class="modal-btn" style="background:#7f8c8d;" onclick="markRiskResolved('${encodeURIComponent(riskId)}')">✅ Zpracováno</button>
+                    </div>`
+                    : `<div class="risk-action-row"><button type="button" class="modal-btn" style="background:#7f8c8d;" onclick="markRiskResolved('${encodeURIComponent(riskId)}')">✅ Zpracováno</button></div>`;
+                const ratingWarning = item.rating && item.rating !== '☹️'
+                    ? `<div style="margin-top:6px; color:#c0392b;"><b>Rozpor:</b> hodnocení je ${escapeHtml(item.rating)}, ale poznámka obsahuje riziko.</div>`
+                    : '';
+                return `
+                    <div style="border:1px solid #f5c6cb; background:#fff5f5; border-radius:8px; padding:10px;">
+                        <div><b>${escapeHtml(item.date)}</b> – ${escapeHtml(item.mealLabel)}</div>
+                        ${item.food ? `<div><b>Jídlo:</b> ${escapeHtml(item.food)}</div>` : ''}
+                        <div><b>Důvod:</b> ${escapeHtml(item.reason)}</div>
+                        <div><b>Poznámka:</b> ${escapeHtml(item.note)}</div>
+                        ${ratingWarning}
+                        ${actionButtons}
+                    </div>`;
+            }).join('') + '</div>';
+        }
+
+        function dayRiskNotesHtml(items) {
+            if (!items.length) {
+                return '<div style="color:#95a5a6;">Žádné nové rizikové denní poznámky.</div>';
+            }
+            return '<div style="display:flex; flex-direction:column; gap:10px;">' + items.map(item => {
+                const riskId = item.riskId || makeRiskId(item);
+                return `
+                    <div style="border:1px solid #f1c40f; background:#fffaf0; border-radius:8px; padding:10px;">
+                        <div><b>${escapeHtml(item.date)}</b> – denní poznámka</div>
+                        <div><b>Důvod:</b> ${escapeHtml(item.reason)}</div>
+                        <div><b>Poznámka:</b> ${escapeHtml(item.note)}</div>
+                        <div style="margin-top:6px; color:#7f8c8d; font-size:0.82rem;">Denní poznámka není konkrétní jídlo. Zkontrolujte jídla z tohoto dne a případně přidejte podezřelou položku ručně do „Vyhnout se“ nebo „Sledovat“.</div>
+                        <div class="risk-action-row"><button type="button" class="modal-btn" style="background:#7f8c8d;" onclick="markRiskResolved('${encodeURIComponent(riskId)}')">✅ Zpracováno</button></div>
+                    </div>`;
+            }).join('') + '</div>';
+        }
+
+        function resolvedRisksHtml(items) {
+            if (!items.length) return '<div style="color:#95a5a6;">Zatím žádná zpracovaná rizika.</div>';
+            return `<details class="manual-section" style="margin-top:6px;">
+                <summary>📁 Zpracovaná rizika (${items.length})</summary>
+                <div class="manual-section-content" style="padding:10px 0 0;">
+                    <div style="display:flex; flex-direction:column; gap:8px;">${items.map(item => {
+                        const riskId = item.riskId || makeRiskId(item);
+                        const state = item.food && textMatchesAvoidList(item.food) ? '🚫 celé jídlo je ve „Vyhnout se“' : (item.food && textMatchesWatchList(item.food) ? '👀 celé jídlo je ve „Sledovat“' : '✅ zpracováno');
+                        return `<div style="border:1px solid #e1e7ec; background:#f8f9fa; border-radius:8px; padding:8px;">
+                            <div><b>${escapeHtml(item.date)}</b> – ${escapeHtml(item.mealLabel)}</div>
+                            ${item.food ? `<div><b>Jídlo:</b> ${escapeHtml(item.food)}</div>` : ''}
+                            <div><b>Poznámka:</b> ${escapeHtml(item.note)}</div>
+                            <div style="color:#7f8c8d; font-size:0.8rem; margin-top:4px;">Stav: ${state}</div>
+                            <button type="button" class="modal-btn" style="background:#3498db; margin-top:7px; padding:8px;" onclick="restoreRiskToNew('${encodeURIComponent(riskId)}')">↩️ Vrátit mezi nové</button>
+                        </div>`;
+                    }).join('')}</div>
+                </div>
+            </details>`;
+        }
+
         function buildOverviewHtml() {
             const data = getMainData().filter(item => item.planned !== true);
             const loved = new Map();
             const disliked = new Map();
             const frequent = new Map();
             const aiIdeas = new Map();
-            data.forEach(day => (day.m || []).forEach(meal => {
-                const text = (meal.t || '').trim();
-                if (text && !isEmptyMealText(text)) {
-                    addCount(frequent, text);
-                    if ((meal.r || '').trim() === '😍') addCount(loved, text);
-                    if ((meal.r || '').trim() === '☹️') addCount(disliked, text);
+            const riskMealItems = [];
+            const dayRiskItems = [];
+            const resolvedRiskItems = [];
+
+            function addRiskItem(target, item) {
+                item.riskId = makeRiskId(item);
+                const isHandled = isRiskResolved(item) || (item.food && (textMatchesAvoidList(item.food) || textMatchesWatchList(item.food)));
+                if (isHandled) resolvedRiskItems.push(item);
+                else target.push(item);
+            }
+
+            data.forEach(day => {
+                const dayNote = (day.dn || '').trim();
+                if (hasRiskWords(dayNote)) {
+                    addRiskItem(dayRiskItems, {
+                        date: day.d || '',
+                        mealLabel: 'Denní poznámka',
+                        food: '',
+                        note: dayNote,
+                        rating: '',
+                        reason: getRiskReason(dayNote)
+                    });
                 }
-                const idea = (meal.a || '').trim();
-                if (idea && !isEmptyMealText(idea)) addCount(aiIdeas, idea);
-            }));
+
+                (day.m || []).forEach((meal, index) => {
+                    const text = (meal.t || '').replace(/\s+/g, ' ').trim();
+                    const note = (meal.n || '').replace(/\s+/g, ' ').trim();
+                    const rating = (meal.r || '').trim();
+                    const mealIsRisky = hasRiskWords(note);
+
+                    if (text && !isEmptyMealText(text)) {
+                        addCount(frequent, text);
+                        if (rating === '😍' && !mealIsRisky) addCount(loved, text);
+                        if (rating === '☹️' || mealIsRisky) addCount(disliked, text);
+                    }
+
+                    const idea = (meal.a || '').trim();
+                    if (idea && !isEmptyMealText(idea)) addCount(aiIdeas, idea);
+
+                    if (mealIsRisky) {
+                        addRiskItem(riskMealItems, {
+                            date: day.d || '',
+                            mealLabel: mealLabels[index] || 'Jídlo',
+                            food: text,
+                            note,
+                            rating,
+                            reason: getRiskReason(note)
+                        });
+                    }
+                });
+            });
+
             const avoid = getAvoidList();
+            const watch = getWatchList();
             return `
+                <div class="overview-box"><h4>⚠️ Nové rizikové poznámky u jídel</h4>${riskItemsHtml(riskMealItems)}</div>
+                <div class="overview-box"><h4>📝 Rizikové denní poznámky</h4>${dayRiskNotesHtml(dayRiskItems)}</div>
+                <div class="overview-box"><h4>📁 Zpracovaná rizika</h4>${resolvedRisksHtml(resolvedRiskItems)}</div>
                 <div class="overview-box"><h4>😍 Nejčastější oblíbená jídla</h4>${topListHtml(loved)}</div>
                 <div class="overview-box"><h4>📌 Nejčastější jídla celkově</h4>${topListHtml(frequent)}</div>
-                <div class="overview-box"><h4>☹️ Jídla, která nechutnala</h4>${topListHtml(disliked)}</div>
+                <div class="overview-box"><h4>☹️ Nechutnalo nebo rizikové</h4>${topListHtml(disliked)}</div>
                 <div class="overview-box"><h4>✨ AI nápady k vyzkoušení</h4>${topListHtml(aiIdeas)}</div>
                 <div class="overview-box"><h4>🚫 Ruční seznam Vyhnout se</h4>${avoid.length ? '<ul>' + avoid.map(x => `<li>${escapeHtml(x)}</li>`).join('') + '</ul>' : '<div style="color:#95a5a6;">Seznam je prázdný.</div>'}</div>
+                <div class="overview-box"><h4>👀 Ruční seznam Sledovat</h4>${watch.length ? '<ul>' + watch.map(x => `<li>${escapeHtml(x)}</li>`).join('') + '</ul>' : '<div style="color:#95a5a6;">Seznam je prázdný.</div>'}</div>
             `;
         }
 
@@ -2006,10 +2847,11 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
         }
 
         function formatGeminiError(err) {
+            if (err && err.name === 'AbortError') return 'Požadavek na Gemini byl přerušen.';
             return `Chyba Gemini: ${translateGeminiErrorMessage(err && err.message ? err.message : err)}`;
         }
 
-        async function callGeminiApi(promptText, statusElementId) {
+        async function callGeminiApi(promptText, statusElementId, abortSignal) {
             const settings = getGeminiSettings();
             if (!settings.apiKey) throw new Error('Gemini API klíč není uložený. Otevřete ⋯ DALŠÍ → Správa dat → Gemini AI.');
             const model = settings.model || 'gemini-2.5-flash';
@@ -2020,6 +2862,7 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
                     'Content-Type': 'application/json',
                     'x-goog-api-key': settings.apiKey
                 },
+                signal: abortSignal,
                 body: JSON.stringify({
                     contents: [
                         {
@@ -2071,16 +2914,23 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             document.getElementById('moreMenuModal').style.display = 'none';
         }
 
+        function returnToMoreMenuIfRequested(backToMore) {
+            if (backToMore) {
+                setTimeout(openMoreMenu, 0);
+            }
+        }
+
         function openChildModal() {
             loadChildProfile();
             document.getElementById('childProfileModal').style.display = 'flex';
             adjustSpacing();
         }
 
-        function closeChildModal() {
+        function closeChildModal(backToMore = false) {
             saveChildProfile();
             document.getElementById('childProfileModal').style.display = 'none';
             adjustSpacing();
+            returnToMoreMenuIfRequested(backToMore);
         }
 
 
@@ -2404,7 +3254,7 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
                 html += `<label class="delete-check-wrap"><input type="checkbox" class="delete-day-checkbox" ${selectedDeleteDates.has((e.d || '').trim()) ? 'checked' : ''} onchange="toggleDeleteSelection(this.closest('.card').dataset.originalDate, this)"> Vybrat</label>`;
                 html += `<button onclick="delMainCard(this)" style="position:absolute; top:15px; right:15px; background:transparent; color:var(--danger); border:1px solid var(--danger); border-radius:6px; padding:6px 10px; font-size:1.1rem; cursor:pointer; z-index:10;">🗑️</button>`;
             }
-            html += `<div class="card-header" contenteditable="true" onblur="handleCardDateBlur(this)">${e.d}</div>${e.planned ? '<span class="planned-badge">PLÁN</span>' : ''}`;
+            html += `<div class="card-header" contenteditable="true" onblur="handleCardDateBlur(this)">${escapeHtml(e.d)}</div>${e.planned ? '<span class="planned-badge">PLÁN</span>' : ''}`;
             if (!reorderPlanMode && e.planned) {
                 html += `<button type="button" class="plan-confirm-btn" onclick="confirmPlannedDay(this)">✅ SKUTEČNÝ DEN</button>`;
             }
@@ -2414,17 +3264,21 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             for (let i = 0; i < 5; i++) {
                 const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐', a: '' };
                 let bg = rates[m.r] || '#e3f9e5';
+                const watchHits = getWatchHits(m.t || '');
+                const aiWatchHits = getWatchHits(m.a || '');
                 const hiddenClass = mealMatchesFilters(m, i, dayTextMatches) ? '' : ' meal-hidden';
+                const watchClass = watchHits.length ? ' meal-watch' : '';
                 html += `
-            <div class="meal-item${hiddenClass}" data-index="${i}">
+            <div class="meal-item${hiddenClass}${watchClass}" data-index="${i}">
                 <div class="meal-label">${mealLabels[i]}</div>
                 <div class="meal-content">
-                    <div class="m-box" contenteditable="true" oninput="save()" placeholder="Napište jídlo...">${m.t}</div>
-                    <input type="number" class="w-box" placeholder="Gramy (g)" value="${m.w}" oninput="save()">
-                    <div class="n-box" contenteditable="true" oninput="save()" placeholder="Poznámka...">${m.n}</div>
-                    ${m.a ? `<div class="ai-suggestion-box"><div class="ai-suggestion-title">✨ AI návrh na rozšíření</div><div class="ai-suggestion-text">${m.a}</div><div class="ai-suggestion-actions"><button type="button" class="ai-use-btn" onclick="useAiSuggestion(this)">POUŽÍT</button><button type="button" class="ai-reject-btn" onclick="rejectAiSuggestion(this)">ZAMÍTNOUT</button></div></div>` : ''}
+                    <div class="m-box" contenteditable="true" oninput="save()" placeholder="Napište jídlo...">${renderTextWithWatchMarks(m.t, watchHits)}</div>
+                    ${watchBadgeHtml(watchHits)}
+                    <input type="number" class="w-box" placeholder="Gramy (g)" value="${escapeHtml(m.w)}" oninput="save()">
+                    <div class="n-box" contenteditable="true" oninput="save()" placeholder="Poznámka...">${escapeHtml(m.n)}</div>
+                    ${m.a ? `<div class="ai-suggestion-box"><div class="ai-suggestion-title">✨ AI návrh na rozšíření</div><div class="ai-suggestion-text">${renderTextWithWatchMarks(m.a, aiWatchHits)}</div>${watchBadgeHtml(aiWatchHits)}<div class="ai-suggestion-actions"><button type="button" class="ai-use-btn" onclick="useAiSuggestion(this)">POUŽÍT</button><button type="button" class="ai-reject-btn" onclick="rejectAiSuggestion(this)">ZAMÍTNOUT</button></div></div>` : ''}
                 </div>
-                <div class="rating" onclick="cycle(this)" style="background:${bg}">${m.r}</div>
+                <div class="rating" onclick="cycle(this)" style="background:${bg}">${escapeHtml(m.r)}</div>
             </div>`;
             }
             card.innerHTML = html;
@@ -2631,7 +3485,10 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
         function setViewFilter(v) { currentViewFilter = v; updateFilterSummary(); load(); }
 
         function openPlanner() { document.getElementById('plannerModal').style.display = 'flex'; }
-        function closePlanner() { document.getElementById('plannerModal').style.display = 'none'; }
+        function closePlanner(backToMore = false) {
+            document.getElementById('plannerModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
+        }
 
         function parseDateValue(str) {
             const p = (str || '').split('.').map(x => parseInt(x.trim(), 10));
@@ -2734,7 +3591,10 @@ Večeře: ..." style="width:100%; min-height:180px; box-sizing:border-box; borde
             document.getElementById('deleteManagerModal').style.display = 'flex';
         }
 
-        function closeDeleteManager() { document.getElementById('deleteManagerModal').style.display = 'none'; }
+        function closeDeleteManager(backToMore = false) {
+            document.getElementById('deleteManagerModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
+        }
 
         function cancelGeneratedPlan() {
             const data = getMainData();
@@ -2890,7 +3750,7 @@ Tuto akci nelze vrátit zpět.`)) return;
             const btn = document.getElementById('reorderPlanBtn');
             if (btn) {
                 btn.innerText = reorderPlanMode ? '✅ HOTOVO' : '↕️ PŘESKLÁDAT';
-                btn.style.background = reorderPlanMode ? '#27ae60' : '#3498db';
+                btn.style.background = reorderPlanMode ? '#27ae60' : '';
             }
             load();
             if (reorderPlanMode) window.scrollTo(0, 0);
@@ -3208,7 +4068,7 @@ Tuto akci nelze vrátit zpět.`)) return;
                     if (!meal || index > 4) return;
                     const text = (meal.t || '').trim();
                     const rating = (meal.r || '😐').trim();
-                    if (!text || isEmptyMealText(text) || textMatchesAvoidList(text) || !allowed.includes(rating) || rating === '☹️') return;
+                    if (!text || isEmptyMealText(text) || textMatchesAvoidList(text) || hasRiskWords(meal.n || '') || !allowed.includes(rating) || rating === '☹️') return;
                     const key = normalizeFoodName(text);
                     if (seen[index].has(key)) return;
                     seen[index].add(key);
@@ -3303,7 +4163,10 @@ Tuto akci nelze vrátit zpět.`)) return;
             generateAiPrompt();
         }
 
-        function closeAiModal() { document.getElementById('aiModal').style.display = 'none'; }
+        function closeAiModal(backToMore = false) {
+            document.getElementById('aiModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
+        }
 
         function getAllowedRatingsForMode(mode) {
             if (mode === 'love') return ['😍'];
@@ -3326,8 +4189,10 @@ Tuto akci nelze vrátit zpět.`)) return;
                     if (!text || isEmptyMealText(text)) return;
                     const key = normalizeFoodName(text);
                     const rating = meal.r || '😐';
+                    const note = (meal.n || '').trim();
                     const isManualAvoid = textMatchesAvoidList(text);
-                    const target = isManualAvoid ? avoidMaps[index] : (allowed.includes(rating) ? goodMaps[index] : (rating === '☹️' ? avoidMaps[index] : null));
+                    const isRiskyNote = hasRiskWords(note);
+                    const target = (isManualAvoid || isRiskyNote || rating === '☹️') ? avoidMaps[index] : (allowed.includes(rating) ? goodMaps[index] : null);
                     if (target) {
                         const current = target.get(key) || { t: text, count: 0, ratings: {}, lastDate: day.d, notes: [] };
                         current.count++;
@@ -3336,8 +4201,7 @@ Tuto akci nelze vrátit zpět.`)) return;
                         if (meal.n && current.notes.length < 2) current.notes.push(meal.n.replace(/\s+/g, ' ').trim());
                         target.set(key, current);
                     }
-                    const note = (meal.n || '').trim();
-                    if (note && /alerg|vyráž|zvracen|reakc|průjem|bolest|nevol|osyp/i.test(note)) {
+                    if (note && hasRiskWords(note)) {
                         noteItems.push(`${day.d} – ${mealLabels[index]}: ${text} | poznámka: ${note}`);
                     }
                 });
@@ -3388,14 +4252,543 @@ Tuto akci nelze vrátit zpět.`)) return;
         }
 
         function getExpectedAiDaysCount() {
-            const value = document.getElementById('aiDays')?.value || '7';
-            return Math.max(1, parseInt(value, 10) || 7);
+            const value = document.getElementById('aiDays')?.value || window.aiPlanDaysCount || '7';
+            const parsed = Math.max(1, parseInt(value, 10) || 7);
+            return Math.min(parsed, 60);
+        }
+
+        function setAiPlanDaysCount(days) {
+            const parsed = Math.max(1, Math.min(60, parseInt(days, 10) || 7));
+            window.aiPlanDaysCount = parsed;
+            const input = document.getElementById('aiDays');
+            if (input) input.value = String(parsed);
+            return parsed;
+        }
+
+        function openAiPlanDaysModal() {
+            setAiPlanDaysCount(7);
+            const custom = document.getElementById('aiPlanCustomDays');
+            if (custom) custom.value = '';
+            const modal = document.getElementById('aiPlanDaysModal');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeAiPlanDaysModal() {
+            const modal = document.getElementById('aiPlanDaysModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function selectAiPlanDays(days) {
+            setAiPlanDaysCount(days);
+            closeAiPlanDaysModal();
+            generatePlanWithGemini();
+        }
+
+        function startAiPlanWithCustomDays() {
+            const raw = document.getElementById('aiPlanCustomDays')?.value || '';
+            const days = parseInt(raw, 10);
+            if (!days || days < 1) {
+                alert('Zadejte platný počet dní.');
+                return;
+            }
+            if (days > 60) {
+                alert('Kvůli délce odpovědi je maximum 60 dní.');
+                return;
+            }
+            setAiPlanDaysCount(days);
+            closeAiPlanDaysModal();
+            generatePlanWithGemini();
         }
 
         function getAiPlanCompletenessMessage(parsedCount, expectedCount) {
             if (parsedCount === expectedCount) return '';
             if (parsedCount < expectedCount) return `AI vrátila jen ${parsedCount} z ${expectedCount} dní. Plán je neúplný, zkuste vytvoření spustit znovu.`;
             return `AI vrátila ${parsedCount} dní místo požadovaných ${expectedCount}. Zkontrolujte výsledek před importem.`;
+        }
+
+
+        function getRecentEntriesForAiIdeas(periodValue) {
+            const all = getMainData().filter(item => item.planned !== true);
+            if (periodValue === 'all') return all;
+            const daysBack = parseInt(periodValue, 10);
+            if (!daysBack || Number.isNaN(daysBack)) return all;
+            const today = new Date();
+            const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            start.setDate(start.getDate() - daysBack + 1);
+            return all.filter(item => {
+                const d = parseDateValue(item.d);
+                return d && d >= start;
+            });
+        }
+
+        function summarizeRecentFoodsForIdeas(entries, mealScope) {
+            const selectedIndexes = mealScope === 'all' ? [0, 1, 2, 3, 4] : [parseInt(mealScope, 10)];
+            const good = new Map();
+            const frequent = new Map();
+            const disliked = new Map();
+            const riskNotes = [];
+
+            entries.forEach(day => {
+                (day.m || []).forEach((meal, index) => {
+                    if (!selectedIndexes.includes(index)) return;
+                    const text = (meal.t || '').replace(/\s+/g, ' ').trim();
+                    const note = (meal.n || '').replace(/\s+/g, ' ').trim();
+                    const rating = (meal.r || '😐').trim();
+                    if (!text || isEmptyMealText(text)) return;
+                    addCount(frequent, text);
+                    if ((rating === '😍' || rating === '🙂') && !hasRiskWords(note) && !textMatchesAvoidList(text)) addCount(good, text);
+                    if (rating === '☹️' || hasRiskWords(note) || textMatchesAvoidList(text)) addCount(disliked, text);
+                    if (note && hasRiskWords(note)) riskNotes.push(`${day.d} – ${mealLabels[index]}: ${text} | poznámka: ${note}`);
+                });
+            });
+
+            function linesFromMap(map, limit) {
+                return Array.from(map.entries())
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, limit)
+                    .map(([name, count]) => `- ${name} (${count}×)`);
+            }
+
+            return {
+                good: linesFromMap(good, 14),
+                frequent: linesFromMap(frequent, 14),
+                disliked: linesFromMap(disliked, 12),
+                riskNotes: riskNotes.slice(0, 12)
+            };
+        }
+
+        function summarizeSafetyFoodsForIdeas(mealScope) {
+            const selectedIndexes = mealScope === 'all' ? [0, 1, 2, 3, 4] : [parseInt(mealScope, 10)];
+            const disliked = new Map();
+            const riskNotes = [];
+
+            getMainData().forEach(day => {
+                if (day.planned === true) return;
+                const dayNote = (day.dn || '').replace(/\s+/g, ' ').trim();
+                if (dayNote && hasRiskWords(dayNote)) riskNotes.push(`${day.d} – denní poznámka: ${dayNote}`);
+
+                (day.m || []).forEach((meal, index) => {
+                    if (!selectedIndexes.includes(index)) return;
+                    const text = (meal.t || '').replace(/\s+/g, ' ').trim();
+                    const note = (meal.n || '').replace(/\s+/g, ' ').trim();
+                    const rating = (meal.r || '😐').trim();
+                    if (!text || isEmptyMealText(text)) return;
+                    if (rating === '☹️' || hasRiskWords(note) || textMatchesAvoidList(text)) addCount(disliked, text);
+                    if (note && hasRiskWords(note)) riskNotes.push(`${day.d} – ${mealLabels[index]}: ${text} | poznámka: ${note}`);
+                });
+            });
+
+            const dislikedLines = Array.from(disliked.entries())
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 18)
+                .map(([name, count]) => `- ${name} (${count}×)`);
+
+            return {
+                disliked: dislikedLines,
+                riskNotes: riskNotes.slice(0, 18)
+            };
+        }
+
+        function parseAiIdeasText(text) {
+            const cleaned = String(text || '').replace(/\r\n/g, '\n').trim();
+            if (!cleaned) return [];
+            const matches = Array.from(cleaned.matchAll(/(?:^|\n)\s*NÁVRH\s*\d+\s*\n([\s\S]*?)(?=(?:\n\s*NÁVRH\s*\d+\s*\n)|$)/gi));
+            const blocks = matches.length ? matches.map(m => (m[1] || '').trim()) : [cleaned];
+            return blocks.map((block, index) => {
+                const titleMatch = block.match(/(?:^|\n)\s*Jídlo\s*[:：]\s*(.+)/i);
+                const typeMatch = block.match(/(?:^|\n)\s*Typ\s*jídla\s*[:：]\s*(.+)/i);
+                const title = titleMatch ? titleMatch[1].trim() : (block.split('\n').find(x => x.trim()) || '').replace(/^[-•]\s*/, '').trim();
+                const mealType = typeMatch ? typeMatch[1].trim() : '';
+                if (!title) return null;
+                return { id: makeIdeaId(), title, mealType, text: block, index };
+            }).filter(Boolean).slice(0, 6);
+        }
+
+        function mealIndexFromIdeaType(typeText) {
+            const t = normalizeSearchText(typeText || '');
+            if (!t) return -1;
+            if (t.includes('snidan')) return 0;
+            if (t.includes('dopoled') || t.includes('dop svac')) return 1;
+            if (t.includes('obed')) return 2;
+            if (t.includes('odpoled') || t.includes('odp svac')) return 3;
+            if (t.includes('vecer')) return 4;
+            return -1;
+        }
+
+        function renderAiIdeasActionsFromOutput() {
+            const text = document.getElementById('aiGeminiOutput')?.value || '';
+            const ideas = parseAiIdeasText(text);
+            renderAiIdeasActions(ideas);
+            if (!ideas.length) setStatusText('geminiAiStatus', 'V textu jsem nenašel návrhy ve formátu NÁVRH 1 / Jídlo:.', true);
+        }
+
+        function renderAiIdeasActions(ideas) {
+            currentAiIdeaSuggestions = Array.isArray(ideas) ? ideas : [];
+            const panel = document.getElementById('aiIdeasActionPanel');
+            if (!panel) return;
+            if (!currentAiIdeaSuggestions.length) {
+                panel.style.display = 'none';
+                panel.innerHTML = '';
+                return;
+            }
+            panel.style.display = 'flex';
+            panel.innerHTML = currentAiIdeaSuggestions.map((idea, index) => `
+                <div class="ai-idea-card" data-idea-index="${index}">
+                    <div class="ai-idea-card-title">Návrh ${index + 1}: ${escapeHtml(idea.title)}</div>
+                    <div class="ai-idea-card-text">${escapeHtml(idea.text)}</div>
+                    <div class="ai-idea-actions">
+                        <button type="button" class="modal-btn" style="background:#27ae60" onclick="openUseIdeaModal(${index})">➕ Použít</button>
+                        <button type="button" class="modal-btn" style="background:#e67e22" onclick="saveAiIdea(${index})">💡 Uložit</button>
+                        <button type="button" class="modal-btn" style="background:#7f8c8d" onclick="discardAiIdea(${index})">🗑️ Zahodit</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function discardAiIdea(index) {
+            currentAiIdeaSuggestions.splice(index, 1);
+            renderAiIdeasActions(currentAiIdeaSuggestions);
+            setStatusText('geminiAiStatus', 'Návrh byl schovaný z aktuálního seznamu.');
+        }
+
+        function saveAiIdea(index) {
+            const idea = currentAiIdeaSuggestions[index];
+            if (!idea) return;
+            const saved = getSavedIdeas();
+            const ideaTitleKey = normalizeFoodName(idea.title || '');
+            const ideaTextKey = normalizeFoodName(idea.text || idea.title || '');
+            const exists = saved.some(item => normalizeFoodName(item.title || '') === ideaTitleKey && normalizeFoodName(item.text || item.title || '') === ideaTextKey);
+            if (exists) {
+                setStatusText('geminiAiStatus', 'Tento návrh už je uložený v 💡 Nápady jídel.');
+                alert('Tento návrh už je uložený v 💡 Nápady jídel.');
+                return;
+            }
+            saved.unshift({
+                id: makeIdeaId(),
+                createdAt: new Date().toISOString(),
+                title: idea.title,
+                mealType: idea.mealType || '',
+                text: idea.text || idea.title,
+                status: 'new'
+            });
+            setSavedIdeas(saved);
+            setStatusText('geminiAiStatus', 'Návrh byl uložen do 💡 Nápady jídel.');
+        }
+
+        function openUseIdeaModal(indexOrIdea, source = 'current') {
+            let idea = null;
+            if (source === 'saved') idea = getSavedIdeas()[indexOrIdea] || null;
+            else idea = currentAiIdeaSuggestions[indexOrIdea] || null;
+            if (!idea) return;
+            pendingIdeaUse = { idea, source, index: indexOrIdea };
+            const summary = document.getElementById('ideaUseSummary');
+            if (summary) summary.innerHTML = `<b>Návrh:</b> ${escapeHtml(idea.title)}${idea.mealType ? `<br><b>Typ:</b> ${escapeHtml(idea.mealType)}` : ''}`;
+            const dateInput = document.getElementById('ideaUseDate');
+            if (dateInput) dateInput.value = dateToISO(new Date());
+            const mealSelect = document.getElementById('ideaUseMealIndex');
+            const suggestedIndex = mealIndexFromIdeaType(idea.mealType || '');
+            if (mealSelect) mealSelect.value = String(suggestedIndex >= 0 ? suggestedIndex : 2);
+            const dayMode = document.getElementById('ideaUseDayMode');
+            if (dayMode) dayMode.value = 'auto';
+            const insertMode = document.getElementById('ideaUseInsertMode');
+            if (insertMode) insertMode.value = 'ai';
+            updateIdeaUseWarning();
+            updateIdeaUseAutoMode();
+            document.getElementById('ideaUseModal').style.display = 'flex';
+        }
+
+        function closeIdeaUseModal() {
+            document.getElementById('ideaUseModal').style.display = 'none';
+            pendingIdeaUse = null;
+        }
+
+        function updateIdeaUseAutoMode() {
+            const hint = document.getElementById('ideaUseAutoModeHint');
+            const iso = document.getElementById('ideaUseDate')?.value || '';
+            if (!hint || !iso) return;
+            const date = isoToDateValue(iso);
+            if (!date) return;
+            const today = new Date();
+            const startToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            hint.innerText = date > startToday ? 'Automatika: toto datum se uloží jako PLÁN.' : 'Automatika: toto datum se uloží jako skutečný den.';
+        }
+
+        function getRiskTextSnippetsFromIdea(idea) {
+            if (!idea) return [];
+            const fullText = [idea.title, idea.text].filter(Boolean).join('\n');
+            const parts = fullText
+                .split(/(?<=[.!?])\s+|\n+/)
+                .map(x => x.replace(/^[\-•\s]+/, '').trim())
+                .filter(Boolean);
+
+            function isRiskSnippet(part) {
+                const text = String(part || '').trim();
+                if (!text) return false;
+                const normalized = normalizeSearchText(text);
+
+                // Řádek „Riziko: nízké“ je v AI návrzích běžná informační položka.
+                // Nemá spouštět varování, jinak by aplikace varovala prakticky u každého návrhu.
+                if (/^riziko\s*[:：]\s*(nizke|nízké|nizky|nízký|low)\b/i.test(normalized)) return false;
+
+                // Naopak vyšší úrovně rizika nebo doporučení sledovat už upozornění spustit mají.
+                if (/^riziko\s*[:：].*(sledovat|vyssi|vyšší|stredni|střední|radeji\s*ne|raději\s*ne|nevhod|vysoke|vysoké)/i.test(normalized)) return true;
+
+                // Tvrdší riziková slova mimo samotný řádek „Riziko“.
+                return /raději\s*ne|radeji\s*ne|vyhnout|alerg|vyráž|vyraz|zvracen|zvracení|reakc|průjem|prujem|osyp|dušen|dusil|kašel|kasel/i.test(text);
+            }
+
+            const snippets = parts.filter(isRiskSnippet);
+            return snippets.slice(0, 4);
+        }
+
+        function getIdeaUseWarnings(idea) {
+            const warnings = [];
+            if (!idea) return warnings;
+            const fullText = [idea.title, idea.text].join(' ');
+            const normalizedFullText = normalizeFoodName(fullText);
+            const avoidHits = getAvoidList().filter(item => item && normalizedFullText.includes(normalizeFoodName(item)));
+            const watchHits = getWatchList().filter(item => item && normalizedFullText.includes(normalizeFoodName(item)));
+            if (avoidHits.length) warnings.push('🚫 Návrh obsahuje položku ze seznamu Vyhnout se: ' + avoidHits.join(', '));
+            if (watchHits.length) warnings.push('👀 Návrh obsahuje položku ze seznamu Sledovat: ' + watchHits.join(', '));
+            const riskSnippets = getRiskTextSnippetsFromIdea(idea);
+            if (riskSnippets.length) {
+                warnings.push('⚠️ Rizikový text v návrhu:\n- ' + riskSnippets.join('\n- '));
+            }
+            return warnings;
+        }
+
+        function showIdeaUseWarningDetails() {
+            if (!pendingIdeaUse || !pendingIdeaUse.idea) return;
+            const warnings = getIdeaUseWarnings(pendingIdeaUse.idea);
+            if (!warnings.length) return;
+            alert('Detail upozornění:\n\n' + warnings.join('\n\n') + '\n\nZkontrolujte návrh ručně. AI návrh je jen inspirace, ne potvrzení bezpečnosti.');
+        }
+
+        function updateIdeaUseWarning() {
+            const box = document.getElementById('ideaUseWarning');
+            if (!box || !pendingIdeaUse) return;
+            const warnings = getIdeaUseWarnings(pendingIdeaUse.idea);
+            box.style.display = warnings.length ? 'block' : 'none';
+            box.style.color = warnings.length ? '#c0392b' : '#2c3e50';
+            box.style.borderColor = warnings.length ? '#e74c3c' : '#e1e7ec';
+            box.dataset.details = warnings.join('\n');
+            box.innerHTML = warnings.length
+                ? '⚠️ Návrh obsahuje upozornění. <u>Klepnutím zobrazit detail.</u>'
+                : '';
+        }
+
+        function getEffectiveIdeaDayMode(isoDate, selectedMode) {
+            if (selectedMode === 'real') return 'real';
+            if (selectedMode === 'plan') return 'plan';
+            const date = isoToDateValue(isoDate);
+            if (!date) return 'real';
+            const today = new Date();
+            const startToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            return date > startToday ? 'plan' : 'real';
+        }
+
+        function confirmUseIdea() {
+            if (!pendingIdeaUse || !pendingIdeaUse.idea) return;
+            const idea = pendingIdeaUse.idea;
+            const iso = document.getElementById('ideaUseDate')?.value || '';
+            const date = isoToDateValue(iso);
+            if (!date) { alert('Vyberte platné datum.'); return; }
+            const mealIndex = parseInt(document.getElementById('ideaUseMealIndex')?.value || '2', 10);
+            if (Number.isNaN(mealIndex) || mealIndex < 0 || mealIndex > 4) { alert('Vyberte typ jídla.'); return; }
+            const selectedDayMode = document.getElementById('ideaUseDayMode')?.value || 'auto';
+            const dayMode = getEffectiveIdeaDayMode(iso, selectedDayMode);
+            const insertMode = document.getElementById('ideaUseInsertMode')?.value || 'ai';
+            const title = normalizeAvoidCandidate(idea.title || '');
+            if (!title) { alert('Návrh nemá název jídla.'); return; }
+
+            const fullText = [idea.title, idea.text].join(' ');
+            const avoidHits = getAvoidList().filter(item => item && normalizeFoodName(fullText).includes(normalizeFoodName(item)));
+            const watchHits = getWatchList().filter(item => item && normalizeFoodName(fullText).includes(normalizeFoodName(item)));
+            if (avoidHits.length && !confirm('Návrh obsahuje položku ze seznamu Vyhnout se: ' + avoidHits.join(', ') + '\n\nOpravdu ho chcete přesto vložit?')) return;
+            if (watchHits.length && !confirm('Návrh obsahuje položku ze seznamu Sledovat: ' + watchHits.join(', ') + '\n\nChcete pokračovat?')) return;
+
+            const dateText = formatDateValue(date);
+            let data = getMainData();
+            let idx = data.findIndex(item => (item.d || '').trim() === dateText);
+            let item = idx >= 0 ? normalizeEntry(data[idx]) : { d: dateText, dn: '', m: createEmptyMealSet() };
+            if (dayMode === 'plan') item.planned = true;
+            if (dayMode === 'real') delete item.planned;
+            const meal = item.m[mealIndex] || { t: '', w: '', n: '', r: '😐', a: '' };
+            const currentText = (meal.t || '').trim();
+
+            if (insertMode === 'main') {
+                if (currentText && !isEmptyMealText(currentText) && !confirm(`${dateText} – ${mealLabels[mealIndex]} už obsahuje:\n${currentText}\n\nPřepsat hlavní jídlo návrhem?`)) return;
+                meal.t = title;
+                meal.a = meal.a || '';
+            } else if (insertMode === 'append') {
+                meal.t = currentText && !isEmptyMealText(currentText) ? `${currentText}; ${title}` : title;
+            } else {
+                if (meal.a && !confirm('U tohoto jídla už existuje AI návrh. Přepsat ho novým návrhem?')) return;
+                meal.a = title;
+            }
+            item.m[mealIndex] = meal;
+
+            createAutoBackup('vložení AI nápadu do dne/plánu');
+            if (idx >= 0) data[idx] = item;
+            else data.push(item);
+            setMainData(data);
+
+            if (pendingIdeaUse.source === 'saved') {
+                const saved = getSavedIdeas();
+                if (saved[pendingIdeaUse.index]) {
+                    saved[pendingIdeaUse.index].status = 'used';
+                    saved[pendingIdeaUse.index].usedAt = new Date().toISOString();
+                    saved[pendingIdeaUse.index].usedDate = dateText;
+                    saved[pendingIdeaUse.index].usedMeal = mealLabels[mealIndex];
+                    setSavedIdeas(saved);
+                    renderSavedIdeas();
+                }
+            }
+
+            closeIdeaUseModal();
+            load();
+            alert(`Návrh byl vložen do ${dayMode === 'plan' ? 'PLÁNU' : 'skutečného dne'}: ${dateText} – ${mealLabels[mealIndex]}.`);
+        }
+
+        function renderSavedIdeas() {
+            const box = document.getElementById('savedIdeasContent');
+            if (!box) return;
+            const ideas = getSavedIdeas();
+            if (!ideas.length) {
+                box.innerHTML = '<div class="overview-box" style="color:#95a5a6;">Zatím zde nejsou uložené žádné nápady.</div>';
+                return;
+            }
+            box.innerHTML = ideas.map((idea, index) => {
+                const statusText = idea.status === 'used' ? `Použito${idea.usedDate ? ' – ' + idea.usedDate : ''}${idea.usedMeal ? ' / ' + idea.usedMeal : ''}` : 'Nový nápad';
+                const created = idea.createdAt ? new Date(idea.createdAt).toLocaleString('cs-CZ') : '';
+                return `
+                    <div class="idea-list-card">
+                        <div><b>${escapeHtml(idea.title || 'Nápad')}</b></div>
+                        ${idea.mealType ? `<div class="idea-list-meta">Typ: ${escapeHtml(idea.mealType)}</div>` : ''}
+                        <div class="idea-list-meta">Stav: ${escapeHtml(statusText)}${created ? ' · Uloženo: ' + escapeHtml(created) : ''}</div>
+                        <details style="margin-top:6px;"><summary style="cursor:pointer; font-weight:800; color:#2c3e50;">Zobrazit detail</summary><div style="white-space:pre-wrap; margin-top:6px;">${escapeHtml(idea.text || '')}</div></details>
+                        <div class="ai-idea-actions">
+                            <button type="button" class="modal-btn" style="background:#27ae60" onclick="openUseIdeaModal(${index}, 'saved')">➕ Použít</button>
+                            <button type="button" class="modal-btn" style="background:#7f8c8d" onclick="deleteSavedIdea(${index})">🗑️ Smazat</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function deleteSavedIdea(index) {
+            const ideas = getSavedIdeas();
+            if (!ideas[index]) return;
+            if (!confirm('Smazat uložený nápad: ' + (ideas[index].title || 'Nápad') + '?')) return;
+            ideas.splice(index, 1);
+            setSavedIdeas(ideas);
+            renderSavedIdeas();
+        }
+
+        function generateAiIdeasPrompt() {
+            const mealScope = document.getElementById('aiIdeasMealScope')?.value || 'all';
+            const period = document.getElementById('aiIdeasPeriod')?.value || '14';
+            const style = document.getElementById('aiIdeasStyle')?.value || 'safe';
+            const entries = getRecentEntriesForAiIdeas(period);
+            const summary = summarizeRecentFoodsForIdeas(entries, mealScope);
+            const safetySummary = summarizeSafetyFoodsForIdeas(mealScope);
+            const childInfoLines = getChildInfoForAi();
+            const childInfoText = childInfoLines.length ? `\n\nÚdaje o dítěti:\n${childInfoLines.join('\n')}` : '';
+            const mealText = mealScope === 'all' ? 'libovolné denní jídlo' : mealLabels[parseInt(mealScope, 10)];
+            const periodText = period === 'all' ? 'celé historie' : `posledních ${period} dní`;
+            const varietyText = period === 'all' ? 'celé historie' : `posledních ${period} dní`;
+            const styleText = {
+                safe: 'bezpečné kombinace hlavně ze známých a dobře snášených surovin',
+                variety: 'rozšíření pestrosti jídelníčku bez zbytečného rizika',
+                oneNew: 'opatrné rozšíření maximálně o jednu novou nebo méně používanou surovinu v jednom návrhu'
+            }[style] || 'bezpečné kombinace ze známých surovin';
+
+            const prompt = `Potřebuji 3 opatrné návrhy jídel pro dítě.${childInfoText}
+
+Cíl:
+- navrhni přesně 3 nové nápady pro: ${mealText}
+- styl návrhů: ${styleText}
+- pestrost a časté opakování posuzuj z období: ${varietyText}
+- bezpečnost, rizika, seznam „Vyhnout se“ a seznam „Sledovat“ kontroluj vždy podle celé historie
+- nejde o lékařské doporučení; formuluj to jako inspiraci k posouzení rodičem
+
+Bezpečnostní pravidla:
+- nepoužívej nic z ručního seznamu „Vyhnout se“
+- položky ze seznamu „Sledovat“ ber jako podezřelé a raději je obcházej
+- nepoužívej jídla ani suroviny s poznámkou typu alergie, vyrážka, zvracení, průjem, reakce, osypání, dušení nebo kašel
+- pokud si nejsi jistý, napiš, že návrh je vhodné nejdřív ověřit u pediatra nebo ho raději nedoporučuj
+- nenavrhuj nic riskantního, exotického ani nevěkově přiměřeného
+- návrhy mají rozšiřovat pestrost, ne jen opsat stejné historické jídlo jinými slovy
+
+Formát odpovědi dodrž přesně:
+NÁVRH 1
+Jídlo: ...
+Typ jídla: ...
+Proč: ...
+Z historie podporuje: ...
+Nová nebo méně častá surovina: ano/ne – ...
+Riziko: nízké / sledovat / raději ne – ...
+Poznámka pro rodiče: ...
+
+NÁVRH 2
+Jídlo: ...
+Typ jídla: ...
+Proč: ...
+Z historie podporuje: ...
+Nová nebo méně častá surovina: ano/ne – ...
+Riziko: nízké / sledovat / raději ne – ...
+Poznámka pro rodiče: ...
+
+NÁVRH 3
+Jídlo: ...
+Typ jídla: ...
+Proč: ...
+Z historie podporuje: ...
+Nová nebo méně častá surovina: ano/ne – ...
+Riziko: nízké / sledovat / raději ne – ...
+Poznámka pro rodiče: ...
+
+Dobře snášená / vhodná jídla z období pro pestrost:
+${summary.good.length ? summary.good.join('\n') : '- ve vybraném období není dost vhodných dat'}
+
+Nejčastější jídla z období pro pestrost:
+${summary.frequent.length ? summary.frequent.join('\n') : '- ve vybraném období není dost dat'}
+
+Nevhodné, nechutnalo nebo rizikové z celé historie:
+${safetySummary.disliked.length ? safetySummary.disliked.join('\n') : '- nic výrazného'}
+
+Ruční seznam Vyhnout se:
+${getAvoidList().length ? getAvoidList().map(x => '- ' + x).join('\n') : '- není vyplněn'}
+
+Ruční seznam Sledovat:
+${getWatchList().length ? getWatchList().map(x => '- ' + x).join('\n') : '- není vyplněn'}
+
+Rizikové poznámky z celé historie:
+${safetySummary.riskNotes.length ? safetySummary.riskNotes.map(x => '- ' + x).join('\n') : '- žádné výrazné rizikové poznámky nenalezeny'}
+`;
+
+            const box = document.getElementById('aiPromptOutput');
+            if (box) box.value = prompt;
+            setStatusText('geminiAiStatus', 'Podklad pro 3 návrhy je připravený. Můžete ho zkopírovat nebo poslat přes Gemini.');
+        }
+
+        async function generateIdeasWithGemini() {
+            generateAiIdeasPrompt();
+            const prompt = document.getElementById('aiPromptOutput')?.value || '';
+            const output = document.getElementById('aiGeminiOutput');
+            if (output) { output.value = ''; output.style.display = ''; }
+            if (!prompt.trim()) {
+                setStatusText('geminiAiStatus', 'Nepodařilo se vytvořit podklad pro návrhy.', true);
+                return;
+            }
+            setStatusText('geminiAiStatus', 'Gemini vytváří 3 návrhy jídel. Chvíli počkejte...');
+            try {
+                const text = await callGeminiApi(prompt, 'geminiAiStatus');
+                if (output) { output.value = text; output.style.display = ''; }
+                renderAiIdeasActions(parseAiIdeasText(text));
+                setStatusText('geminiAiStatus', '3 návrhy jsou připravené níže. Původní text odpovědi je skrytý, aby nepřekážel.');
+            } catch (err) {
+                setStatusText('geminiAiStatus', formatGeminiError(err), true);
+            }
         }
 
         function generateAiPrompt() {
@@ -3426,6 +4819,7 @@ Pracuj podle těchto pravidel:
 - AI návrh má být opatrný nápad k vyzkoušení, ne tvrzení, že je zaručeně bezpečný
 - zohledni věk dítěte a dostupné údaje o váze/výšce; pokud některý údaj chybí, nevadí, pracuj s tím, co je k dispozici
 - nepoužívej jídla ani suroviny, která jsou uvedená v ručním seznamu „Vyhnout se“ nebo v části „vyhnout se“ z historie
+- položky v seznamu „Sledovat“ ber jako podezřelé: nepředkládej je jako jistě bezpečné a u nových návrhů je raději obcházej, pokud existuje vhodná alternativa
 - nepoužívej položky typu „Nic“, „žádné“, „nejedl“ jako návrh jídla; když chybí vhodná historie, navrhni podobnou bezpečnou variantu
 - neopakuj stejné nebo velmi podobné jídlo hned po sobě
 - zachovej rozumnou pestrost
@@ -3449,6 +4843,9 @@ ${summary.sections}
 Ruční seznam Vyhnout se:
 ${getAvoidList().length ? getAvoidList().map(x => '- ' + x).join('\n') : '- není vyplněn'}
 
+Ruční seznam Sledovat, podezřelé ale ne jistě zakázané:
+${getWatchList().length ? getWatchList().map(x => '- ' + x).join('\n') : '- není vyplněn'}
+
 Důležité poznámky / možné reakce:
 ${summary.warnings.length ? summary.warnings.map(x => '- ' + x).join('\n') : '- žádné výrazné varovné poznámky nenalezeny'}
 `;
@@ -3461,33 +4858,45 @@ ${summary.warnings.length ? summary.warnings.map(x => '- ' + x).join('\n') : '- 
         async function generatePlanWithGemini() {
             const output = document.getElementById('aiGeminiOutput');
             const importInput = document.getElementById('aiPlanInput');
-            if (output) output.value = '';
-            if (!document.getElementById('aiPromptOutput')?.value.trim()) generateAiPrompt();
+            renderAiIdeasActions([]);
+            if (output) { output.value = ''; output.style.display = ''; }
+            if (importInput) importInput.value = '';
+            generateAiPrompt();
             const prompt = document.getElementById('aiPromptOutput')?.value || '';
             if (!prompt.trim()) {
                 setStatusText('geminiAiStatus', 'Nejdřív vytvořte AI podklad.', true);
+                showAiPlanResultModalError('Nepodařilo se vytvořit AI podklad pro plán.');
                 return;
             }
             setStatusText('geminiAiStatus', 'Gemini vytváří jídelníček. Chvíli počkejte...');
+            currentAiPlanAbortController = new AbortController();
+            openAiPlanResultModalLoading();
             try {
-                const text = await callGeminiApi(prompt, 'geminiAiStatus');
-                if (output) output.value = text;
+                const text = await callGeminiApi(prompt, 'geminiAiStatus', currentAiPlanAbortController.signal);
+                if (output) { output.value = text; output.style.display = ''; }
                 const planBlock = extractAiPlanBlock(text);
                 if (importInput) importInput.value = planBlock;
                 const parsed = parseAiPlanText(planBlock);
                 const expectedDays = getExpectedAiDaysCount();
                 if (parsed.length === 0) {
-                    setStatusText('geminiAiStatus', 'Gemini odpovědělo, ale aplikace v textu nenašla platný blok DEN 1. Odpověď je níže ke kontrole.', true);
+                    const msg = 'Gemini odpovědělo, ale aplikace v textu nenašla platný blok DEN 1. Ruční text je dostupný v pokročilé části.';
+                    setStatusText('geminiAiStatus', msg, true);
+                    showAiPlanResultModalError(msg);
                     return;
                 }
                 const completenessMessage = getAiPlanCompletenessMessage(parsed.length, expectedDays);
                 if (completenessMessage) {
-                    setStatusText('geminiAiStatus', completenessMessage + ' Text je zobrazený níže, ale automatický import raději nepoužívejte bez opravy.', true);
-                    return;
+                    setStatusText('geminiAiStatus', completenessMessage + ' Text je zobrazený v kontrolním okně. Importujte ho jen po ruční kontrole.', true);
+                } else {
+                    setStatusText('geminiAiStatus', `Gemini plán je připravený ke kontrole a importu (${parsed.length} dní).`);
                 }
-                setStatusText('geminiAiStatus', `Gemini plán je připravený k importu (${parsed.length} dní). Zkontrolujte text a klikněte na IMPORTOVAT AI PLÁN.`);
+                showAiPlanResultModal(planBlock, parsed.length, expectedDays, completenessMessage);
             } catch (err) {
-                setStatusText('geminiAiStatus', formatGeminiError(err), true);
+                const msg = formatGeminiError(err);
+                setStatusText('geminiAiStatus', msg, true);
+                showAiPlanResultModalError(msg);
+            } finally {
+                currentAiPlanAbortController = null;
             }
         }
 
@@ -3528,12 +4937,94 @@ ${summary.warnings.length ? summary.warnings.map(x => '- ' + x).join('\n') : '- 
         }
 
         function setDefaultAiImportStartDate() {
-            const input = document.getElementById('aiImportStartDate');
-            if (!input || input.value) return;
             const tomorrow = new Date();
             tomorrow.setHours(0, 0, 0, 0);
             tomorrow.setDate(tomorrow.getDate() + 1);
-            input.value = dateToISO(tomorrow);
+            const defaultValue = dateToISO(tomorrow);
+            ['aiImportStartDate', 'aiPlanModalStartDate'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input && !input.value) input.value = defaultValue;
+            });
+        }
+
+        function getAiPlanImportStartDateValue() {
+            const modalValue = document.getElementById('aiPlanModalStartDate')?.value || '';
+            const hiddenValue = document.getElementById('aiImportStartDate')?.value || '';
+            return modalValue || hiddenValue;
+        }
+
+        function setAiPlanImportStartDateValue(value) {
+            const hidden = document.getElementById('aiImportStartDate');
+            const modal = document.getElementById('aiPlanModalStartDate');
+            if (hidden && value) hidden.value = value;
+            if (modal && value) modal.value = value;
+        }
+
+        function openAiPlanResultModalLoading() {
+            window.aiPlanModalBusy = true;
+            const modal = document.getElementById('aiPlanResultModal');
+            const content = document.getElementById('aiPlanModalContent');
+            if (!modal || !content) return;
+            content.innerHTML = `
+                <div class="ai-loading-box">
+                    <div class="ai-loading-spinner"></div>
+                    Gemini připravuje jídelníček. Chvíli počkejte…
+                </div>
+                <div class="small-help-text" style="text-align:center;">Okno po dokončení zobrazí plán ke kontrole a tlačítko pro import.</div>
+                <button type="button" class="modal-btn btn-overwrite" onclick="cancelAiPlanGeneration()">⛔ PŘERUŠIT ČEKÁNÍ</button>
+            `;
+            modal.style.display = 'flex';
+        }
+
+
+        function cancelAiPlanGeneration() {
+            if (currentAiPlanAbortController) {
+                currentAiPlanAbortController.abort();
+                currentAiPlanAbortController = null;
+            }
+            window.aiPlanModalBusy = false;
+            setStatusText('geminiAiStatus', 'Vytváření AI plánu bylo přerušeno uživatelem.', true);
+            showAiPlanResultModalError('Vytváření AI plánu bylo přerušeno. Žádný plán se neimportoval ani neuložil.');
+        }
+
+        function showAiPlanResultModal(planBlock, parsedCount, expectedCount, completenessMessage) {
+            window.aiPlanModalBusy = false;
+            setDefaultAiImportStartDate();
+            const modal = document.getElementById('aiPlanResultModal');
+            const content = document.getElementById('aiPlanModalContent');
+            if (!modal || !content) return;
+            const currentDate = getAiPlanImportStartDateValue() || dateToISO(new Date());
+            const warningHtml = completenessMessage
+                ? `<div style="background:#fff3cd; border:1px solid #f1c40f; color:#7d6608; border-radius:8px; padding:10px; margin:10px 0; font-size:0.84rem;"><b>Upozornění:</b> ${escapeHtml(completenessMessage)}</div>`
+                : `<div style="background:#eafaf1; border:1px solid #82e0aa; color:#1e8449; border-radius:8px; padding:10px; margin:10px 0; font-size:0.84rem;"><b>Kontrola:</b> plán obsahuje ${parsedCount} z ${expectedCount} požadovaných dní.</div>`;
+            content.innerHTML = `
+                <div class="small-help-text">Gemini plán je připravený. Zkontrolujte text, zvolte datum začátku a potom ho importujte jako <b>PLÁN</b>.</div>
+                ${warningHtml}
+                <label style="display:block; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Začít plán od data</label>
+                <input type="date" id="aiPlanModalStartDate" value="${escapeHtml(currentDate)}" onchange="setAiPlanImportStartDateValue(this.value)" style="width:100%; box-sizing:border-box; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px; font-weight:bold; color:#2c3e50;">
+                <textarea class="ai-plan-result-box" readonly>${escapeHtml(planBlock || '')}</textarea>
+                <button class="modal-btn btn-merge" onclick="importAiPlan()">📥 IMPORTOVAT AI PLÁN</button>
+                <button class="modal-btn btn-cancel" onclick="closeAiPlanResultModal()">ZAVŘÍT</button>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function showAiPlanResultModalError(message) {
+            window.aiPlanModalBusy = false;
+            const modal = document.getElementById('aiPlanResultModal');
+            const content = document.getElementById('aiPlanModalContent');
+            if (!modal || !content) return;
+            content.innerHTML = `
+                <div style="background:#fff5f5; border:1px solid #f5c6cb; color:#c0392b; border-radius:8px; padding:12px; margin:10px 0; font-size:0.9rem;">${escapeHtml(message)}</div>
+                <button class="modal-btn btn-cancel" onclick="closeAiPlanResultModal()">ZAVŘÍT</button>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function closeAiPlanResultModal() {
+            if (window.aiPlanModalBusy) return;
+            const modal = document.getElementById('aiPlanResultModal');
+            if (modal) modal.style.display = 'none';
         }
 
         function normalizeAiMealLabel(label) {
@@ -3607,7 +5098,7 @@ ${summary.warnings.length ? summary.warnings.map(x => '- ' + x).join('\n') : '- 
             const startInput = document.getElementById('aiImportStartDate');
             const parsed = parseAiPlanText(input ? input.value : '');
             if (parsed.length === 0) {
-                alert('Nepodařilo se najít žádný platný den jídelníčku. Vložte blok ve formátu DEN 1, Snídaně, Dop. svačina, Oběd, Odp. svačina, Večeře.');
+                alert('Není připravený žádný platný AI plán. Nejdřív vytvořte plán přes Gemini, nebo v pokročilé části připravte ruční text k importu.');
                 return;
             }
 
@@ -3619,7 +5110,7 @@ Přesto chcete tento neúplný/odlišný plán importovat?`)) {
                 return;
             }
 
-            const startDate = isoToDateValue(startInput ? startInput.value : '');
+            const startDate = isoToDateValue(getAiPlanImportStartDateValue());
             if (!startDate) {
                 alert('Vyberte datum, od kdy má AI plán začít.');
                 return;
@@ -3641,6 +5132,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
             const generatedMap = new Map(generated.map(item => [item.d, item]));
             let data = getMainData().filter(item => !generatedMap.has((item.d || '').trim())).concat(generated);
             setMainData(data);
+            closeAiPlanResultModal();
             closeAiModal();
             load();
             alert(appendPlanWarningsToMessage(`AI plán byl importován jako PLÁN (${generated.length} dní).`, generated));
@@ -3749,8 +5241,16 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
         }
 
         // --- SPRÁVA DAT A MODAL OKNA ---
-        function openSettings() { loadGeminiSettings(); document.getElementById('settingsModal').style.display = 'flex'; }
-        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        function openSettings() {
+            loadGeminiSettings();
+            const versionBox = document.getElementById('appVersionText');
+            if (versionBox) versionBox.innerText = 'Verze aplikace: ' + APP_VERSION;
+            document.getElementById('settingsModal').style.display = 'flex';
+        }
+        function closeSettings(backToMore = false) {
+            document.getElementById('settingsModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
+        }
         function triggerImport() { document.getElementById('importFile').click(); closeSettings(); }
 
         function exportData() {
@@ -3759,11 +5259,18 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                 exportedAt: new Date().toISOString(),
                 entries: getMainData(),
                 childProfile: getChildProfile(),
-                avoidList: getAvoidList()
+                avoidList: getAvoidList(),
+                watchList: getWatchList(),
+                resolvedRisks: getResolvedRisks(),
+                savedIdeas: getSavedIdeas()
             };
             const blob = new Blob([JSON.stringify(exportObject, null, 2)], { type: 'application/json' });
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
             a.download = `vyziva_zaloha_${new Date().toISOString().slice(0, 10)}.json`; a.click(); closeSettings();
+        }
+
+        function csvCell(value) {
+            return '"' + String(value ?? '').replace(/"/g, '""').replace(/\r?\n/g, ' ') + '"';
         }
 
         function exportCSV() {
@@ -3771,10 +5278,10 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
             const saved = localStorage.getItem('nutri_data_v13');
             if (saved) {
                 JSON.parse(saved).forEach(d => {
-                    let row = `"${d.d}";"${d.dn || ''}"`;
+                    let row = [csvCell(d.d), csvCell(d.dn || '')].join(';');
                     for (let i = 0; i < 5; i++) {
                         let m = d.m[i] || { t: '', w: '', n: '', r: '😐' };
-                        row += `;"${m.t}";"${m.w}";"${m.n}";"${m.r}"`;
+                        row += ';' + [csvCell(m.t), csvCell(m.w), csvCell(m.n), csvCell(m.r)].join(';');
                     }
                     csv += row + "\n";
                 });
@@ -3801,6 +5308,9 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                 if (importedRaw && !Array.isArray(importedRaw) && Array.isArray(importedRaw.entries)) {
                     if (importedRaw.childProfile) localStorage.setItem(CHILD_PROFILE_KEY, JSON.stringify(importedRaw.childProfile));
                     if (Array.isArray(importedRaw.avoidList)) setAvoidList(importedRaw.avoidList);
+                    if (Array.isArray(importedRaw.watchList)) setWatchList(importedRaw.watchList);
+                    if (Array.isArray(importedRaw.resolvedRisks)) setResolvedRisks(importedRaw.resolvedRisks);
+                    if (Array.isArray(importedRaw.savedIdeas)) setSavedIdeas(importedRaw.savedIdeas);
                     importedRaw = importedRaw.entries;
                 }
                 let imported = importedRaw;
@@ -3910,7 +5420,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
         // Registrace Service Workeru pro PWA (instalace na plochu)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
+                navigator.serviceWorker.register('./sw.js?v=2026-05-26-bezpecnost')
                     .then(reg => console.log('Aplikace je připravena pro offline režim.'))
                     .catch(err => console.log('Chyba registrace SW:', err));
             });
@@ -3925,8 +5435,9 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
             renderDraftList();
         }
 
-        function closeDraft() {
+        function closeDraft(backToMore = false) {
             document.getElementById('draftModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
         }
 
         function getDraftData() {
@@ -3970,7 +5481,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                 let html = `<button onclick="delDraftCard(${index})" style="position:absolute; top:10px; right:10px; background:transparent; color:var(--danger); border:1px solid var(--danger); border-radius:6px; padding:6px 10px; font-size:1.1rem; cursor:pointer;">🗑️</button>`;
 
                 // Ukládání volá saveDraftFromUI místo save()
-                html += `<div class="card-header" contenteditable="true" oninput="saveDraftFromUI()">${e.d}</div>`;
+                html += `<div class="card-header" contenteditable="true" oninput="saveDraftFromUI()">${escapeHtml(e.d)}</div>`;
 
                 for (let i = 0; i < 5; i++) {
                     const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐' };
@@ -3979,11 +5490,11 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                     <div class="meal-item" data-index="${i}">
                         <div class="meal-label">${mealLabels[i]}</div>
                         <div class="meal-content">
-                            <div class="m-box" contenteditable="true" oninput="saveDraftFromUI()" placeholder="Napište jídlo...">${m.t}</div>
-                            <input type="number" class="w-box" placeholder="Gramy (g)" value="${m.w}" oninput="saveDraftFromUI()">
-                            <div class="n-box" contenteditable="true" oninput="saveDraftFromUI()" placeholder="Poznámka...">${m.n}</div>
+                            <div class="m-box" contenteditable="true" oninput="saveDraftFromUI()" placeholder="Napište jídlo...">${escapeHtml(m.t)}</div>
+                            <input type="number" class="w-box" placeholder="Gramy (g)" value="${escapeHtml(m.w)}" oninput="saveDraftFromUI()">
+                            <div class="n-box" contenteditable="true" oninput="saveDraftFromUI()" placeholder="Poznámka...">${escapeHtml(m.n)}</div>
                         </div>
-                        <div class="rating" onclick="cycleDraft(this)" style="background:${bg}">${m.r}</div>
+                        <div class="rating" onclick="cycleDraft(this)" style="background:${bg}">${escapeHtml(m.r)}</div>
                     </div>`;
                 }
                 card.innerHTML = html;
