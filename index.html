@@ -222,6 +222,43 @@
             display: block;
         }
 
+        .rx-select {
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #f1c40f;
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 0.82rem;
+            background: #fffdf2;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        body.show-n .rx-select {
+            display: block;
+        }
+
+        .reaction-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            align-self: flex-start;
+            background: #fff4e6;
+            border: 1px solid #f5cba7;
+            color: #a04000;
+            border-radius: 999px;
+            padding: 5px 9px;
+            font-size: 0.74rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .meal-item.meal-reaction {
+            border-color: #f5cba7;
+            background: #fffaf2;
+        }
+
         .rating {
             font-size: 1.4rem;
             text-align: center;
@@ -387,15 +424,6 @@
         }
 
         /* Výběr rizikové položky se otevírá z Přehledu jídel, proto musí být nad běžnými modaly. */
-        #riskActionModal {
-            z-index: 4500;
-        }
-
-        #riskActionModal .modal-box {
-            position: relative;
-            z-index: 4501;
-        }
-
 
         .meal-item.meal-watch {
             border-color: #f39c12;
@@ -491,13 +519,52 @@
             margin-top: 4px;
         }
 
-        #ideaUseModal, #savedIdeasModal {
+        .idea-status-used {
+            border-color: #82e0aa;
+            background: #f2fff7;
+        }
+
+        .idea-status-watch {
+            border-color: #f5c16c;
+            background: #fff8ec;
+        }
+
+        .idea-status-avoid {
+            border-color: #f5b7b1;
+            background: #fff5f5;
+        }
+
+        .idea-status-rejected {
+            opacity: 0.82;
+            background: #f4f6f6;
+        }
+
+        #savedIdeasModal {
             z-index: 4600;
         }
 
-        #ideaUseModal .modal-box, #savedIdeasModal .modal-box {
+        #savedIdeasModal .modal-box {
             position: relative;
             z-index: 4601;
+        }
+
+        /* Sekundární okna otevřená z Nápadů/Rozboru musí být vždy nad rodičovským oknem. */
+        #ideaUseModal {
+            z-index: 7000;
+        }
+
+        #ideaUseModal .modal-box {
+            position: relative;
+            z-index: 7001;
+        }
+
+        #riskActionModal {
+            z-index: 7100;
+        }
+
+        #riskActionModal .modal-box {
+            position: relative;
+            z-index: 7101;
         }
 
         /* MODAL OKNA (NASTAVENÍ A IMPORT) */
@@ -655,14 +722,16 @@
         }
 
         /* AI MODAL: delší okno musí být na mobilu posuvné, aby šlo vždy zavřít */
-        #aiModal {
+        #aiModal,
+        #aiPlanModal {
             align-items: flex-start;
             overflow-y: auto;
             padding: 10px 0;
             box-sizing: border-box;
         }
 
-        #aiModal .modal-box {
+        #aiModal .modal-box,
+        #aiPlanModal .modal-box {
             position: relative;
             max-height: calc(100vh - 20px);
             overflow-y: auto;
@@ -1362,6 +1431,1386 @@
             max-width: none;
         }
 
+
+
+        /* === VIZUÁLNÍ OBNOVA 2026-05-31 === */
+        :root {
+            --accent: #7aa33e;
+            --danger: #d95b49;
+            --success: #8fca60;
+            --note: #f4c654;
+            --bg: #fbf7ef;
+            --surface: #fffdf8;
+            --card-border: #efe5d4;
+            --warm-text: #2f3a2c;
+            --soft-shadow: 0 10px 28px rgba(102, 78, 35, 0.10);
+            --soft-shadow-sm: 0 6px 18px rgba(102, 78, 35, 0.09);
+        }
+
+        body {
+            background: linear-gradient(180deg, #fdfbf5 0%, #f8f3ea 100%);
+            color: var(--warm-text);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 8% 16%, rgba(162, 204, 112, 0.14) 0 62px, transparent 63px),
+                radial-gradient(circle at 93% 26%, rgba(255, 195, 121, 0.16) 0 70px, transparent 71px),
+                radial-gradient(circle at 89% 78%, rgba(255, 176, 146, 0.14) 0 60px, transparent 61px),
+                radial-gradient(circle at 7% 86%, rgba(255, 216, 158, 0.14) 0 78px, transparent 79px),
+                radial-gradient(circle at 82% 8%, rgba(188, 214, 156, 0.12) 0 48px, transparent 49px);
+        }
+
+        .sticky-header {
+            background: rgba(255, 251, 244, 0.96);
+            border-bottom: 1px solid #efe5d2;
+            box-shadow: 0 12px 30px rgba(88, 67, 30, 0.10);
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-content.compact-menu {
+            gap: 12px;
+            padding: 12px 15px 14px;
+        }
+
+        .app-title.app-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 24px;
+            border: 1px solid #efe5d3;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(249, 243, 230, 0.94));
+            box-shadow: var(--soft-shadow-sm);
+            text-align: left;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .hero-copy {
+            min-width: 0;
+        }
+
+        .title-main {
+            font-size: 1.95rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .title-food {
+            color: #6ea03b;
+        }
+
+        .title-pro {
+            color: #f0a32f;
+        }
+
+        .title-sub {
+            margin-top: 8px;
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: #586356;
+        }
+
+        .title-pill {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            border: 1px solid #f4ddb2;
+            background: #fff7e4;
+            color: #ae7415;
+            font-size: 0.7rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-illustration {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 92px;
+        }
+
+        .hero-family {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .hero-bowl {
+            font-size: 1.8rem;
+            line-height: 1;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: #fff;
+            border: 1px solid #f0e4cf;
+            box-shadow: 0 6px 15px rgba(118, 93, 42, 0.10);
+        }
+
+        .main-action-row {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .main-action-row button {
+            flex: none;
+            min-width: 0;
+            min-height: 76px;
+            padding: 12px 6px 10px;
+            border-radius: 18px;
+            font-size: 0.75rem;
+            color: #405036;
+            flex-direction: column;
+            gap: 7px;
+            border: 1px solid rgba(224, 214, 192, 0.95);
+            box-shadow: 0 8px 20px rgba(106, 83, 44, 0.10);
+        }
+
+        .top-action-btn .btn-icon {
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .top-action-btn .btn-label {
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+        }
+
+        .top-action-new {
+            background: linear-gradient(180deg, #d9efba 0%, #b8da7d 100%);
+            color: #4f7e1f;
+        }
+
+        .top-action-today {
+            background: linear-gradient(180deg, #ffe7a8 0%, #ffd275 100%);
+            color: #b46d00;
+        }
+
+        .top-action-food {
+            background: linear-gradient(180deg, #e0efcb 0%, #c7e19d 100%);
+            color: #5e892a;
+        }
+
+        .top-action-note {
+            background: linear-gradient(180deg, #e6dcf7 0%, #d2c1ee 100%);
+            color: #6d53a6;
+        }
+
+        .top-action-more {
+            background: linear-gradient(180deg, #e3eef7 0%, #cfe3f3 100%);
+            color: #3a6e98;
+        }
+
+        .btn-mic.listening {
+            background: linear-gradient(180deg, #f8a6a6 0%, #e76a6a 100%) !important;
+            color: #fff !important;
+        }
+
+        .utility-row {
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .filter-open-btn,
+        .header-icon-btn {
+            min-height: 48px;
+            border-radius: 16px;
+            box-shadow: var(--soft-shadow-sm);
+            border: 1px solid #e7dfd1;
+            padding: 11px 12px;
+            font-size: 0.8rem;
+            color: #5a6761;
+            background: rgba(255, 255, 255, 0.94);
+        }
+
+        .filter-open-btn {
+            flex: 1 1 auto;
+            max-width: none;
+            color: #456b90;
+            border-color: #d5e5f2;
+            justify-content: center;
+        }
+
+        .header-icon-btn {
+            flex: 0 0 auto;
+            min-width: 112px;
+        }
+
+        .btn-inline-icon {
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .btn-inline-label {
+            font-weight: 900;
+            letter-spacing: 0.03em;
+        }
+
+        body.show-w .toggle-grams,
+        body.show-n .toggle-notes {
+            background: linear-gradient(180deg, #dff0ff 0%, #c8e2ff 100%);
+            border-color: #a9cceb;
+            color: #2d6f9d;
+        }
+
+        .content-area {
+            padding: 18px 15px 80px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            padding: 18px 16px;
+            margin-bottom: 18px;
+            box-shadow: var(--soft-shadow);
+            border: 1px solid var(--card-border);
+        }
+
+        .card-header {
+            font-size: 1.26rem;
+            font-weight: 900;
+            color: #2c3824;
+            margin-bottom: 12px;
+            border-bottom: none;
+            padding-bottom: 0;
+            min-width: 0;
+        }
+
+        .delete-check-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff7e7;
+            color: #8e6b1f;
+            border: 1px solid #f4e1b7;
+            border-radius: 12px;
+            padding: 6px 10px;
+            font-size: 0.78rem;
+            font-weight: 900;
+        }
+
+        .day-note-wrap {
+            margin: 10px 0 14px;
+            background: linear-gradient(180deg, #f4faeb 0%, #eef6e2 100%);
+            border: 1px solid #dbe8c8;
+            border-radius: 18px;
+            padding: 10px 12px;
+        }
+
+        .day-note-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.73rem;
+            font-weight: 900;
+            color: #618a2b;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .day-note-label::before {
+            content: '🌿';
+            font-size: 0.9rem;
+            line-height: 1;
+        }
+
+        .day-note-box {
+            min-height: 24px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid #e0eacb;
+            border-radius: 12px;
+            padding: 8px 10px;
+            font-size: 0.92rem;
+            line-height: 1.4;
+        }
+
+        .meal-item {
+            align-items: stretch;
+            gap: 12px;
+            margin-bottom: 12px;
+            background: #fffdfa;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #efe7d9;
+            box-shadow: 0 4px 12px rgba(115, 90, 46, 0.06);
+        }
+
+        .meal-label {
+            width: 82px;
+            padding: 9px 6px;
+            border-radius: 16px;
+            border: 1px solid #f0e6d6;
+            background: #fff;
+            color: #697360;
+            font-size: 0.73rem;
+            line-height: 1.15;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-align: center;
+            flex-shrink: 0;
+            padding-top: 9px;
+        }
+
+        .meal-label::before {
+            font-size: 1.55rem;
+            line-height: 1;
+        }
+
+        .meal-item[data-index="0"] .meal-label::before {
+            content: '🥣';
+        }
+
+        .meal-item[data-index="1"] .meal-label::before {
+            content: '🍏';
+        }
+
+        .meal-item[data-index="2"] .meal-label::before {
+            content: '🥗';
+        }
+
+        .meal-item[data-index="3"] .meal-label::before {
+            content: '🫐';
+        }
+
+        .meal-item[data-index="4"] .meal-label::before {
+            content: '🍲';
+        }
+
+        .m-box {
+            min-height: 28px;
+            padding: 8px 10px;
+            background: #fff;
+            border: 1px solid #e6dfd1;
+            border-radius: 12px;
+            font-size: 0.96rem;
+        }
+
+        .m-box:focus,
+        .day-note-box:focus,
+        .n-box:focus {
+            border-color: #a8c777;
+            background: #f9fdec;
+        }
+
+        .w-box,
+        .n-box,
+        .rx-select {
+            border-radius: 12px;
+        }
+
+        .n-box {
+            background: #fffdf2;
+            border-color: #f1dda1;
+        }
+
+        .rating {
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+            font-size: 1.35rem;
+        }
+
+        .reaction-badge {
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .planned-badge {
+            background: #edf7e4;
+            border: 1px solid #d0e4a9;
+            color: #5d8e24;
+        }
+
+        .plan-confirm-btn {
+            background: linear-gradient(180deg, #a5d770 0%, #7ebd42 100%);
+            border-radius: 14px;
+            box-shadow: var(--soft-shadow-sm);
+        }
+
+        .modal-box {
+            border-radius: 24px;
+            border: 1px solid #eee4d4;
+            box-shadow: 0 20px 40px rgba(87, 67, 33, 0.18);
+        }
+
+        .modal-title {
+            color: #2d3824;
+        }
+
+        .modal-text {
+            color: #69756a;
+        }
+
+        .more-section {
+            margin: 12px 0 14px;
+            padding: 12px;
+            border-radius: 18px;
+            background: #fbf8f2;
+            border: 1px solid #eee5d7;
+        }
+
+        .more-section-planning {
+            background: #f7f5ff;
+            border-color: #e3ddff;
+        }
+
+        .more-section-safety {
+            background: #fff8ee;
+            border-color: #fde1b7;
+        }
+
+        .more-section-records {
+            background: #f1f8ff;
+            border-color: #cfe5ff;
+        }
+
+        .more-section-settings {
+            background: #f7f8f8;
+            border-color: #dde4e4;
+        }
+
+        .more-section-title {
+            font-size: 0.84rem;
+            color: #2e3827;
+            margin: 0 0 10px;
+        }
+
+        .more-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .more-grid .modal-btn {
+            margin-bottom: 0;
+            min-height: 58px;
+            padding: 12px 8px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid #ece3d3;
+            color: #2f3a2c;
+            box-shadow: 0 6px 12px rgba(115, 90, 46, 0.08);
+            text-transform: none;
+            font-size: 0.8rem;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .more-section-planning .modal-btn {
+            color: #58439b;
+            border-color: #ddd6fe;
+        }
+
+        .more-section-safety .modal-btn {
+            color: #a85d12;
+            border-color: #fed7aa;
+        }
+
+        .more-section-records .modal-btn {
+            color: #225f92;
+            border-color: #bfdbfe;
+        }
+
+        .more-section-settings .modal-btn {
+            color: #52676d;
+            border-color: #d7e2e0;
+        }
+
+        .more-grid .modal-btn.more-danger-btn {
+            color: #fff;
+            background: linear-gradient(180deg, #ea7a63 0%, #d55543 100%);
+            border-color: transparent;
+        }
+
+        .more-grid .modal-btn:active {
+            transform: scale(0.98);
+            filter: brightness(0.98);
+        }
+
+        @media (max-width: 640px) {
+            .title-main {
+                font-size: 1.8rem;
+            }
+
+            .main-action-row button {
+                min-height: 74px;
+            }
+
+            .header-icon-btn {
+                min-width: 0;
+                flex: 1 1 0;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .app-title.app-hero {
+                padding: 12px 12px;
+                gap: 10px;
+            }
+
+            .title-main {
+                font-size: 1.58rem;
+            }
+
+            .title-sub {
+                font-size: 0.84rem;
+            }
+
+            .title-pill {
+                font-size: 0.62rem;
+            }
+
+            .hero-family {
+                font-size: 1.8rem;
+            }
+
+            .hero-bowl {
+                font-size: 1.45rem;
+                padding: 6px 8px;
+            }
+
+            .main-action-row button {
+                min-height: 70px;
+                padding: 10px 4px;
+                border-radius: 16px;
+            }
+
+            .top-action-btn .btn-icon {
+                font-size: 1.22rem;
+            }
+
+            .top-action-btn .btn-label {
+                font-size: 0.68rem;
+            }
+
+            .utility-row {
+                flex-wrap: wrap;
+            }
+
+            .filter-open-btn {
+                flex: 1 1 100%;
+            }
+
+            .header-icon-btn {
+                flex: 1 1 calc(50% - 4px);
+            }
+
+            .meal-item {
+                gap: 9px;
+                padding: 9px;
+            }
+
+            .meal-label {
+                width: 72px;
+                font-size: 0.68rem;
+            }
+
+            .more-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .more-section-planning .more-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* === OPRAVA ČITELNOSTI JÍDEL 2026-05-31 === */
+        .meal-item {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-areas:
+                "label rating"
+                "content content";
+            align-items: start;
+            gap: 10px 12px;
+        }
+
+        .meal-label {
+            grid-area: label;
+            width: auto;
+            min-height: 44px;
+            padding: 8px 10px;
+            flex-direction: row;
+            justify-content: flex-start;
+            text-align: left;
+            gap: 9px;
+            font-size: 0.76rem;
+        }
+
+        .meal-label::before {
+            font-size: 1.35rem;
+            flex: 0 0 auto;
+        }
+
+        .meal-content {
+            grid-area: content;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .meal-content .m-box {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 42px;
+            font-size: 1rem;
+        }
+
+        .rating {
+            grid-area: rating;
+            align-self: stretch;
+            min-width: 50px;
+            min-height: 44px;
+            padding: 4px 8px;
+        }
+
+        .ai-suggestion-box,
+        .watch-badge,
+        .reaction-badge,
+        .rx-select,
+        .n-box {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 420px) {
+            .menu-content.compact-menu {
+                padding: 10px 12px 12px;
+                gap: 10px;
+            }
+
+            .app-title.app-hero {
+                border-radius: 20px;
+            }
+
+            .main-action-row {
+                gap: 8px;
+            }
+
+            .main-action-row button {
+                min-height: 64px;
+                padding: 9px 4px 8px;
+                border-radius: 15px;
+            }
+
+            .utility-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .utility-row .filter-open-btn {
+                grid-column: 1 / -1;
+                min-height: 46px;
+            }
+
+            .utility-row .header-icon-btn {
+                min-height: 42px;
+                min-width: 0;
+                padding: 9px 8px;
+                font-size: 0.74rem;
+            }
+
+            .content-area {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .card {
+                padding: 14px 12px;
+                border-radius: 22px;
+            }
+
+            .meal-item {
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 8px 9px;
+                padding: 9px;
+                border-radius: 18px;
+            }
+
+            .meal-label {
+                width: auto;
+                min-height: 40px;
+                padding: 7px 9px;
+                font-size: 0.68rem;
+            }
+
+            .meal-label::before {
+                font-size: 1.18rem;
+            }
+
+            .rating {
+                min-width: 46px;
+                min-height: 40px;
+                border-radius: 14px;
+                font-size: 1.22rem;
+            }
+
+            .meal-content .m-box {
+                min-height: 40px;
+                padding: 9px 10px;
+                font-size: 0.98rem;
+                line-height: 1.4;
+            }
+        }
+
+
+
+
+
+        /* === DOLADĚNÍ KOMPAKTNÍ HLAVIČKY 2026-06-01 === */
+        .app-title.app-hero.compact-hero {
+            justify-content: flex-start;
+            padding: 10px 13px;
+            min-height: 0;
+            border-radius: 18px;
+        }
+
+        .compact-hero .hero-copy {
+            width: 100%;
+        }
+
+        .compact-hero .title-main {
+            font-size: 1.45rem;
+            line-height: 1.02;
+        }
+
+        .compact-hero .title-sub {
+            margin-top: 5px;
+            font-size: 0.78rem;
+        }
+
+        .compact-hero .title-pill {
+            margin-top: 7px;
+            padding: 4px 9px;
+            font-size: 0.62rem;
+        }
+
+        .hero-illustration,
+        .hero-family,
+        .hero-bowl {
+            display: none !important;
+        }
+
+        .main-action-row button {
+            min-height: 64px;
+            padding: 8px 4px;
+            border-radius: 15px;
+        }
+
+        .top-action-btn .btn-icon {
+            font-size: 1.12rem;
+        }
+
+        .top-action-btn .btn-label {
+            font-size: 0.66rem;
+        }
+
+        .utility-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 44px 44px;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .utility-row .filter-open-btn {
+            grid-column: auto;
+            min-height: 44px;
+        }
+
+        .utility-row .icon-only-btn {
+            flex: none;
+            width: 44px;
+            min-width: 44px;
+            max-width: 44px;
+            min-height: 44px;
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        .utility-row .icon-only-btn .btn-inline-label {
+            display: none;
+        }
+
+        body.show-w .toggle-grams,
+        body.show-n .toggle-notes {
+            background: linear-gradient(180deg, #dff0ff 0%, #c8e2ff 100%);
+            border-color: #a9cceb;
+            color: #2d6f9d;
+        }
+
+        .delete-check-wrap {
+            position: relative;
+            top: auto;
+            left: auto;
+            display: none;
+            width: max-content;
+            margin: 0 0 10px 0;
+            box-shadow: none;
+        }
+
+        body.delete-mode .delete-check-wrap {
+            display: inline-flex;
+        }
+
+        .card-header {
+            display: block;
+            width: calc(100% - 62px);
+            min-width: 0;
+            margin-bottom: 10px;
+            clear: both;
+        }
+
+        .planned-badge {
+            margin-left: 0;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 420px) {
+            .app-title.app-hero.compact-hero {
+                padding: 9px 12px;
+                border-radius: 17px;
+            }
+
+            .compact-hero .title-main {
+                font-size: 1.32rem;
+            }
+
+            .compact-hero .title-sub {
+                font-size: 0.74rem;
+            }
+
+            .main-action-row button {
+                min-height: 60px;
+            }
+
+            .utility-row {
+                grid-template-columns: minmax(0, 1fr) 42px 42px;
+            }
+
+            .utility-row .icon-only-btn {
+                width: 42px;
+                min-width: 42px;
+                max-width: 42px;
+                min-height: 42px;
+            }
+
+            .card-header {
+                width: calc(100% - 58px);
+            }
+        }
+
+
+
+        /* === SJEDNOCENÍ MODALŮ A KARET 2026-06-01 === */
+        :root {
+            --ui-bg-soft: #fbf7ef;
+            --ui-surface: #fffdf8;
+            --ui-surface-2: #fff9ef;
+            --ui-border: #eadfcb;
+            --ui-border-strong: #dcc9a8;
+            --ui-text: #2f3a2c;
+            --ui-muted: #6d7769;
+            --ui-green: #7aa33e;
+            --ui-green-dark: #5e842b;
+            --ui-blue: #3f7fa6;
+            --ui-blue-dark: #2f6688;
+            --ui-orange: #d98520;
+            --ui-orange-dark: #a86415;
+            --ui-purple: #7b5bc0;
+            --ui-purple-dark: #6044a0;
+            --ui-red: #d95b49;
+            --ui-red-dark: #b94334;
+            --ui-gray: #7c8583;
+            --ui-shadow: 0 16px 36px rgba(85, 65, 31, 0.16);
+            --ui-shadow-soft: 0 8px 22px rgba(94, 72, 35, 0.10);
+        }
+
+        .modal-overlay {
+            background: rgba(47, 38, 24, 0.42);
+            backdrop-filter: blur(3px);
+            padding: 12px 0;
+            box-sizing: border-box;
+        }
+
+        .modal-box,
+        .draft-content {
+            background: linear-gradient(180deg, rgba(255, 253, 248, 0.99) 0%, rgba(255, 250, 240, 0.98) 100%);
+            border: 1px solid var(--ui-border);
+            border-radius: 24px;
+            box-shadow: var(--ui-shadow);
+            color: var(--ui-text);
+        }
+
+        .modal-box {
+            padding: 22px;
+        }
+
+        .draft-content {
+            border-radius: 24px;
+            padding: 18px;
+        }
+
+        .modal-title,
+        .draft-header {
+            color: var(--ui-text);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .modal-title {
+            font-size: 1.22rem;
+            margin-bottom: 8px;
+        }
+
+        .draft-header {
+            color: var(--ui-green-dark);
+        }
+
+        .modal-text,
+        .small-help-text,
+        .idea-list-meta {
+            color: var(--ui-muted);
+            line-height: 1.45;
+        }
+
+        .modal-box label,
+        .draft-content label {
+            color: var(--ui-text) !important;
+            font-weight: 800 !important;
+        }
+
+        input,
+        select,
+        textarea,
+        .avoid-list-textarea,
+        .risk-custom-input,
+        #riskActionCustom,
+        #geminiApiKey,
+        #aiPlanCustomDays,
+        #deleteDateFrom,
+        #deleteDateTo,
+        #filterTextInput {
+            border-radius: 14px !important;
+            border: 1px solid var(--ui-border) !important;
+            background: rgba(255, 255, 255, 0.96) !important;
+            color: var(--ui-text) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus,
+        .avoid-list-textarea:focus,
+        .risk-custom-input:focus,
+        #riskActionCustom:focus,
+        #geminiApiKey:focus,
+        #aiPlanCustomDays:focus,
+        #deleteDateFrom:focus,
+        #deleteDateTo:focus,
+        #filterTextInput:focus {
+            outline: none;
+            border-color: #a8c777 !important;
+            box-shadow: 0 0 0 3px rgba(122, 163, 62, 0.16) !important;
+        }
+
+        .modal-btn {
+            border-radius: 15px !important;
+            border: 1px solid transparent;
+            min-height: 44px;
+            box-shadow: 0 7px 16px rgba(74, 55, 27, 0.10);
+            text-transform: none;
+            letter-spacing: 0.01em;
+            line-height: 1.2;
+            transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.12s ease;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.98);
+            filter: brightness(0.97);
+        }
+
+        .btn-merge,
+        .modal-btn.btn-merge {
+            background: linear-gradient(180deg, #98c95e 0%, #76a93d 100%) !important;
+            color: #fff !important;
+        }
+
+        .btn-import,
+        .modal-btn.btn-import {
+            background: linear-gradient(180deg, #5f9dc0 0%, #39799e 100%) !important;
+            color: #fff !important;
+        }
+
+        .btn-export,
+        .modal-btn.btn-export {
+            background: linear-gradient(180deg, #687b82 0%, #4d5d63 100%) !important;
+            color: #fff !important;
+        }
+
+        .btn-excel,
+        .modal-btn.btn-excel {
+            background: linear-gradient(180deg, #55ad70 0%, #368b52 100%) !important;
+            color: #fff !important;
+        }
+
+        .btn-overwrite,
+        .modal-btn.btn-overwrite,
+        .more-danger-btn {
+            background: linear-gradient(180deg, #e67862 0%, #cf4f3e 100%) !important;
+            color: #fff !important;
+        }
+
+        .btn-cancel,
+        .modal-btn.btn-cancel {
+            background: linear-gradient(180deg, #9ba4a2 0%, #78817f 100%) !important;
+            color: #fff !important;
+        }
+
+        .modal-btn:not(.btn-merge):not(.btn-import):not(.btn-export):not(.btn-excel):not(.btn-overwrite):not(.btn-cancel):not(.more-danger-btn) {
+            border-color: var(--ui-border);
+        }
+
+        .filter-block,
+        .overview-box,
+        .manual-section,
+        .idea-list-card,
+        .ai-idea-card,
+        .ai-suggestion-box,
+        .ai-loading-box,
+        .ai-status,
+        .risk-choice-item,
+        .day-note-wrap,
+        .draft-list,
+        .draft-item {
+            border-radius: 18px;
+            border: 1px solid var(--ui-border);
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: 0 4px 14px rgba(96, 73, 34, 0.06);
+        }
+
+        .filter-block,
+        .overview-box,
+        .manual-section,
+        .draft-list {
+            background: rgba(255, 252, 245, 0.88);
+        }
+
+        .filter-block label.filter-title,
+        .overview-box h4,
+        .manual-section summary,
+        .ai-idea-card-title {
+            color: var(--ui-text);
+        }
+
+        .manual-section summary {
+            background: linear-gradient(180deg, #fffdf8 0%, #faf4e8 100%);
+        }
+
+        .manual-section-content {
+            color: #405044;
+        }
+
+        .manual-note {
+            border-radius: 16px;
+            border-color: #f0d891;
+            background: #fff8df;
+        }
+
+        .ai-status {
+            background: #f8fbf2;
+            border-color: #dce9c9;
+        }
+
+        .ai-loading-box {
+            background: #fbf8f2;
+        }
+
+        .ai-loading-spinner {
+            border-color: #eee3d4;
+            border-top-color: var(--ui-purple);
+        }
+
+        .ai-suggestion-box {
+            background: #f7f3ff;
+            border-color: #dfd5fb;
+            color: #4d3b79;
+        }
+
+        .ai-idea-card,
+        .idea-list-card {
+            background: #fffaf2;
+            border-color: #f0dcc0;
+        }
+
+        .idea-status-used {
+            border-color: #bde0b1 !important;
+            background: #f4fbef !important;
+        }
+
+        .idea-status-watch {
+            border-color: #f2d099 !important;
+            background: #fff7e8 !important;
+        }
+
+        .idea-status-avoid {
+            border-color: #efb6aa !important;
+            background: #fff1ee !important;
+        }
+
+        .idea-status-rejected {
+            background: #f4f2ee !important;
+        }
+
+        .risk-choice-item {
+            background: #fffdf8;
+        }
+
+        .risk-choice-item input[type="radio"],
+        .filter-checks input[type="checkbox"] {
+            accent-color: var(--ui-green);
+        }
+
+        .filter-checks label {
+            border-radius: 14px;
+            border-color: var(--ui-border);
+            background: rgba(255, 255, 255, 0.90);
+        }
+
+        .filter-modal-actions,
+        .manual-section-content,
+        .modal-box .filter-modal-actions {
+            border-top-color: var(--ui-border) !important;
+        }
+
+        .date-input-row input {
+            min-width: 0;
+        }
+
+        .delete-toolbar {
+            border-radius: 18px;
+            border-color: var(--ui-red);
+            box-shadow: var(--ui-shadow);
+        }
+
+        .delete-toolbar button {
+            border-radius: 14px;
+        }
+
+        .draft-controls {
+            gap: 8px;
+        }
+
+        .draft-controls button,
+        .draft-controls select {
+            border-radius: 14px !important;
+        }
+
+        .btn-del-draft {
+            border-radius: 12px;
+            background: var(--ui-red);
+        }
+
+        .ai-close-x {
+            background: rgba(120, 129, 127, 0.95) !important;
+            box-shadow: 0 5px 14px rgba(52, 60, 58, 0.16);
+        }
+
+        #settingsModal .modal-box,
+        #aiModal .modal-box,
+        #aiPlanModal .modal-box,
+        #savedIdeasModal .modal-box,
+        #manualModal .modal-box,
+        #aiPlanResultModal .modal-box {
+            max-width: min(560px, 92vw) !important;
+        }
+
+        #moreMenuModal .modal-box,
+        #childProfileModal .modal-box,
+        #avoidListModal .modal-box,
+        #watchListModal .modal-box,
+        #riskActionModal .modal-box,
+        #ideaUseModal .modal-box,
+        #deleteManagerModal .modal-box,
+        #importModal .modal-box,
+        #plannerModal .modal-box,
+        #aiPlanDaysModal .modal-box {
+            max-width: min(430px, 92vw) !important;
+        }
+
+        .child-profile-row,
+        .child-age-box {
+            border-radius: 16px;
+            border-color: var(--ui-border);
+            background: rgba(255, 255, 255, 0.70);
+        }
+
+        .child-profile-field input {
+            border-radius: 13px;
+        }
+
+        .more-section {
+            box-shadow: 0 4px 14px rgba(96, 73, 34, 0.05);
+        }
+
+        .more-grid .modal-btn {
+            border-radius: 16px !important;
+            min-height: 58px;
+        }
+
+        .overview-box ul,
+        .manual-section-content ul {
+            color: #405044;
+        }
+
+        .watch-badge,
+        .reaction-badge {
+            border-radius: 999px;
+            box-shadow: 0 3px 10px rgba(94, 72, 35, 0.06);
+        }
+
+        .watch-badge {
+            background: #fff7e8;
+            border-color: #edc985;
+            color: #8a5a00;
+        }
+
+        .reaction-badge {
+            background: #fff1ec;
+            border-color: #efb9a9;
+            color: #a34020;
+        }
+
+        .w-box,
+        .n-box,
+        .rx-select {
+            border-radius: 14px !important;
+        }
+
+        .avoid-list-textarea {
+            min-height: 190px;
+        }
+
+        @media (max-width: 420px) {
+            .modal-box {
+                width: 92%;
+                padding: 18px;
+                border-radius: 22px;
+            }
+
+            .modal-title {
+                font-size: 1.14rem;
+            }
+
+            .modal-btn {
+                min-height: 42px;
+                padding: 12px 10px;
+                font-size: 0.8rem;
+            }
+
+            .overview-box,
+            .filter-block,
+            .manual-section,
+            .idea-list-card,
+            .ai-idea-card {
+                border-radius: 16px;
+            }
+        }
+
+
+
+        /* === JEMNÝ WALLPAPER RODINY – 2026-06-01 === */
+        .content-area {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .content-area::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(92%, 640px);
+            height: 320px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.34;
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: contain;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='330' viewBox='0 0 640 330' fill='none'%3E%3Cg stroke='%23789755' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='214' cy='104' r='30'/%3E%3Cpath d='M162 198c12-33 32-50 52-50s40 17 52 50'/%3E%3Ccircle cx='314' cy='92' r='38'/%3E%3Cpath d='M246 210c18-48 43-72 68-72s50 24 68 72'/%3E%3Ccircle cx='424' cy='104' r='30'/%3E%3Cpath d='M372 198c12-33 32-50 52-50s40 17 52 50'/%3E%3Ccircle cx='319' cy='152' r='22'/%3E%3Cpath d='M280 222c10-26 24-40 39-40s29 14 39 40'/%3E%3Cpath d='M92 250c18-26 38-40 58-44'/%3E%3Cpath d='M120 224c-10 12-18 26-22 42'/%3E%3Cpath d='M548 250c-18-26-38-40-58-44'/%3E%3Cpath d='M520 224c10 12 18 26 22 42'/%3E%3Cpath d='M238 270c29 16 63 24 102 24s73-8 102-24'/%3E%3Cpath d='M268 266c8-10 19-16 32-16h40c13 0 24 6 32 16'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .content-area > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(1px);
+        }
+
+        @media (max-width: 520px) {
+            .content-area::before {
+                top: 18px;
+                width: calc(100% - 30px);
+                height: 270px;
+                opacity: 0.26;
+            }
+        }
+
+        /* ZVIDITELNĚNÍ WALLPAPERU – jemně i uvnitř karet */
+        .card::before {
+            content: '';
+            position: absolute;
+            right: 12px;
+            bottom: 10px;
+            width: 150px;
+            height: 90px;
+            pointer-events: none;
+            opacity: 0.08;
+            z-index: 0;
+            background-repeat: no-repeat;
+            background-position: right bottom;
+            background-size: contain;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='140' viewBox='0 0 220 140' fill='none'%3E%3Cg stroke='%23789755' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='75' cy='43' r='16'/%3E%3Cpath d='M44 100c8-28 23-42 31-42s24 14 32 42'/%3E%3Ccircle cx='119' cy='34' r='20'/%3E%3Cpath d='M82 108c10-36 26-54 37-54s27 18 37 54'/%3E%3Ccircle cx='164' cy='43' r='16'/%3E%3Cpath d='M132 100c8-28 24-42 32-42s23 14 31 42'/%3E%3Cpath d='M77 120c26 10 58 10 84 0'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 520px) {
+            .card::before {
+                width: 132px;
+                height: 84px;
+                opacity: 0.07;
+            }
+        }
+
     </style>
 </head>
 
@@ -1369,22 +2818,28 @@
 
     <div class="sticky-header" id="topMenu">
         <div class="menu-content compact-menu">
-            <div class="app-title">Výživa PRO - TESTOVACÍ VERZE</div>
+            <div class="app-title app-hero compact-hero">
+                <div class="hero-copy">
+                    <div class="title-main"><span class="title-food">Výživa</span> <span class="title-pro">PRO</span></div>
+                    <div class="title-sub">deník jídla a plánování</div>
+                    <div class="title-pill">testovací verze</div>
+                </div>
+            </div>
             <div class="btn-row main-action-row">
-                <button style="background:var(--success)" onclick="addCard()">NOVÝ +</button>
-                <button style="background:#1abc9c" onclick="goToToday()">DNES</button>
-                <button id="micMain" class="btn-mic" onclick="runVoice('food')">🎤 JÍDLO</button>
-                <button id="micNote" style="background:var(--note)" class="btn-mic" onclick="runVoice('note')">🎤 POZNÁMKA</button>
-                <button style="background:#34495e" onclick="openMoreMenu()">⋯ DALŠÍ</button>
-                <button class="header-icon-btn" style="background:#9b59b6" title="Zobrazit/skrýt gramy" onclick="document.body.classList.toggle('show-w'); adjustSpacing();">⚖️</button>
-                <button class="header-icon-btn" style="background:#f39c12" title="Zobrazit/skrýt poznámky" onclick="document.body.classList.toggle('show-n'); adjustSpacing();">📝</button>
+                <button class="top-action-btn top-action-new" onclick="addCard()"><span class="btn-icon">＋</span><span class="btn-label">NOVÝ</span></button>
+                <button class="top-action-btn top-action-today" onclick="goToToday()"><span class="btn-icon">☀️</span><span class="btn-label">DNES</span></button>
+                <button id="micMain" class="btn-mic top-action-btn top-action-food" onclick="runVoice('food')"><span class="btn-icon">🎤</span><span class="btn-label">JÍDLO</span></button>
+                <button id="micNote" class="btn-mic top-action-btn top-action-note" onclick="runVoice('note')"><span class="btn-icon">🎤</span><span class="btn-label">POZNÁMKA</span></button>
+                <button class="top-action-btn top-action-more" onclick="openMoreMenu()"><span class="btn-icon">⋯</span><span class="btn-label">DALŠÍ</span></button>
             </div>
             <div class="reorder-active-strip">
                 <span>↕️ Přeskládání plánu je aktivní</span>
                 <button type="button" onclick="togglePlanReorderMode()">✅ HOTOVO</button>
             </div>
-            <div class="btn-row filter-row">
-                <button type="button" class="filter-open-btn" onclick="openFilterModal()">🔎 FILTRY</button>
+            <div class="btn-row filter-row utility-row">
+                <button type="button" class="filter-open-btn" onclick="openFilterModal()"><span class="btn-inline-icon">🔎</span><span class="btn-inline-label">FILTRY</span></button>
+                <button class="header-icon-btn toggle-grams icon-only-btn" type="button" title="Zobrazit/skrýt gramy" aria-label="Zobrazit nebo skrýt gramy" onclick="document.body.classList.toggle('show-w'); adjustSpacing();"><span class="btn-inline-icon">⚖️</span></button>
+                <button class="header-icon-btn toggle-notes icon-only-btn" type="button" title="Zobrazit/skrýt poznámky" aria-label="Zobrazit nebo skrýt poznámky" onclick="document.body.classList.toggle('show-n'); adjustSpacing();"><span class="btn-inline-icon">📝</span></button>
             </div>
         </div>
     </div>
@@ -1459,8 +2914,9 @@
                 <div class="more-section-title">🧠 Plánování a AI</div>
                 <div class="more-grid">
                     <button class="modal-btn" onclick="closeMoreMenu(); openPlanner();">🗓️ Plán jídel</button>
-                    <button class="modal-btn" onclick="closeMoreMenu(); openAiModal();">🤖 AI návrhy</button>
-                    <button class="modal-btn more-wide-btn" onclick="closeMoreMenu(); openSavedIdeasModal();">💡 Nápady jídel</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openAiModal();">✨ 3 návrhy</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openAiPlanModal();">🤖 AI plán</button>
+                    <button class="modal-btn" onclick="closeMoreMenu(); openSavedIdeasModal();">💡 Nápady jídel</button>
                 </div>
             </div>
 
@@ -1595,9 +3051,34 @@ květák..."></textarea>
     </div>
 
     <div class="modal-overlay" id="savedIdeasModal">
-        <div class="modal-box" style="max-width:520px; text-align:left;">
+        <div class="modal-box" style="max-width:560px; text-align:left;">
             <div class="modal-title" style="text-align:center;">💡 Nápady jídel</div>
-            <div class="modal-text" style="text-align:left;">Sem se ukládají AI nápady, které ještě nechcete dát rovnou do dne nebo plánu.</div>
+            <div class="modal-text" style="text-align:left;">Zásobník uložených AI nápadů. Nápady můžete použít do dne/plánu, označit jako použité, přesunout do Sledovat/Vyhnout se nebo skrýt jako zamítnuté.</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+                <div>
+                    <label style="display:block; font-size:0.76rem; font-weight:800; color:#7f8c8d; margin-bottom:4px;">Zobrazit stav</label>
+                    <select id="savedIdeasStatusFilter" onchange="renderSavedIdeas()" style="width:100%;">
+                        <option value="active" selected>Aktivní nápady</option>
+                        <option value="new">Jen nové</option>
+                        <option value="used">Použité</option>
+                        <option value="watch">Ve Sledovat</option>
+                        <option value="avoid">Ve Vyhnout se</option>
+                        <option value="rejected">Zamítnuté/skryté</option>
+                        <option value="all">Vše</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.76rem; font-weight:800; color:#7f8c8d; margin-bottom:4px;">Typ jídla</label>
+                    <select id="savedIdeasMealFilter" onchange="renderSavedIdeas()" style="width:100%;">
+                        <option value="all" selected>Všechny typy</option>
+                        <option value="Snídaně">Snídaně</option>
+                        <option value="Dop. Svačina">Dop. svačina</option>
+                        <option value="Oběd">Oběd</option>
+                        <option value="Odp. Svačina">Odp. svačina</option>
+                        <option value="Večeře">Večeře</option>
+                    </select>
+                </div>
+            </div>
             <div id="savedIdeasContent"></div>
             <button class="modal-btn btn-cancel" onclick="closeSavedIdeasModal(true)">ZAVŘÍT</button>
         </div>
@@ -1655,8 +3136,9 @@ květák..."></textarea>
                         <li><b>🙂</b> znamená dobré.</li>
                         <li><b>😐</b> je základní výchozí hodnocení.</li>
                         <li><b>☹️</b> znamená nechutnalo nebo nevhodné.</li>
+                        <li>Po zapnutí <b>📝 poznámek</b> je u každého jídla také pole <b>Reakce</b>, kde lze ručně označit vyrážku, zvracení, průjem, kašel/dušení, nechutnalo nebo jinou reakci.</li>
                     </ul>
-                    <div class="manual-note">AI i offline plán se snaží vycházet hlavně z lepších hodnocení a vyhýbat se negativním položkám.</div>
+                    <div class="manual-note">AI i offline plán se snaží vycházet hlavně z lepších hodnocení a vyhýbat se negativním položkám. Ručně označená reakce má přednost před smajlíkem, takže i jídlo s 🙂 se po označení reakce objeví v rozboru rizik.</div>
                 </div>
             </details>
 
@@ -1677,7 +3159,7 @@ květák..."></textarea>
                 <summary>🤖 AI jídelníček a Gemini</summary>
                 <div class="manual-section-content">
                     <ul>
-                        <li>AI najdete přes <b>⋯ DALŠÍ → AI</b>.</li>
+                        <li>Rychlé návrhy najdete přes <b>⋯ DALŠÍ → 3 návrhy</b> a celý plán přes <b>⋯ DALŠÍ → AI plán</b>.</li>
                         <li>Nejdřív lze vytvořit podklad pro AI a ručně ho zkopírovat.</li>
                         <li>Po vložení Gemini API klíče ve <b>Správě dat</b> lze vytvořit plán přímo přes Gemini.</li>
                         <li>Gemini má vracet přesný počet dní a formát vhodný pro import.</li>
@@ -1696,7 +3178,7 @@ květák..."></textarea>
                         <li>AI návrh má být nová věkově přiměřená možnost, kterou jste ještě nezkoušeli.</li>
                         <li><b>POUŽÍT</b> přesune návrh do hlavního jídla.</li>
                         <li><b>ZAMÍTNOUT</b> návrh odstraní.</li>
-                        <li>V AI okně je také režim <b>✨ 3 návrhy pro pestrost</b>, který nevytváří celý plán, ale jen tři opatrné nápady. Pestrost hodnotí podle zvoleného období, ale bezpečnost, rizika, seznam „Vyhnout se“ a seznam „Sledovat“ kontroluje z celé historie.</li>
+                        <li>V AI okně je také režim <b>✨ 3 návrhy pro pestrost</b>, který nevytváří celý plán, ale jen tři opatrné nápady. Pestrost hodnotí podle zvoleného období, ale bezpečnost, rizika, seznam „Vyhnout se“ a seznam „Sledovat“ kontroluje z celé historie.</li><li>Uložené návrhy najdete v <b>💡 Nápady jídel</b>. Lze je použít do dne/plánu, označit jako použité, dát do Sledovat/Vyhnout se nebo skrýt jako zamítnuté.</li>
                         <li>U návrhů lze použít <b>➕ Použít</b> pro vložení do konkrétního dne/plánu, <b>💡 Uložit</b> pro odložení do Nápadů jídel nebo <b>🗑️ Zahodit</b>.</li>
                     </ul>
                 </div>
@@ -1858,7 +3340,7 @@ květák..."></textarea>
     <div class="modal-overlay" id="plannerModal">
         <div class="modal-box">
             <div class="modal-title">Návrh jídelníčku</div>
-            <div class="modal-text">Offline návrh podle uložené historie. Nechutnalo ☹️ se nikdy nepoužije.</div>
+            <div class="modal-text">Offline návrh podle uložené historie. Nechutnalo ☹️, rizikové poznámky a 🚫 Vyhnout se se nikdy nepoužijí. Položky 👀 Sledovat se mohou objevit, ale budou v deníku/plánu zvýrazněné.</div>
 
             <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Vybírat podle hodnocení</label>
             <select id="plannerRatingMode" style="width:100%; margin-bottom:10px;">
@@ -1893,31 +3375,8 @@ květák..."></textarea>
     <div class="modal-overlay" id="aiModal" onclick="if (event.target === this) closeAiModal(true)">
         <div class="modal-box" style="max-width:560px;">
             <button type="button" class="ai-close-x" onclick="closeAiModal(true)" aria-label="Zavřít AI okno">×</button>
-            <div class="modal-title">AI jídelníček</div>
-            <div class="modal-text">Můžete vytvořit podklad ke zkopírování, nebo zavolat Gemini přímo přes vlastní API klíč uložený v nastavení.</div>
-
-            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Z čeho má AI vycházet</label>
-            <select id="aiRatingMode" style="width:100%; margin-bottom:10px;">
-                <option value="love">Jen chutnalo 😍</option>
-                <option value="good" selected>Chutnalo 😍 + dobré 🙂</option>
-                <option value="base">Chutnalo 😍 + dobré 🙂 + základ 😐</option>
-            </select>
-
-            <input type="hidden" id="aiDays" value="7">
-
-            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Co má AI plánovat</label>
-            <select id="aiMealScope" style="width:100%; margin-bottom:12px;">
-                <option value="all" selected>Všechna jídla</option>
-                <option value="0">Jen snídaně</option>
-                <option value="1">Jen dopolední svačiny</option>
-                <option value="2">Jen obědy</option>
-                <option value="3">Jen odpolední svačiny</option>
-                <option value="4">Jen večeře</option>
-            </select>
-
-            <div style="border-top:1px solid #eee; margin:16px 0 14px;"></div>
-            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">✨ 3 návrhy pro pestrost</div>
-            <div class="small-help-text">Rychlá inspirace místo celého jídelníčku. Návrhy respektují „Vyhnout se“, „Sledovat“ a rizikové poznámky. Nejde o lékařské doporučení, vždy rozhoduje rodič.</div>
+            <div class="modal-title">✨ 3 návrhy pro pestrost</div>
+            <div class="modal-text">Rychlá inspirace místo celého jídelníčku. Návrhy respektují „Vyhnout se“, „Sledovat“ a rizikové poznámky. Nejde o lékařské doporučení, vždy rozhoduje rodič.</div>
 
             <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Typ návrhů</label>
             <select id="aiIdeasStyle" style="width:100%; margin-bottom:10px;">
@@ -1966,16 +3425,42 @@ květák..."></textarea>
                 </div>
             </details>
 
-            <div style="border-top:1px solid #eee; margin:18px 0 14px;"></div>
-            <div class="modal-title" style="font-size:1.05rem; margin-bottom:6px;">🗓️ AI plán jídelníčku</div>
-            <div class="small-help-text">Po kliknutí nejdřív vyberete počet dní. Výchozí volba je 7 dní, aby se omylem nevytvářel zbytečně dlouhý plán.</div>
-            <button class="modal-btn btn-merge" style="background:#8e44ad;" onclick="openAiPlanDaysModal()">🤖 VYTVOŘIT PLÁN PŘES GEMINI</button>
-            <input type="date" id="aiImportStartDate" aria-hidden="true" style="display:none;">
-            <textarea id="aiPlanInput" aria-hidden="true" style="display:none;"></textarea>
             <button class="modal-btn btn-cancel" onclick="closeAiModal(true)">ZAVŘÍT</button>
         </div>
     </div>
 
+    <div class="modal-overlay" id="aiPlanModal" onclick="if (event.target === this) closeAiPlanModal(true)">
+        <div class="modal-box" style="max-width:520px;">
+            <button type="button" class="ai-close-x" onclick="closeAiPlanModal(true)" aria-label="Zavřít AI plán">×</button>
+            <div class="modal-title">🗓️ AI plán jídelníčku</div>
+            <div class="modal-text">Tady se vytváří celý plán jídelníčku přes Gemini. Po kliknutí nejdřív vyberete počet dní a hotový plán se zobrazí ke kontrole před importem.</div>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Z čeho má AI vycházet</label>
+            <select id="aiRatingMode" style="width:100%; margin-bottom:10px;">
+                <option value="love">Jen chutnalo 😍</option>
+                <option value="good" selected>Chutnalo 😍 + dobré 🙂</option>
+                <option value="base">Chutnalo 😍 + dobré 🙂 + základ 😐</option>
+            </select>
+
+            <input type="hidden" id="aiDays" value="7">
+
+            <label style="display:block; text-align:left; font-size:0.8rem; font-weight:bold; margin:10px 0 5px; color:#2c3e50;">Co má AI plánovat</label>
+            <select id="aiMealScope" style="width:100%; margin-bottom:12px;">
+                <option value="all" selected>Všechna jídla</option>
+                <option value="0">Jen snídaně</option>
+                <option value="1">Jen dopolední svačiny</option>
+                <option value="2">Jen obědy</option>
+                <option value="3">Jen odpolední svačiny</option>
+                <option value="4">Jen večeře</option>
+            </select>
+
+            <div class="small-help-text">Výchozí délka plánu je 7 dní, aby se při nechtěném kliknutí neposílal zbytečně dlouhý požadavek na Gemini.</div>
+            <button class="modal-btn btn-merge" style="background:#8e44ad;" onclick="openAiPlanDaysModal()">🤖 VYTVOŘIT PLÁN PŘES GEMINI</button>
+            <input type="date" id="aiImportStartDate" aria-hidden="true" style="display:none;">
+            <textarea id="aiPlanInput" aria-hidden="true" style="display:none;"></textarea>
+            <button class="modal-btn btn-cancel" onclick="closeAiPlanModal(true)">ZAVŘÍT</button>
+        </div>
+    </div>
 
 
 
@@ -2095,10 +3580,14 @@ květák..."></textarea>
         const RESOLVED_RISKS_KEY = 'nutri_resolved_risks_v1';
         const SAVED_IDEAS_KEY = 'nutri_saved_ideas_v1';
         const AUTO_BACKUP_KEY = 'nutri_last_auto_backup_v1';
+        const EDIT_AUTO_BACKUP_LAST_AT_KEY = 'nutri_edit_auto_backup_last_at_v1';
+        const EDIT_AUTO_BACKUP_DELAY_MS = 30000;
+        const EDIT_AUTO_BACKUP_MIN_INTERVAL_MS = 5 * 60 * 1000;
+        let editAutoBackupTimer = null;
         let currentAiIdeaSuggestions = [];
         let pendingIdeaUse = null;
         const DATA_VERSION = 3;
-        const APP_VERSION = '2026-05-28-watch-highlight-v1';
+        const APP_VERSION = '2026-05-29-ai-split-v1';
 
         function getChildProfile() {
             const raw = localStorage.getItem(CHILD_PROFILE_KEY);
@@ -2185,6 +3674,7 @@ květák..."></textarea>
 
         function saveAvoidListFromModal() {
             const box = document.getElementById('avoidListText');
+            createAutoBackup('před úpravou seznamu Vyhnout se');
             setAvoidList((box ? box.value : '').split('\n'));
             closeAvoidListModal();
             alert('Seznam „Vyhnout se“ byl uložen. Použije se pro offline plán i pro AI prompt.');
@@ -2214,6 +3704,7 @@ květák..."></textarea>
 
         function saveWatchListFromModal() {
             const box = document.getElementById('watchListText');
+            createAutoBackup('před úpravou seznamu Sledovat');
             setWatchList((box ? box.value : '').split('\n'));
             closeWatchListModal();
             alert('Seznam „Sledovat“ byl uložen. Použije se jako upozornění v přehledu a v AI podkladu.');
@@ -2240,7 +3731,8 @@ květák..."></textarea>
                 item?.date || '',
                 item?.mealLabel || '',
                 item?.food || '',
-                item?.note || ''
+                item?.note || '',
+                item?.reaction || ''
             ].join('|'));
         }
 
@@ -2376,26 +3868,48 @@ květák..."></textarea>
             alert('Toto jídlo obsahuje položku ze seznamu „Sledovat":\n\n- ' + items.join('\n- ') + '\n\nPokud jídlo podáte, sledujte případnou reakci dítěte. Nejde o zákaz jako u „Vyhnout se“, ale o upozornění.');
         }
 
+        function buildAutoBackupSnapshot(reason) {
+            return {
+                dataVersion: DATA_VERSION,
+                createdAt: new Date().toISOString(),
+                reason: reason || 'automatická záloha',
+                entries: getMainData(),
+                childProfile: getChildProfile(),
+                avoidList: getAvoidList(),
+                watchList: getWatchList(),
+                resolvedRisks: getResolvedRisks(),
+                savedIdeas: getSavedIdeas(),
+                draft: getDraftData ? getDraftData() : []
+            };
+        }
+
         function createAutoBackup(reason) {
             try {
-                const backup = {
-                    dataVersion: DATA_VERSION,
-                    createdAt: new Date().toISOString(),
-                    reason: reason || 'automatická záloha',
-                    entries: getMainData(),
-                    childProfile: getChildProfile(),
-                    avoidList: getAvoidList(),
-                    watchList: getWatchList(),
-                    resolvedRisks: getResolvedRisks(),
-                    savedIdeas: getSavedIdeas(),
-                    draft: getDraftData ? getDraftData() : []
-                };
-                localStorage.setItem(AUTO_BACKUP_KEY, JSON.stringify(backup));
+                localStorage.setItem(AUTO_BACKUP_KEY, JSON.stringify(buildAutoBackupSnapshot(reason)));
                 return true;
             } catch (err) {
                 console.warn('Auto záloha se nepodařila:', err);
                 return false;
             }
+        }
+
+        function scheduleEditAutoBackup(reason = 'automatická záloha po úpravě jídelníčku') {
+            if (isRendering) return;
+            if (editAutoBackupTimer) clearTimeout(editAutoBackupTimer);
+            editAutoBackupTimer = setTimeout(() => {
+                editAutoBackupTimer = null;
+                const now = Date.now();
+                const last = parseInt(localStorage.getItem(EDIT_AUTO_BACKUP_LAST_AT_KEY) || '0', 10) || 0;
+                if (now - last < EDIT_AUTO_BACKUP_MIN_INTERVAL_MS) return;
+                if (createAutoBackup(reason)) {
+                    localStorage.setItem(EDIT_AUTO_BACKUP_LAST_AT_KEY, String(now));
+                }
+            }, EDIT_AUTO_BACKUP_DELAY_MS);
+        }
+
+        function cancelPendingEditAutoBackup() {
+            if (editAutoBackupTimer) clearTimeout(editAutoBackupTimer);
+            editAutoBackupTimer = null;
         }
 
         function restoreLastAutoBackup() {
@@ -2412,6 +3926,8 @@ květák..."></textarea>
             }
             const when = backup.createdAt ? new Date(backup.createdAt).toLocaleString('cs-CZ') : 'neznámý čas';
             if (!confirm(`Obnovit poslední automatickou zálohu?\n\nVytvořeno: ${when}\nDůvod: ${backup.reason || 'neuvedeno'}\n\nAktuální data budou nahrazena touto zálohou.`)) return;
+            cancelPendingEditAutoBackup();
+            createAutoBackup('před obnovou automatické zálohy');
             localStorage.setItem('nutri_data_v13', JSON.stringify(normalizeAllEntries(backup.entries)));
             if (backup.childProfile) localStorage.setItem(CHILD_PROFILE_KEY, JSON.stringify(backup.childProfile));
             if (Array.isArray(backup.avoidList)) setAvoidList(backup.avoidList);
@@ -2439,12 +3955,13 @@ květák..."></textarea>
             entry.d = (entry.d || '').trim();
             entry.dn = (entry.dn || entry.dayNote || '').toString();
             const meals = Array.isArray(entry.m) ? entry.m.slice(0, 5) : [];
-            while (meals.length < 5) meals.push({ t: '', w: '', n: '', r: '😐', a: '' });
+            while (meals.length < 5) meals.push({ t: '', w: '', n: '', r: '😐', rx: '', a: '' });
             entry.m = meals.map(m => ({
                 t: (m && m.t) ? String(m.t) : '',
                 w: (m && m.w) ? String(m.w) : '',
                 n: (m && m.n) ? String(m.n) : '',
                 r: (m && m.r) ? String(m.r) : '😐',
+                rx: normalizeReactionValue(m && m.rx),
                 a: (m && m.a) ? String(m.a) : ''
             }));
             if (entry.planned === true) entry.planned = true;
@@ -2487,20 +4004,119 @@ květák..."></textarea>
             return '<ul>' + rows.map(([name, count]) => `<li>${escapeHtml(name)} <b>${count}×</b></li>`).join('') + '</ul>';
         }
 
+        const REACTION_OPTIONS = [
+            { value: '', label: 'Reakce: žádná', risk: false },
+            { value: 'rash', label: 'Reakce: vyrážka / osypání', risk: true },
+            { value: 'vomit', label: 'Reakce: zvracení', risk: true },
+            { value: 'diarrhea', label: 'Reakce: průjem', risk: true },
+            { value: 'cough', label: 'Reakce: kašel / dušení', risk: true },
+            { value: 'dislike', label: 'Reakce: nechutnalo', risk: true },
+            { value: 'other', label: 'Reakce: jiné / sledovat', risk: true }
+        ];
+
+        function normalizeReactionValue(value) {
+            const v = String(value || '').trim();
+            return REACTION_OPTIONS.some(item => item.value === v) ? v : '';
+        }
+
+        function getReactionOption(value) {
+            const v = normalizeReactionValue(value);
+            return REACTION_OPTIONS.find(item => item.value === v) || REACTION_OPTIONS[0];
+        }
+
+        function getReactionLabel(value) {
+            return getReactionOption(value).label.replace(/^Reakce:\s*/i, '');
+        }
+
+        function hasReactionFlag(value) {
+            return Boolean(normalizeReactionValue(value));
+        }
+
+        function getReactionReason(value) {
+            const v = normalizeReactionValue(value);
+            if (!v) return '';
+            return 'zadaná reakce: ' + getReactionLabel(v).toLowerCase();
+        }
+
+        function reactionSelectHtml(value, onChangeHandler = 'save()') {
+            const current = normalizeReactionValue(value);
+            return `<select class="rx-select" onchange="${onChangeHandler}" title="Reakce po jídle">${REACTION_OPTIONS.map(opt => `<option value="${escapeHtml(opt.value)}" ${opt.value === current ? 'selected' : ''}>${escapeHtml(opt.label)}</option>`).join('')}</select>`;
+        }
+
+        function reactionBadgeHtml(value) {
+            const v = normalizeReactionValue(value);
+            if (!v) return '';
+            const label = getReactionLabel(v);
+            return `<button type="button" class="reaction-badge" onclick="showReactionDetail('${encodeURIComponent(label)}')">⚠️ REAKCE: ${escapeHtml(label)}</button>`;
+        }
+
+        function showReactionDetail(encodedLabel) {
+            const label = decodeURIComponent(encodedLabel || '');
+            alert('U tohoto jídla je ručně označená reakce: ' + label + '\n\nAplikace to bere jako důležitý signál pro rozbor jídelníčku a AI podklady. Pokud byla reakce omylem, změňte v poli Reakce hodnotu na „žádná“ a uložte záznam.');
+        }
+
+        function mealHasReactionRisk(meal) {
+            return Boolean(meal && hasReactionFlag(meal.rx));
+        }
+
+        function mealHasRisk(meal) {
+            return Boolean((meal && hasRiskWords(meal.n || '')) || mealHasReactionRisk(meal));
+        }
+
+        function getMealRiskReason(meal) {
+            const reasons = [];
+            if (meal && hasRiskWords(meal.n || '')) reasons.push(getRiskReason(meal.n || ''));
+            if (mealHasReactionRisk(meal)) reasons.push(getReactionReason(meal.rx));
+            return reasons.filter(Boolean).join(', ') || 'riziková poznámka / reakce';
+        }
+
+        function getRiskCleanText(value) {
+            let text = normalizeSearchText(value || '');
+            if (!text) return '';
+
+            // Kuchařské výrazy typu „dušené maso“ nejsou zdravotní riziko.
+            text = text.replace(/\bdusen(a|e|y|ou|ym|ych|ymi|eho|emu|ou)?\b/g, ' ');
+            text = text.replace(/\bdusena\b|\bdusene\b|\bduseny\b|\bdusenou\b|\bdusenym\b/g, ' ');
+
+            // Běžné negace nemají spouštět varování. Skutečné pozitivní riziko v jiné části věty zůstane zachované.
+            const ignorePatterns = [
+                /\bbez\s+(zvraceni|prujmu|kasle|vyrazky|osypani|alergie|reakce|bolesti|nevolnosti)\b/g,
+                /\bbez\s+alergicke\s+reakce\b/g,
+                /\bzadna\s+(reakce|vyrazka|alergie)\b/g,
+                /\bzadne\s+(zvraceni|osypani|potize|problemy)\b/g,
+                /\bnebyl[ao]?\s+(zvraceni|prujem|kasel|vyrazka|osypani|reakce)\b/g,
+                /\bnebyla\s+(vyrazka|alergie|reakce)\b/g,
+                /\bnezvracel[ao]?\b/g,
+                /\bnezvraci\b/g,
+                /\bnemel[ao]?\s+prujem\b/g,
+                /\bneosypal[ao]?\s*(se)?\b/g,
+                /\bneobjevila\s+se\s+(vyrazka|reakce|alergie)\b/g,
+                /\bneobjevil[ao]?\s+se\s+(prujem|kasel|zvraceni|osypani)\b/g
+            ];
+            ignorePatterns.forEach(pattern => { text = text.replace(pattern, ' '); });
+            return text.replace(/\s+/g, ' ').trim();
+        }
+
+        function getRiskHits(value) {
+            const text = getRiskCleanText(value);
+            const hits = [];
+            if (!text) return hits;
+            if (/\balerg/.test(text)) hits.push('alergie');
+            if (/vyraz|osyp/.test(text)) hits.push('vyrážka/osypání');
+            if (/zvracen|zvraceni|zvracel|zvraci/.test(text)) hits.push('zvracení');
+            if (/prujem/.test(text)) hits.push('průjem');
+            if (/bolest|nevol/.test(text)) hits.push('bolest/nevolnost');
+            if (/kasel|\bduseni\b|\bdusnost\b|\bdusil[ao]?\b|\bdusila\b|\bdusi\s+se\b|ztizene\s+dychani|nemohl[ao]?\s+dychat/.test(text)) hits.push('kašel/dušení');
+            if (/reakc/.test(text)) hits.push('reakce');
+            return Array.from(new Set(hits));
+        }
+
         function hasRiskWords(value) {
-            return /alerg|vyráž|vyraz|zvracen|zvracení|reakc|průjem|prujem|bolest|nevol|osyp|dušen|dusil|kašel|kasel/i.test(value || '');
+            return getRiskHits(value).length > 0;
         }
 
         function getRiskReason(value) {
-            const text = String(value || '').toLowerCase();
-            const hits = [];
-            if (/alerg/.test(text)) hits.push('alergie');
-            if (/vyráž|vyraz|osyp/.test(text)) hits.push('vyrážka/osypání');
-            if (/zvracen|zvracení/.test(text)) hits.push('zvracení');
-            if (/průjem|prujem/.test(text)) hits.push('průjem');
-            if (/bolest|nevol/.test(text)) hits.push('bolest/nevolnost');
-            if (/dušen|dusil|kašel|kasel/.test(text)) hits.push('kašel/dušení');
-            if (/reakc/.test(text)) hits.push('reakce');
+            const hits = getRiskHits(value);
             return hits.length ? hits.join(', ') : 'riziková poznámka';
         }
 
@@ -2529,11 +4145,11 @@ květák..."></textarea>
             return candidates.slice(0, 10);
         }
 
-        function openRiskActionModal(encodedValue, listType, encodedRiskId = '') {
+        function openRiskActionModal(encodedValue, listType, encodedRiskId = '', origin = 'overview', originIndex = '') {
             const food = normalizeAvoidCandidate(decodeURIComponent(encodedValue || ''));
             if (!food) return;
             const type = listType === 'watch' ? 'watch' : 'avoid';
-            pendingRiskAction = { food, listType: type, riskId: decodeURIComponent(encodedRiskId || '') };
+            pendingRiskAction = { food, listType: type, riskId: decodeURIComponent(encodedRiskId || ''), origin: origin || 'overview', originIndex: originIndex === '' ? null : parseInt(originIndex, 10) };
 
             const title = document.getElementById('riskActionTitle');
             const text = document.getElementById('riskActionText');
@@ -2583,6 +4199,7 @@ květák..."></textarea>
                 alert('Vyberte položku nebo napište vlastní text.');
                 return;
             }
+            createAutoBackup(pendingRiskAction.listType === 'watch' ? 'před přidáním položky do Sledovat' : 'před přidáním položky do Vyhnout se');
             const result = addToNamedList(value, pendingRiskAction.listType);
             const listName = pendingRiskAction.listType === 'watch' ? 'Sledovat' : 'Vyhnout se';
             if (result === 'exists') {
@@ -2590,13 +4207,25 @@ květák..."></textarea>
                 return;
             }
             const resolvedId = pendingRiskAction.riskId;
+            const origin = pendingRiskAction.origin || 'overview';
+            const originIndex = pendingRiskAction.originIndex;
             if (resolvedId) {
                 const currentResolved = getResolvedRisks();
                 if (!currentResolved.includes(resolvedId)) setResolvedRisks([...currentResolved, resolvedId]);
             }
+            if (origin === 'ideas' && Number.isInteger(originIndex)) {
+                const ideas = getSavedIdeas();
+                if (ideas[originIndex]) {
+                    ideas[originIndex].status = pendingRiskAction.listType === 'watch' ? 'watch' : 'avoid';
+                    ideas[originIndex].listActionAt = new Date().toISOString();
+                    ideas[originIndex].listActionItem = value;
+                    setSavedIdeas(ideas);
+                }
+            }
             closeRiskActionModal();
             alert(`Přidáno do seznamu „${listName}“: ${value}`);
-            openOverviewModal();
+            if (origin === 'ideas') renderSavedIdeas();
+            else openOverviewModal();
         }
 
         function riskItemsHtml(items) {
@@ -2620,7 +4249,8 @@ květák..."></textarea>
                         <div><b>${escapeHtml(item.date)}</b> – ${escapeHtml(item.mealLabel)}</div>
                         ${item.food ? `<div><b>Jídlo:</b> ${escapeHtml(item.food)}</div>` : ''}
                         <div><b>Důvod:</b> ${escapeHtml(item.reason)}</div>
-                        <div><b>Poznámka:</b> ${escapeHtml(item.note)}</div>
+                        ${item.reaction ? `<div><b>Reakce:</b> ${escapeHtml(getReactionLabel(item.reaction))}</div>` : ''}
+                        <div><b>Poznámka:</b> ${escapeHtml(item.note || '—')}</div>
                         ${ratingWarning}
                         ${actionButtons}
                     </div>`;
@@ -2655,7 +4285,8 @@ květák..."></textarea>
                         return `<div style="border:1px solid #e1e7ec; background:#f8f9fa; border-radius:8px; padding:8px;">
                             <div><b>${escapeHtml(item.date)}</b> – ${escapeHtml(item.mealLabel)}</div>
                             ${item.food ? `<div><b>Jídlo:</b> ${escapeHtml(item.food)}</div>` : ''}
-                            <div><b>Poznámka:</b> ${escapeHtml(item.note)}</div>
+                            ${item.reaction ? `<div><b>Reakce:</b> ${escapeHtml(getReactionLabel(item.reaction))}</div>` : ''}
+                            <div><b>Poznámka:</b> ${escapeHtml(item.note || '—')}</div>
                             <div style="color:#7f8c8d; font-size:0.8rem; margin-top:4px;">Stav: ${state}</div>
                             <button type="button" class="modal-btn" style="background:#3498db; margin-top:7px; padding:8px;" onclick="restoreRiskToNew('${encodeURIComponent(riskId)}')">↩️ Vrátit mezi nové</button>
                         </div>`;
@@ -2698,7 +4329,7 @@ květák..."></textarea>
                     const text = (meal.t || '').replace(/\s+/g, ' ').trim();
                     const note = (meal.n || '').replace(/\s+/g, ' ').trim();
                     const rating = (meal.r || '').trim();
-                    const mealIsRisky = hasRiskWords(note);
+                    const mealIsRisky = mealHasRisk(meal);
 
                     if (text && !isEmptyMealText(text)) {
                         addCount(frequent, text);
@@ -2715,8 +4346,9 @@ květák..."></textarea>
                             mealLabel: mealLabels[index] || 'Jídlo',
                             food: text,
                             note,
+                            reaction: meal.rx || '',
                             rating,
-                            reason: getRiskReason(note)
+                            reason: getMealRiskReason(meal)
                         });
                     }
                 });
@@ -2974,6 +4606,7 @@ květák..."></textarea>
                     w: item.querySelector('.w-box').value,
                     n: item.querySelector('.n-box').innerText,
                     r: item.querySelector('.rating').innerText,
+                    rx: item.querySelector('.rx-select') ? normalizeReactionValue(item.querySelector('.rx-select').value) : '',
                     a: item.querySelector('.ai-suggestion-text') ? item.querySelector('.ai-suggestion-text').innerText.trim() : ''
                 }))
             };
@@ -2998,6 +4631,7 @@ květák..."></textarea>
             });
 
             setMainData(fullData);
+            scheduleEditAutoBackup();
         }
 
         function saveAndReload() {
@@ -3011,7 +4645,7 @@ květák..."></textarea>
         }
 
         function createEmptyMealSet() {
-            return mealLabels.map(() => ({ t: '', w: '', n: '', r: '😐' }));
+            return mealLabels.map(() => ({ t: '', w: '', n: '', r: '😐', rx: '' }));
         }
 
         function createEmptyPlanCard(dateText) {
@@ -3262,19 +4896,22 @@ květák..."></textarea>
 
             const dayTextMatches = currentTextFilter.trim() ? dayLevelMatchesText(e) : false;
             for (let i = 0; i < 5; i++) {
-                const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐', a: '' };
+                const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐', rx: '', a: '' };
                 let bg = rates[m.r] || '#e3f9e5';
                 const watchHits = getWatchHits(m.t || '');
                 const aiWatchHits = getWatchHits(m.a || '');
                 const hiddenClass = mealMatchesFilters(m, i, dayTextMatches) ? '' : ' meal-hidden';
                 const watchClass = watchHits.length ? ' meal-watch' : '';
+                const reactionClass = hasReactionFlag(m.rx) ? ' meal-reaction' : '';
                 html += `
-            <div class="meal-item${hiddenClass}${watchClass}" data-index="${i}">
+            <div class="meal-item${hiddenClass}${watchClass}${reactionClass}" data-index="${i}">
                 <div class="meal-label">${mealLabels[i]}</div>
                 <div class="meal-content">
                     <div class="m-box" contenteditable="true" oninput="save()" placeholder="Napište jídlo...">${renderTextWithWatchMarks(m.t, watchHits)}</div>
                     ${watchBadgeHtml(watchHits)}
+                    ${reactionBadgeHtml(m.rx)}
                     <input type="number" class="w-box" placeholder="Gramy (g)" value="${escapeHtml(m.w)}" oninput="save()">
+                    ${reactionSelectHtml(m.rx, 'save()')}
                     <div class="n-box" contenteditable="true" oninput="save()" placeholder="Poznámka...">${escapeHtml(m.n)}</div>
                     ${m.a ? `<div class="ai-suggestion-box"><div class="ai-suggestion-title">✨ AI návrh na rozšíření</div><div class="ai-suggestion-text">${renderTextWithWatchMarks(m.a, aiWatchHits)}</div>${watchBadgeHtml(aiWatchHits)}<div class="ai-suggestion-actions"><button type="button" class="ai-use-btn" onclick="useAiSuggestion(this)">POUŽÍT</button><button type="button" class="ai-reject-btn" onclick="rejectAiSuggestion(this)">ZAMÍTNOUT</button></div></div>` : ''}
                 </div>
@@ -3311,7 +4948,7 @@ květák..."></textarea>
         function addCard() {
             createAutoBackup('vytvoření nového dne');
             let data = getMainData();
-            data.unshift({ d: new Date().toLocaleDateString('cs-CZ'), dn: '', m: Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐' })) });
+            data.unshift({ d: new Date().toLocaleDateString('cs-CZ'), dn: '', m: Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐', rx: '' })) });
             setMainData(data);
             load();
             window.scrollTo(0, 0);
@@ -3339,6 +4976,8 @@ květák..."></textarea>
             const suggestion = mealItem.querySelector('.ai-suggestion-text')?.innerText.trim() || '';
             if (!suggestion) return;
             mealItem.querySelector('.m-box').innerText = suggestion;
+            const rxSelect = mealItem.querySelector('.rx-select');
+            if (rxSelect) rxSelect.value = '';
             const box = mealItem.querySelector('.ai-suggestion-box');
             if (box) box.remove();
             save();
@@ -3383,7 +5022,7 @@ květák..."></textarea>
         function mealTextMatches(m) {
             const needle = normalizeSearchText(currentTextFilter);
             if (!needle) return true;
-            const haystack = normalizeSearchText([m?.t, m?.n, m?.a].join(' '));
+            const haystack = normalizeSearchText([m?.t, m?.n, m?.a, getReactionLabel(m?.rx || '')].join(' '));
             return haystack.includes(needle);
         }
 
@@ -4068,7 +5707,7 @@ Tuto akci nelze vrátit zpět.`)) return;
                     if (!meal || index > 4) return;
                     const text = (meal.t || '').trim();
                     const rating = (meal.r || '😐').trim();
-                    if (!text || isEmptyMealText(text) || textMatchesAvoidList(text) || hasRiskWords(meal.n || '') || !allowed.includes(rating) || rating === '☹️') return;
+                    if (!text || isEmptyMealText(text) || textMatchesAvoidList(text) || mealHasRisk(meal) || !allowed.includes(rating) || rating === '☹️') return;
                     const key = normalizeFoodName(text);
                     if (seen[index].has(key)) return;
                     seen[index].add(key);
@@ -4089,7 +5728,7 @@ Tuto akci nelze vrátit zpět.`)) return;
         }
 
         function pickMeal(pool, recentNames) {
-            if (!pool || pool.length === 0) return { t: '', w: '', n: '', r: '😐' };
+            if (!pool || pool.length === 0) return { t: '', w: '', n: '', r: '😐', rx: '' };
             let chosen = pool.find(item => !recentNames.includes(normalizeFoodName(item.t))) || pool[0];
             pool.push(pool.shift());
             return { t: chosen.t, w: chosen.w || '', n: chosen.n || '', r: chosen.r || '😐' };
@@ -4128,7 +5767,7 @@ Tuto akci nelze vrátit zpět.`)) return;
             for (let day = 0; day < daysCount; day++) {
                 const d = new Date(start);
                 d.setDate(start.getDate() + day);
-                const meals = Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐' }));
+                const meals = Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐', rx: '' }));
 
                 selectedIndexes.forEach(index => {
                     const picked = pickMeal(pools[index], recent[index]);
@@ -4159,12 +5798,22 @@ Tuto akci nelze vrátit zpět.`)) return;
 
         function openAiModal() {
             document.getElementById('aiModal').style.display = 'flex';
-            setDefaultAiImportStartDate();
-            generateAiPrompt();
+            generateAiIdeasPrompt();
         }
 
         function closeAiModal(backToMore = false) {
             document.getElementById('aiModal').style.display = 'none';
+            returnToMoreMenuIfRequested(backToMore);
+        }
+
+        function openAiPlanModal() {
+            document.getElementById('aiPlanModal').style.display = 'flex';
+            setDefaultAiImportStartDate();
+            generateAiPrompt();
+        }
+
+        function closeAiPlanModal(backToMore = false) {
+            document.getElementById('aiPlanModal').style.display = 'none';
             returnToMoreMenuIfRequested(backToMore);
         }
 
@@ -4191,7 +5840,7 @@ Tuto akci nelze vrátit zpět.`)) return;
                     const rating = meal.r || '😐';
                     const note = (meal.n || '').trim();
                     const isManualAvoid = textMatchesAvoidList(text);
-                    const isRiskyNote = hasRiskWords(note);
+                    const isRiskyNote = mealHasRisk(meal);
                     const target = (isManualAvoid || isRiskyNote || rating === '☹️') ? avoidMaps[index] : (allowed.includes(rating) ? goodMaps[index] : null);
                     if (target) {
                         const current = target.get(key) || { t: text, count: 0, ratings: {}, lastDate: day.d, notes: [] };
@@ -4201,8 +5850,11 @@ Tuto akci nelze vrátit zpět.`)) return;
                         if (meal.n && current.notes.length < 2) current.notes.push(meal.n.replace(/\s+/g, ' ').trim());
                         target.set(key, current);
                     }
-                    if (note && hasRiskWords(note)) {
-                        noteItems.push(`${day.d} – ${mealLabels[index]}: ${text} | poznámka: ${note}`);
+                    if (mealHasRisk(meal)) {
+                        const parts = [];
+                        if (note && hasRiskWords(note)) parts.push(`poznámka: ${note}`);
+                        if (hasReactionFlag(meal.rx)) parts.push(`reakce: ${getReactionLabel(meal.rx)}`);
+                        noteItems.push(`${day.d} – ${mealLabels[index]}: ${text} | ${parts.join(' | ')}`);
                     }
                 });
             });
@@ -4336,9 +5988,14 @@ Tuto akci nelze vrátit zpět.`)) return;
                     const rating = (meal.r || '😐').trim();
                     if (!text || isEmptyMealText(text)) return;
                     addCount(frequent, text);
-                    if ((rating === '😍' || rating === '🙂') && !hasRiskWords(note) && !textMatchesAvoidList(text)) addCount(good, text);
-                    if (rating === '☹️' || hasRiskWords(note) || textMatchesAvoidList(text)) addCount(disliked, text);
-                    if (note && hasRiskWords(note)) riskNotes.push(`${day.d} – ${mealLabels[index]}: ${text} | poznámka: ${note}`);
+                    if ((rating === '😍' || rating === '🙂') && !mealHasRisk(meal) && !textMatchesAvoidList(text)) addCount(good, text);
+                    if (rating === '☹️' || mealHasRisk(meal) || textMatchesAvoidList(text)) addCount(disliked, text);
+                    if (mealHasRisk(meal)) {
+                        const parts = [];
+                        if (note && hasRiskWords(note)) parts.push(`poznámka: ${note}`);
+                        if (hasReactionFlag(meal.rx)) parts.push(`reakce: ${getReactionLabel(meal.rx)}`);
+                        riskNotes.push(`${day.d} – ${mealLabels[index]}: ${text} | ${parts.join(' | ')}`);
+                    }
                 });
             });
 
@@ -4373,8 +6030,13 @@ Tuto akci nelze vrátit zpět.`)) return;
                     const note = (meal.n || '').replace(/\s+/g, ' ').trim();
                     const rating = (meal.r || '😐').trim();
                     if (!text || isEmptyMealText(text)) return;
-                    if (rating === '☹️' || hasRiskWords(note) || textMatchesAvoidList(text)) addCount(disliked, text);
-                    if (note && hasRiskWords(note)) riskNotes.push(`${day.d} – ${mealLabels[index]}: ${text} | poznámka: ${note}`);
+                    if (rating === '☹️' || mealHasRisk(meal) || textMatchesAvoidList(text)) addCount(disliked, text);
+                    if (mealHasRisk(meal)) {
+                        const parts = [];
+                        if (note && hasRiskWords(note)) parts.push(`poznámka: ${note}`);
+                        if (hasReactionFlag(meal.rx)) parts.push(`reakce: ${getReactionLabel(meal.rx)}`);
+                        riskNotes.push(`${day.d} – ${mealLabels[index]}: ${text} | ${parts.join(' | ')}`);
+                    }
                 });
             });
 
@@ -4534,7 +6196,7 @@ Tuto akci nelze vrátit zpět.`)) return;
                 if (/^riziko\s*[:：].*(sledovat|vyssi|vyšší|stredni|střední|radeji\s*ne|raději\s*ne|nevhod|vysoke|vysoké)/i.test(normalized)) return true;
 
                 // Tvrdší riziková slova mimo samotný řádek „Riziko“.
-                return /raději\s*ne|radeji\s*ne|vyhnout|alerg|vyráž|vyraz|zvracen|zvracení|reakc|průjem|prujem|osyp|dušen|dusil|kašel|kasel/i.test(text);
+                return /raději\s*ne|radeji\s*ne|vyhnout|nevhod/i.test(normalized) || hasRiskWords(text);
             }
 
             const snippets = parts.filter(isRiskSnippet);
@@ -4613,12 +6275,13 @@ Tuto akci nelze vrátit zpět.`)) return;
             let item = idx >= 0 ? normalizeEntry(data[idx]) : { d: dateText, dn: '', m: createEmptyMealSet() };
             if (dayMode === 'plan') item.planned = true;
             if (dayMode === 'real') delete item.planned;
-            const meal = item.m[mealIndex] || { t: '', w: '', n: '', r: '😐', a: '' };
+            const meal = item.m[mealIndex] || { t: '', w: '', n: '', r: '😐', rx: '', a: '' };
             const currentText = (meal.t || '').trim();
 
             if (insertMode === 'main') {
                 if (currentText && !isEmptyMealText(currentText) && !confirm(`${dateText} – ${mealLabels[mealIndex]} už obsahuje:\n${currentText}\n\nPřepsat hlavní jídlo návrhem?`)) return;
                 meal.t = title;
+                meal.rx = '';
                 meal.a = meal.a || '';
             } else if (insertMode === 'append') {
                 meal.t = currentText && !isEmptyMealText(currentText) ? `${currentText}; ${title}` : title;
@@ -4650,28 +6313,110 @@ Tuto akci nelze vrátit zpět.`)) return;
             alert(`Návrh byl vložen do ${dayMode === 'plan' ? 'PLÁNU' : 'skutečného dne'}: ${dateText} – ${mealLabels[mealIndex]}.`);
         }
 
+        function getIdeaStatusInfo(idea) {
+            const status = idea && idea.status ? idea.status : 'new';
+            if (status === 'used') return { label: `Použito${idea.usedDate ? ' – ' + idea.usedDate : ''}${idea.usedMeal ? ' / ' + idea.usedMeal : ''}`, group: 'used' };
+            if (status === 'rejected') return { label: 'Zamítnuto / skryto', group: 'rejected' };
+            if (status === 'watch') return { label: `Ve Sledovat${idea.listActionItem ? ' – ' + idea.listActionItem : ''}`, group: 'watch' };
+            if (status === 'avoid') return { label: `Ve Vyhnout se${idea.listActionItem ? ' – ' + idea.listActionItem : ''}`, group: 'avoid' };
+            return { label: 'Nový nápad', group: 'new' };
+        }
+
+        function setSavedIdeaStatus(index, status) {
+            const ideas = getSavedIdeas();
+            if (!ideas[index]) return;
+            createAutoBackup('před změnou stavu uloženého nápadu');
+            ideas[index].status = status || 'new';
+            ideas[index].statusChangedAt = new Date().toISOString();
+            if (status === 'new') {
+                delete ideas[index].usedAt;
+                delete ideas[index].usedDate;
+                delete ideas[index].usedMeal;
+                delete ideas[index].listActionAt;
+                delete ideas[index].listActionItem;
+            }
+            if (status === 'rejected') ideas[index].rejectedAt = new Date().toISOString();
+            setSavedIdeas(ideas);
+            renderSavedIdeas();
+        }
+
+        function markSavedIdeaUsed(index) {
+            const ideas = getSavedIdeas();
+            if (!ideas[index]) return;
+            createAutoBackup('před označením nápadu jako použitého');
+            ideas[index].status = 'used';
+            ideas[index].usedAt = new Date().toISOString();
+            if (!ideas[index].usedDate) ideas[index].usedDate = 'označeno ručně';
+            setSavedIdeas(ideas);
+            renderSavedIdeas();
+        }
+
+        function openSavedIdeaListAction(index, listType) {
+            const ideas = getSavedIdeas();
+            const idea = ideas[index];
+            if (!idea) return;
+            openRiskActionModal(encodeURIComponent(idea.title || ''), listType, '', 'ideas', String(index));
+        }
+
+        function renderSavedIdeaCard(idea, index) {
+            const status = getIdeaStatusInfo(idea);
+            const created = idea.createdAt ? new Date(idea.createdAt).toLocaleString('cs-CZ') : '';
+            const showUse = status.group !== 'avoid' && status.group !== 'rejected';
+            const primaryButtons = [];
+            if (showUse) primaryButtons.push(`<button type="button" class="modal-btn" style="background:#27ae60" onclick="openUseIdeaModal(${index}, 'saved')">➕ Použít</button>`);
+            if (status.group !== 'used' && status.group !== 'avoid' && status.group !== 'rejected') primaryButtons.push(`<button type="button" class="modal-btn" style="background:#16a085" onclick="markSavedIdeaUsed(${index})">✅ Použité</button>`);
+            if (status.group !== 'watch' && status.group !== 'avoid' && status.group !== 'rejected') primaryButtons.push(`<button type="button" class="modal-btn" style="background:#e67e22" onclick="openSavedIdeaListAction(${index}, 'watch')">👀 Sledovat</button>`);
+            if (status.group !== 'avoid' && status.group !== 'rejected') primaryButtons.push(`<button type="button" class="modal-btn" style="background:#d35400" onclick="openSavedIdeaListAction(${index}, 'avoid')">🚫 Vyhnout se</button>`);
+            if (status.group !== 'rejected') primaryButtons.push(`<button type="button" class="modal-btn" style="background:#7f8c8d" onclick="setSavedIdeaStatus(${index}, 'rejected')">🙈 Zamítnout</button>`);
+            if (status.group !== 'new') primaryButtons.push(`<button type="button" class="modal-btn" style="background:#3498db" onclick="setSavedIdeaStatus(${index}, 'new')">↩️ Vrátit</button>`);
+            primaryButtons.push(`<button type="button" class="modal-btn" style="background:#95a5a6" onclick="deleteSavedIdea(${index})">🗑️ Smazat</button>`);
+
+            return `
+                <div class="idea-list-card idea-status-${escapeHtml(status.group)}">
+                    <div><b>${escapeHtml(idea.title || 'Nápad')}</b></div>
+                    ${idea.mealType ? `<div class="idea-list-meta">Typ: ${escapeHtml(idea.mealType)}</div>` : ''}
+                    <div class="idea-list-meta">Stav: ${escapeHtml(status.label)}${created ? ' · Uloženo: ' + escapeHtml(created) : ''}</div>
+                    <details style="margin-top:6px;"><summary style="cursor:pointer; font-weight:800; color:#2c3e50;">Zobrazit detail</summary><div style="white-space:pre-wrap; margin-top:6px;">${escapeHtml(idea.text || '')}</div></details>
+                    <div class="ai-idea-actions">${primaryButtons.join('')}</div>
+                </div>`;
+        }
+
         function renderSavedIdeas() {
             const box = document.getElementById('savedIdeasContent');
             if (!box) return;
-            const ideas = getSavedIdeas();
-            if (!ideas.length) {
+            const allIdeas = getSavedIdeas();
+            if (!allIdeas.length) {
                 box.innerHTML = '<div class="overview-box" style="color:#95a5a6;">Zatím zde nejsou uložené žádné nápady.</div>';
                 return;
             }
-            box.innerHTML = ideas.map((idea, index) => {
-                const statusText = idea.status === 'used' ? `Použito${idea.usedDate ? ' – ' + idea.usedDate : ''}${idea.usedMeal ? ' / ' + idea.usedMeal : ''}` : 'Nový nápad';
-                const created = idea.createdAt ? new Date(idea.createdAt).toLocaleString('cs-CZ') : '';
-                return `
-                    <div class="idea-list-card">
-                        <div><b>${escapeHtml(idea.title || 'Nápad')}</b></div>
-                        ${idea.mealType ? `<div class="idea-list-meta">Typ: ${escapeHtml(idea.mealType)}</div>` : ''}
-                        <div class="idea-list-meta">Stav: ${escapeHtml(statusText)}${created ? ' · Uloženo: ' + escapeHtml(created) : ''}</div>
-                        <details style="margin-top:6px;"><summary style="cursor:pointer; font-weight:800; color:#2c3e50;">Zobrazit detail</summary><div style="white-space:pre-wrap; margin-top:6px;">${escapeHtml(idea.text || '')}</div></details>
-                        <div class="ai-idea-actions">
-                            <button type="button" class="modal-btn" style="background:#27ae60" onclick="openUseIdeaModal(${index}, 'saved')">➕ Použít</button>
-                            <button type="button" class="modal-btn" style="background:#7f8c8d" onclick="deleteSavedIdea(${index})">🗑️ Smazat</button>
-                        </div>
-                    </div>`;
+
+            const statusFilter = document.getElementById('savedIdeasStatusFilter')?.value || 'active';
+            const mealFilter = document.getElementById('savedIdeasMealFilter')?.value || 'all';
+            const rows = allIdeas.map((idea, index) => ({ idea, index, status: getIdeaStatusInfo(idea) }))
+                .filter(row => mealFilter === 'all' || normalizeFoodName(row.idea.mealType || '') === normalizeFoodName(mealFilter))
+                .filter(row => {
+                    if (statusFilter === 'all') return true;
+                    if (statusFilter === 'active') return row.status.group !== 'rejected';
+                    return row.status.group === statusFilter;
+                });
+
+            if (!rows.length) {
+                box.innerHTML = '<div class="overview-box" style="color:#95a5a6;">Pro vybraný filtr nejsou žádné nápady.</div>';
+                return;
+            }
+
+            const groupOrder = [
+                { key: 'new', title: '💡 Nové nápady' },
+                { key: 'watch', title: '👀 Nápady ve Sledovat' },
+                { key: 'used', title: '✅ Použité nápady' },
+                { key: 'avoid', title: '🚫 Nápady ve Vyhnout se' },
+                { key: 'rejected', title: '🙈 Zamítnuté / skryté nápady' }
+            ];
+
+            box.innerHTML = groupOrder.map(group => {
+                const groupRows = rows.filter(row => row.status.group === group.key);
+                if (!groupRows.length) return '';
+                return `<div class="overview-box"><h4>${group.title}</h4>${groupRows.map(row => renderSavedIdeaCard(row.idea, row.index)).join('')}</div>`;
             }).join('');
         }
 
@@ -4679,6 +6424,7 @@ Tuto akci nelze vrátit zpět.`)) return;
             const ideas = getSavedIdeas();
             if (!ideas[index]) return;
             if (!confirm('Smazat uložený nápad: ' + (ideas[index].title || 'Nápad') + '?')) return;
+            createAutoBackup('před smazáním uloženého nápadu');
             ideas.splice(index, 1);
             setSavedIdeas(ideas);
             renderSavedIdeas();
@@ -4819,7 +6565,7 @@ Pracuj podle těchto pravidel:
 - AI návrh má být opatrný nápad k vyzkoušení, ne tvrzení, že je zaručeně bezpečný
 - zohledni věk dítěte a dostupné údaje o váze/výšce; pokud některý údaj chybí, nevadí, pracuj s tím, co je k dispozici
 - nepoužívej jídla ani suroviny, která jsou uvedená v ručním seznamu „Vyhnout se“ nebo v části „vyhnout se“ z historie
-- položky v seznamu „Sledovat“ ber jako podezřelé: nepředkládej je jako jistě bezpečné a u nových návrhů je raději obcházej, pokud existuje vhodná alternativa
+- položky v seznamu „Sledovat“ ber jako podezřelé, ale nepovažuj je za tvrdý zákaz; můžeš je navrhnout, pokud dávají smysl, ale vždy upozorni, že je potřeba sledovat reakci dítěte
 - nepoužívej položky typu „Nic“, „žádné“, „nejedl“ jako návrh jídla; když chybí vhodná historie, navrhni podobnou bezpečnou variantu
 - neopakuj stejné nebo velmi podobné jídlo hned po sobě
 - zachovej rozumnou pestrost
@@ -5065,7 +6811,7 @@ ${summary.warnings.length ? summary.warnings.map(x => '- ' + x).join('\n') : '- 
             lines.forEach(line => {
                 if (/^DEN\s*\d+/i.test(line)) {
                     if (current) days.push(current);
-                    current = { m: Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐', a: '' })) };
+                    current = { m: Array.from({ length: 5 }, () => ({ t: '', w: '', n: '', r: '😐', rx: '', a: '' })) };
                     lastMealIndex = -1;
                     return;
                 }
@@ -5086,7 +6832,7 @@ ${summary.warnings.length ? summary.warnings.map(x => '- ' + x).join('\n') : '- 
                 const index = mealIndexFromAiLabel(rawLabel);
                 if (index < 0) return;
                 if (!mealText || isEmptyMealText(mealText)) mealText = '';
-                current.m[index] = { t: mealText, w: '', n: '', r: '😐', a: current.m[index]?.a || '' };
+                current.m[index] = { t: mealText, w: '', n: '', r: '😐', rx: '', a: current.m[index]?.a || '' };
                 lastMealIndex = index;
             });
             if (current) days.push(current);
@@ -5274,18 +7020,17 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
         }
 
         function exportCSV() {
-            let csv = "\uFEFFDatum;Denní poznámka;Snídaně;Gramy;Poznámka;Hodnocení;Dop.Svačina;Gramy;Poznámka;Hodnocení;Oběd;Gramy;Poznámka;Hodnocení;Odp.Svačina;Gramy;Poznámka;Hodnocení;Večeře;Gramy;Poznámka;Hodnocení\n";
-            const saved = localStorage.getItem('nutri_data_v13');
-            if (saved) {
-                JSON.parse(saved).forEach(d => {
-                    let row = [csvCell(d.d), csvCell(d.dn || '')].join(';');
-                    for (let i = 0; i < 5; i++) {
-                        let m = d.m[i] || { t: '', w: '', n: '', r: '😐' };
-                        row += ';' + [csvCell(m.t), csvCell(m.w), csvCell(m.n), csvCell(m.r)].join(';');
-                    }
-                    csv += row + "\n";
-                });
-            }
+            const header = ['Datum', 'Denní poznámka'];
+            mealLabels.forEach(label => header.push(label, 'Gramy', 'Poznámka', 'Reakce', 'Hodnocení'));
+            let csv = '\uFEFF' + header.join(';') + '\n';
+            getMainData().forEach(d => {
+                const cells = [d.d, d.dn || ''];
+                for (let i = 0; i < 5; i++) {
+                    const m = (d.m && d.m[i]) ? d.m[i] : { t: '', w: '', n: '', rx: '', r: '😐' };
+                    cells.push(m.t || '', m.w || '', m.n || '', getReactionLabel(m.rx || ''), m.r || '😐');
+                }
+                csv += cells.map(csvCell).join(';') + '\n';
+            });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
             a.download = `vyziva_export_excel_${new Date().toISOString().slice(0, 10)}.csv`; a.click(); closeSettings();
@@ -5320,7 +7065,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                 imported = imported.map(item => {
                     const meals = Array.isArray(item.m) ? item.m : [];
                     if (meals.length === 4) {
-                        return { d: item.d, m: [meals[0], { t: '', w: '', n: '', r: '😐' }, meals[1], meals[2], meals[3]], planned: item.planned === true };
+                        return { d: item.d, m: [meals[0], { t: '', w: '', n: '', r: '😐', rx: '' }, meals[1], meals[2], meals[3]], planned: item.planned === true };
                     }
                     return item;
                 });
@@ -5391,15 +7136,32 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                         dailyNote = cols[1] ? cols[1].replace(/^"|"$/g, '').trim() : '';
                         firstMealOffset = 2;
                     }
+                    const headerCols = rows[0] ? parseCSVRow(rows[0]).map(x => normalizeSearchText(x)) : [];
+                    const hasReactionColumns = headerCols.some(x => x.includes('reakce')) || cols.length >= 27;
+                    const mealStride = hasReactionColumns ? 5 : 4;
+                    function reactionValueFromCsv(value) {
+                        const text = normalizeSearchText(value || '');
+                        if (!text || text.includes('zadna') || text.includes('žadna')) return '';
+                        if (text.includes('vyraz') || text.includes('vyráž') || text.includes('osyp')) return 'rash';
+                        if (text.includes('zvrac')) return 'vomit';
+                        if (text.includes('prujem') || text.includes('průjem')) return 'diarrhea';
+                        if (text.includes('kasel') || text.includes('kašel') || text.includes('dus')) return 'cough';
+                        if (text.includes('nechut')) return 'dislike';
+                        if (text.includes('jine') || text.includes('jiné') || text.includes('sledovat')) return 'other';
+                        return normalizeReactionValue(value);
+                    }
                     let meals = [];
                     for (let j = 0; j < 5; j++) {
-                        let offset = firstMealOffset + (j * 4);
+                        let offset = firstMealOffset + (j * mealStride);
+                        const rxValue = hasReactionColumns ? reactionValueFromCsv(cols[offset + 3]) : '';
+                        const ratingOffset = hasReactionColumns ? offset + 4 : offset + 3;
                         meals.push({
                             // Pokud políčko v Excelu chybí (undefined), dosadí se prázdný řetězec nebo smajlík
                             t: cols[offset] ? cols[offset].replace(/^"|"$/g, '').trim() : '',
                             w: cols[offset + 1] ? cols[offset + 1].replace(/^"|"$/g, '').trim() : '',
                             n: cols[offset + 2] ? cols[offset + 2].replace(/^"|"$/g, '').trim() : '',
-                            r: cols[offset + 3] && cols[offset + 3].trim() !== '' ? cols[offset + 3].replace(/^"|"$/g, '').trim() : '😐'
+                            rx: rxValue,
+                            r: cols[ratingOffset] && cols[ratingOffset].trim() !== '' ? cols[ratingOffset].replace(/^"|"$/g, '').trim() : '😐'
                         });
                     }
 
@@ -5455,6 +7217,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                     w: item.querySelector('.w-box').value,
                     n: item.querySelector('.n-box').innerText,
                     r: item.querySelector('.rating').innerText,
+                    rx: item.querySelector('.rx-select') ? normalizeReactionValue(item.querySelector('.rx-select').value) : '',
                     a: item.querySelector('.ai-suggestion-text') ? item.querySelector('.ai-suggestion-text').innerText.trim() : ''
                 }))
             }));
@@ -5484,7 +7247,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                 html += `<div class="card-header" contenteditable="true" oninput="saveDraftFromUI()">${escapeHtml(e.d)}</div>`;
 
                 for (let i = 0; i < 5; i++) {
-                    const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐' };
+                    const m = (e.m && e.m[i]) ? e.m[i] : { t: '', w: '', n: '', r: '😐', rx: '' };
                     let bg = rates[m.r] || '#e3f9e5';
                     html += `
                     <div class="meal-item" data-index="${i}">
@@ -5492,6 +7255,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
                         <div class="meal-content">
                             <div class="m-box" contenteditable="true" oninput="saveDraftFromUI()" placeholder="Napište jídlo...">${escapeHtml(m.t)}</div>
                             <input type="number" class="w-box" placeholder="Gramy (g)" value="${escapeHtml(m.w)}" oninput="saveDraftFromUI()">
+                            ${reactionSelectHtml(m.rx, 'saveDraftFromUI()')}
                             <div class="n-box" contenteditable="true" oninput="saveDraftFromUI()" placeholder="Poznámka...">${escapeHtml(m.n)}</div>
                         </div>
                         <div class="rating" onclick="cycleDraft(this)" style="background:${bg}">${escapeHtml(m.r)}</div>
@@ -5677,6 +7441,7 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
 
             if (!confirm(`Odeslat ${draftData.length} dní do hlavního deníku? (Existující dny se stejným datem budou přepsány!)`)) return;
 
+            createAutoBackup('před přenosem rozpracovaných zápisů do hlavního deníku');
             let mainRaw = localStorage.getItem('nutri_data_v13');
             let mainData = mainRaw ? JSON.parse(mainRaw) : [];
 
@@ -5694,6 +7459,8 @@ Záznamy se stejným datem budou nahrazeny importovaným plánem. Skutečná his
         function clearAllMainData() {
             if (confirm("🚨 POZOR! Chystáte se smazat CELOU HISTORII vašeho stravování. Máte vytvořenou zálohu?")) {
                 if (confirm("Poslední varování: Opravdu smazat VŠECHNA DATA z hlavního deníku?")) {
+                    cancelPendingEditAutoBackup();
+                    createAutoBackup('před úplným smazáním hlavního deníku');
                     localStorage.removeItem('nutri_data_v13');
                     load(); // Znovu načte aplikaci (vytvoří prázdný den)
                     closeSettings();
